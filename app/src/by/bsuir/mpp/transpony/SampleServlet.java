@@ -25,10 +25,10 @@ public class SampleServlet extends HttpServlet {
             connection = DatabaseUtils.getConnection();
             statement = connection.createStatement();
 
-            ResultSet result = statement.executeQuery("select * from test.user where id=1");
+            ResultSet result = statement.executeQuery("select `first_name` from TRANSPONY.EMPLOYEE where `id_employee`=1");
 
             result.first();
-            resp.getWriter().append(result.getString("login"));
+            resp.getWriter().append(result.getString("first_name"));
         } catch (SQLException | NamingException e) {
             e.printStackTrace(resp.getWriter());
             resp.getWriter().flush();
