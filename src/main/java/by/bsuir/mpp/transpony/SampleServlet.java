@@ -49,7 +49,7 @@ public class SampleServlet extends HttpServlet {
             DatabaseUtils.closeConnection(connection);
         }
         req.setAttribute("collection", collection);
-        req.getRequestDispatcher("WEB-INF/new.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/userpage.jsp").forward(req, resp);
     }
     //WARNING! This class is for example. You should delete it after git pull.
 }
