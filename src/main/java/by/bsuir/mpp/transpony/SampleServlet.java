@@ -35,7 +35,7 @@ public class SampleServlet extends HttpServlet {
             while (result.next()) {
                 user = new User();
                 user.setId(result.getInt("id_employee"));
-                user.setFirstName(result.getString("id_employee"));
+                user.setFirstName(result.getString("first_name"));
                 user.setSecondName(result.getString("second_name"));
                 user.setMiddleName(result.getString("middle_name"));
                 user.setInitials(result.getString("initials"));
