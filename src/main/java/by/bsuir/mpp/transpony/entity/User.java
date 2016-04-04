@@ -1,11 +1,21 @@
 package by.bsuir.mpp.transpony.entity;
 
 public class User {
-    private Integer id;
-    private String firstName;
-    private String secondName;
-    private String middleName;
-    private String initials;
+    protected Integer id;
+    protected String firstName;
+    protected String secondName;
+    protected String middleName;
+    protected String initials;
+
+    public UserPosition getUserPosition() {
+        return userPosition;
+    }
+
+    public void setUserPosition(UserPosition userPosition) {
+        this.userPosition = userPosition;
+    }
+
+    protected UserPosition userPosition;
 
     public Integer getId() {
         return id;
@@ -46,4 +56,6 @@ public class User {
     public void setInitials(String initials) {
         this.initials = initials;
     }
+
+
 }
