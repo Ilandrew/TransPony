@@ -11,6 +11,7 @@ import java.sql.Statement;
 public class DatabaseUtils {
 
     private static Connection connection;
+    private static boolean transactionOn = false;
 
     public static Connection getConnection() throws NamingException, SQLException {
         InitialContext initialContext = new InitialContext();
@@ -37,6 +38,18 @@ public class DatabaseUtils {
                 statement.close();
             } catch (SQLException e) {
                 System.out.println("Can't close statement!");
+            }
+        }
+    }
+
+    public static void commit() {
+        if (transactionOn) {
+            try {
+                connection.commit();
+                connection.setAutoCommit(true);
+                transactionOn = false;
+            } catch (SQLException e) {
+                System.out.println("Can't commit");
             }
         }
     }
