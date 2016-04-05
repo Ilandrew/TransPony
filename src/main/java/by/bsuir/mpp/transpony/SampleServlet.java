@@ -28,7 +28,7 @@ public class SampleServlet extends HttpServlet {
         Statement statement = null;
         Car car;
         List<Car> collection = new ArrayList<>();
-       /* try {
+        try {
             connection = DatabaseUtils.getConnection();
             statement = connection.createStatement();
 
@@ -60,7 +60,7 @@ public class SampleServlet extends HttpServlet {
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
-        }*/
+        }
         req.setAttribute("collection", collection);
         req.getRequestDispatcher("WEB-INF/carpage.jsp").forward(req, resp);
     }
