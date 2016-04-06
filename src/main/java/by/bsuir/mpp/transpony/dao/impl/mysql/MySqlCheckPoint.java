@@ -46,16 +46,16 @@ public class MySqlCheckPoint implements ICheckPoint {
 
         return collection;
     }
-
-    public List<CheckPoint> getForRoute() throws DaoException {
+    
+    @Override
+    public List<CheckPoint> getForRoute(Integer routeID) throws DaoException {
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement statement = null;
         CheckPoint checkPoint;
         List<CheckPoint> collection = new ArrayList<>();
         try {
             connection = DatabaseUtils.getConnection();
-            statement = connection.createStatement();
-            ResultSet result = statement.executeQuery("SELECT cp.id_check_point as id_check_point,\n" +
+            statement = connection.prepareStatement("SELECT cp.id_check_point as id_check_point,\n" +
                     "        cp.x as x,\n" +
                     "        cp.y as y,\n" +
                     "        cp.name as name,\n" +
@@ -65,9 +65,10 @@ public class MySqlCheckPoint implements ICheckPoint {
                     "LEFT JOIN M2M_CHECK_POINT_ROUTE cr ON cp.id_check_point = cr.id_check_point\n" +
                     "WHERE cr.id_route = ?\n" +
                     "ORDER BY cr.number");
+            statement.setInt(1, routeID);
+            ResultSet result = statement.executeQuery();
 
             while (result.next()) {
-
                 checkPoint = new CheckPoint();
                 checkPoint.setId(result.getInt("id_check_point"));
                 checkPoint.setY(result.getFloat("y"));
