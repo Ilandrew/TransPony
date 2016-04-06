@@ -6,6 +6,9 @@ public class User {
     protected String secondName;
     protected String middleName;
     protected String initials;
+    protected UserPosition userPosition;
+    protected UserStatus userStatus;
+
 
     public UserPosition getUserPosition() {
         return userPosition;
@@ -14,8 +17,6 @@ public class User {
     public void setUserPosition(UserPosition userPosition) {
         this.userPosition = userPosition;
     }
-
-    protected UserPosition userPosition;
 
     public Integer getId() {
         return id;
@@ -57,5 +58,11 @@ public class User {
         this.initials = initials;
     }
 
+    public UserStatus getUserStatus() {
+        return userStatus;
+    }
 
+    public void setUserStatus(UserStatus userStatus) {
+        this.userStatus = userStatus;
+    }
 }

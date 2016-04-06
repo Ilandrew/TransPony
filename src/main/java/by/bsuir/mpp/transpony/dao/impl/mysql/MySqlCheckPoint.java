@@ -46,7 +46,7 @@ public class MySqlCheckPoint implements ICheckPoint {
 
         return collection;
     }
-    
+
     @Override
     public List<CheckPoint> getForRoute(Integer routeID) throws DaoException {
         Connection connection = null;
