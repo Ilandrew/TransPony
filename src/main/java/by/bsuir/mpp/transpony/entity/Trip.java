@@ -1,5 +1,6 @@
 package by.bsuir.mpp.transpony.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Trip {
@@ -9,10 +10,10 @@ public class Trip {
     protected Date starDate;
     protected Date expectedFinishDate;
     protected Date realFinishDate;
-    protected Float realFuelConsumption;
-    protected Float expectedFuelConsumption;
-    protected Float driverProfit;
-    protected Float expenes;
+    protected BigDecimal realFuelConsumption;
+    protected BigDecimal expectedFuelConsumption;
+    protected BigDecimal driverProfit;
+    protected BigDecimal expenses;
     protected Waybill waybill;
     protected Route route;
     protected Car car;
@@ -58,36 +59,36 @@ public class Trip {
         this.realFinishDate = realFinishDate;
     }
 
-    public Float getRealFuelConsumption() {
+    public BigDecimal getRealFuelConsumption() {
         return realFuelConsumption;
     }
 
-    public void setRealFuelConsumption(Float realFuelConsumption) {
+    public void setRealFuelConsumption(BigDecimal realFuelConsumption) {
         this.realFuelConsumption = realFuelConsumption;
     }
 
-    public Float getExpectedFuelConsumption() {
+    public BigDecimal getExpectedFuelConsumption() {
         return expectedFuelConsumption;
     }
 
-    public void setExpectedFuelConsumption(Float expectedFuelConsumption) {
+    public void setExpectedFuelConsumption(BigDecimal expectedFuelConsumption) {
         this.expectedFuelConsumption = expectedFuelConsumption;
     }
 
-    public Float getDriverProfit() {
+    public BigDecimal getDriverProfit() {
         return driverProfit;
     }
 
-    public void setDriverProfit(Float driverProfit) {
+    public void setDriverProfit(BigDecimal driverProfit) {
         this.driverProfit = driverProfit;
     }
 
-    public Float getExpenes() {
-        return expenes;
+    public BigDecimal getExpenses() {
+        return expenses;
     }
 
-    public void setExpenes(Float expenes) {
-        this.expenes = expenes;
+    public void setExpenses(BigDecimal expenses) {
+        this.expenses = expenses;
     }
 
     public Waybill getWaybill() {

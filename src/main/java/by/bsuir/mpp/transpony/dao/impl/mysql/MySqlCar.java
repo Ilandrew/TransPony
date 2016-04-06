@@ -1,6 +1,6 @@
 package by.bsuir.mpp.transpony.dao.impl.mysql;
 
-import by.bsuir.mpp.transpony.dao.DaoExeption;
+import by.bsuir.mpp.transpony.dao.DaoException;
 import by.bsuir.mpp.transpony.dao.ICar;
 import by.bsuir.mpp.transpony.entity.Car;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
@@ -13,7 +13,7 @@ import java.util.List;
 public class MySqlCar implements ICar {
 
     @Override
-    public List<Car> getFreeCars() throws DaoExeption {
+    public List<Car> getFreeCars() throws DaoException {
         Connection connection = null;
         Statement statement = null;
         Car car;
@@ -44,35 +44,88 @@ public class MySqlCar implements ICar {
                 car.setFuelConsumption(result.getBigDecimal("fuel_consumption"));
                 collection.add(car);
             }
-
         } catch (SQLException | NamingException e) {
-            throw new DaoExeption();
+            throw new DaoException("can't get all car", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
+        }
+        return collection;
+    }
+
+    @Override
+    public void addNewCar(Car car) throws DaoException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DatabaseUtils.getConnection();
+            statement = connection.prepareStatement("INSERT INTO CAR (license_plate, id_vendor_car, id_model_car, id_car_type, fuel_consumption) VALUES (?, ?, ?, ?, ?)");
+            statement.setString(1, car.getLicensePlate());
+            statement.setInt(2, getIndexVendor(car.getVendor()));
+            statement.setInt(3, getIndexModel(car.getModel()));
+            statement.setInt(4, getIndexType(car.getType()));
+            statement.setBigDecimal(5, car.getFuelConsumption());
+            statement.executeUpdate();
+            DatabaseUtils.commit();
+        } catch (NamingException|SQLException e) {
+            throw new DaoException("can't add this car", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
+        }
+    }
+
+    @Override
+    public void deleteCar(Car car) throws DaoException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DatabaseUtils.getConnection();
+            statement = connection.prepareStatement("DELETE FROM CAR WHERE id_car = ?");
+            statement.setInt(1, car.getId());
+            statement.executeUpdate();
+            DatabaseUtils.commit();
+        } catch (NamingException|SQLException e) {
+            throw new DaoException("Can't remove this car", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
+        }
+    }
+
+    @Override
+    public void updateCar(Car car) throws DaoException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DatabaseUtils.getConnection();
+            statement = connection.prepareStatement("UPDATE CAR SET\n" +
+                    "        license_plate = ?,\n" +
+                    "        id_vendor_car = ?,\n" +
+                    "        id_model_car = ?,\n" +
+                    "        id_car_type = ?,\n" +
+                    "        fuel_consumption = ?\n" +
+                    "WHERE id_car = ?");
+            statement.setString(1, car.getLicensePlate());
+            statement.setInt(2, getIndexVendor(car.getVendor()));
+            statement.setInt(3, getIndexModel(car.getModel()));
+            statement.setInt(4, getIndexType(car.getType()));
+            statement.setBigDecimal(5, car.getFuelConsumption());
+            statement.setInt(6, car.getId());
+            statement.executeUpdate();
+            DatabaseUtils.commit();
+        } catch (NamingException|SQLException e) {
+            throw new DaoException("Can't update this car", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
         }
 
-        return collection;
     }
 
-    @Override
-    public void addNewCar(Car car) {
-
-    }
-
-    @Override
-    public void deleteCar(Car car) {
-
-    }
-
-    @Override
-    public void updateCar(Car car) {
-
-    }
-
-    private Integer getIndexType(String name) {
-        Connection connection;
-        PreparedStatement statement;
+    private Integer getIndexType(String name) throws SQLException, NamingException {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = DatabaseUtils.getConnection();
             statement = connection.prepareStatement("SELECT id_car_type FROM CAR_TYPE WHERE name = ?");
@@ -91,18 +144,16 @@ public class MySqlCar implements ICar {
             if (resultSet.next()) {
                 return resultSet.getInt("id_car_type");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (NamingException e) {
-            e.printStackTrace();
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
         }
-
         return 0;
     }
 
-    private Integer getIndexModel(String name) {
-        Connection connection;
-        PreparedStatement statement;
+    private Integer getIndexModel(String name) throws SQLException, NamingException {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = DatabaseUtils.getConnection();
             statement = connection.prepareStatement("SELECT id_model_car FROM MODEL_CAR WHERE name = ?");
@@ -121,41 +172,38 @@ public class MySqlCar implements ICar {
             if (resultSet.next()) {
                 return resultSet.getInt("id_model_car");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (NamingException e) {
-            e.printStackTrace();
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
         }
         return 0;
     }
 
-    private Integer getIndexVendor(String name) {
-        Connection connection;
-        PreparedStatement statement;
+    private Integer getIndexVendor(String name) throws SQLException, NamingException {
+        Connection connection = null;
+        PreparedStatement statement = null;
         try {
             connection = DatabaseUtils.getConnection();
-            statement = connection.prepareStatement("SELECT id_vendor_type FROM VENDOR_CAR WHERE name = ?");
+            statement = connection.prepareStatement("SELECT id_vendor_car FROM VENDOR_CAR WHERE name = ?");
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getInt("id_vendor_type");
+                return resultSet.getInt("id_vendor_car");
             }
             statement = connection.prepareStatement("INSERT INTO VENDOR_CAR (name) VALUES (?)");
             statement.setString(1, name);
             statement.executeUpdate();
             DatabaseUtils.commit();
-            statement = connection.prepareStatement("SELECT id_vendor_type FROM VENDOR_CAR WHERE name = ?");
+            statement = connection.prepareStatement("SELECT id_vendor_car FROM VENDOR_CAR WHERE name = ?");
             statement.setString(1, name);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return resultSet.getInt("id_vendor_type");
+                return resultSet.getInt("id_vendor_car");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (NamingException e) {
-            e.printStackTrace();
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
         }
         return 0;
     }
-
 }

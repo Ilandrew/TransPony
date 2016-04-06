@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface ICar {
 
-    List<Car> getFreeCars() throws DaoExeption;
-    void addNewCar(Car car);
-    void deleteCar(Car car);
-    void updateCar(Car car);
+    List<Car> getFreeCars() throws DaoException;
+    void addNewCar(Car car) throws DaoException;
+    void deleteCar(Car car) throws DaoException;
+    void updateCar(Car car) throws DaoException;
 }

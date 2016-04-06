@@ -5,7 +5,7 @@ public class Waybill {
     protected Integer id;
     protected Cargo cargo;
     protected Float profit;
-    protected Reciever reciever;
+    protected Receiver receiver;
     protected DeliveryPoint deliveryPoint;
 
     public Integer getId() {
@@ -32,12 +32,12 @@ public class Waybill {
         this.profit = profit;
     }
 
-    public Reciever getReciever() {
-        return reciever;
+    public Receiver getReceiver() {
+        return receiver;
     }
 
-    public void setReciever(Reciever reciever) {
-        this.reciever = reciever;
+    public void setReceiver(Receiver receiver) {
+        this.receiver = receiver;
     }
 
     public DeliveryPoint getDeliveryPoint() {

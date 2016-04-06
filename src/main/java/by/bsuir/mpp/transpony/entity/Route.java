@@ -1,11 +1,12 @@
 package by.bsuir.mpp.transpony.entity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class Route {
 
     protected Integer id;
-    protected Float totalLength;
+    protected BigDecimal totalLength;
     protected Integer count;
     protected User owner;
     protected List<CheckPoint> points;
@@ -26,11 +27,11 @@ public class Route {
         this.id = id;
     }
 
-    public Float getTotalLength() {
+    public BigDecimal getTotalLength() {
         return totalLength;
     }
 
-    public void setTotalLength(Float totalLength) {
+    public void setTotalLength(BigDecimal totalLength) {
         this.totalLength = totalLength;
     }
 

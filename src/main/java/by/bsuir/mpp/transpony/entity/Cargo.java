@@ -1,5 +1,7 @@
 package by.bsuir.mpp.transpony.entity;
 
+import java.math.BigDecimal;
+
 public class Cargo {
 
     protected Integer id;
@@ -8,7 +10,7 @@ public class Cargo {
     protected Integer volume;
     protected String cargoType;
     protected Provider provider;
-    protected Float prise;
+    protected BigDecimal prise;
 
     public Integer getId() {
         return id;
@@ -58,11 +60,11 @@ public class Cargo {
         this.provider = provider;
     }
 
-    public Float getPrise() {
+    public BigDecimal getPrise() {
         return prise;
     }
 
-    public void setPrise(Float prise) {
+    public void setPrise(BigDecimal prise) {
         this.prise = prise;
     }
 }
