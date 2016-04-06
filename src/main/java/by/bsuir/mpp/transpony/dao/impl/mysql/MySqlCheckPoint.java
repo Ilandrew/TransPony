@@ -77,7 +77,7 @@ public class MySqlCheckPoint implements ICheckPoint {
                 collection.add(checkPoint);
             }
         } catch (SQLException|NamingException e) {
-            throw new DaoException("can't get all check point", e);
+            throw new DaoException("can't get check point for route", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -87,7 +87,7 @@ public class MySqlCheckPoint implements ICheckPoint {
     }
 
     @Override
-    public void updateForRow(List<CheckPoint> checkPoints, Integer idRoute) throws DaoException {
+    public void updateForRoute(List<CheckPoint> checkPoints, Integer idRoute) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
@@ -96,17 +96,9 @@ public class MySqlCheckPoint implements ICheckPoint {
             statement.setInt(1, idRoute);
             statement.executeUpdate();
             DatabaseUtils.commit();
-        } catch (NamingException|SQLException e) {
-            throw new DaoException("Can't remove all route", e);
-        } finally {
-            DatabaseUtils.closeStatement(statement);
-            DatabaseUtils.closeConnection(connection);
-        }
 
-        int i = 1;
-        for (CheckPoint checkPoint: checkPoints) {
-            try {
-                connection = DatabaseUtils.getConnection();
+            int i = 1;
+            for (CheckPoint checkPoint: checkPoints) {
                 statement = connection.prepareStatement("INSERT INTO M2M_CHECK_POINT_ROUTE (id_route, id_check_point, number) VALUES (?, ?, ?)");
                 statement.setInt(1, idRoute);
                 statement.setInt(2, checkPoint.getId());
@@ -114,15 +106,16 @@ public class MySqlCheckPoint implements ICheckPoint {
                 i++;
                 statement.executeUpdate();
                 DatabaseUtils.commit();
-            } catch (NamingException|SQLException e) {
-                throw new DaoException("can't add this check point", e);
-            } finally {
-                DatabaseUtils.closeStatement(statement);
-                DatabaseUtils.closeConnection(connection);
             }
+        } catch (NamingException|SQLException e) {
+            throw new DaoException("Can't update route", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
         }
-    }
 
+
+    }
 
     @Override
     public void addNew(CheckPoint checkPoint) throws DaoException {
