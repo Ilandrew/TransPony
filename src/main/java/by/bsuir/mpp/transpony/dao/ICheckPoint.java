@@ -7,11 +7,14 @@ import java.util.List;
 
 public interface ICheckPoint {
 
-    List<CheckPoint> getAll();
+    List<CheckPoint> getAll() throws DaoException;
+    List<CheckPoint> getForRoute() throws DaoException;
 
-    void addNew(CheckPoint checkPoint);
-    void delete(CheckPoint checkPoint);
-    void update(CheckPoint checkPoint);
+    void updateForRow(List<CheckPoint> checkPoints, Integer idRoute) throws DaoException;
+
+    void addNew(CheckPoint checkPoint) throws DaoException;
+    void delete(CheckPoint checkPoint) throws DaoException;
+    void update(CheckPoint checkPoint) throws DaoException;
 
 
 
