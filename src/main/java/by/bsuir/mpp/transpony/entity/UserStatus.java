@@ -13,7 +13,7 @@ public class UserStatus {
         return dataEnd;
     }
 
-    public void setDataEnd(Date dataEnd) {
+    public void setDateEnd(Date dataEnd) {
         this.dataEnd = dataEnd;
     }
 

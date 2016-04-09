@@ -10,8 +10,9 @@ public interface IUser {
     List<User> getAll() throws DaoException;
     List<User> getFreeDriver() throws DaoException;
 
+    void fire(User user) throws DaoException;
 
     void delete(User user) throws DaoException;
     void update(User user) throws DaoException;
-    void add(User user) throws DaoException;
+    Integer add(User user) throws DaoException;
 }

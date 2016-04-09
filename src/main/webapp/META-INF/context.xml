@@ -9,5 +9,5 @@
               username="root"
               password="12345678"
               driverClassName="com.mysql.jdbc.Driver"
-              url="jdbc:mysql://localhost:3306/transpony"/>
+              url="jdbc:mysql://localhost:3306/transpony?characterEncoding=utf8"/>
 </Context>

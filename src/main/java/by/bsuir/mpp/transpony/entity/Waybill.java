@@ -1,10 +1,12 @@
 package by.bsuir.mpp.transpony.entity;
 
+import java.math.BigDecimal;
+
 public class Waybill {
 
     protected Integer id;
     protected Cargo cargo;
-    protected Float profit;
+    protected BigDecimal profit;
     protected Receiver receiver;
     protected DeliveryPoint deliveryPoint;
 
@@ -24,11 +26,11 @@ public class Waybill {
         this.cargo = cargo;
     }
 
-    public Float getProfit() {
+    public BigDecimal getProfit() {
         return profit;
     }
 
-    public void setProfit(Float profit) {
+    public void setProfit(BigDecimal profit) {
         this.profit = profit;
     }
 

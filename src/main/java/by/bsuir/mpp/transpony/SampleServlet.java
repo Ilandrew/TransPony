@@ -21,6 +21,7 @@ public class SampleServlet extends HttpServlet {
 
         MySqlCar mySqlCar = new MySqlCar();
         List<Car> collection = new ArrayList<>();
+
         try {
             collection = mySqlCar.getFreeCars();
         } catch (DaoException daoException) {

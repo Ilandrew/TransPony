@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlCheckPoint implements ICheckPoint {
+
     @Override
     public List<CheckPoint> getAll() throws DaoException {
         Connection connection = null;
