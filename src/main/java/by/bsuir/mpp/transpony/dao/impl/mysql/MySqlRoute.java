@@ -109,6 +109,33 @@ public class MySqlRoute implements IRoute {
     }
 
     @Override
+    public Route getForIndex(Integer index) throws DaoException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        Route route = new Route();
+        try {
+            connection = DatabaseUtils.getConnection();
+            statement = connection.prepareStatement("SELECT id_route, id_employee, total_length FROM ROUTE WHERE  id_route = ?");
+            statement.setInt(1, index);
+
+            ResultSet result = statement.executeQuery();
+
+            while (result.next()) {
+                route.setId(result.getInt("id_route"));
+                route.setOwner(new MySqlUser().getForIndex(result.getInt("id_employee")));
+                route.setTotalLength(result.getBigDecimal("total_length"));
+                route.setPoints(new MySqlCheckPoint().getForRoute(route.getId()));
+            }
+        } catch (SQLException | NamingException e) {
+            throw new DaoException("can't get all route", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
+        }
+        return route;
+    }
+
+    @Override
     public List<CheckPoint> getCheckPointForRoute(Integer index) throws DaoException {
 
         return new MySqlCheckPoint().getForRoute(index);

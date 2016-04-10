@@ -123,6 +123,46 @@ public class MySqlCar implements ICar {
 
     }
 
+    @Override
+    public Car getForIndex(Integer cadId) throws DaoException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        Car car = new Car();
+        try {
+            connection = DatabaseUtils.getConnection();
+            statement = connection.prepareStatement("SELECT  cr.id_car as id,\n" +
+                    "        cr.license_plate as license_plate,\n" +
+                    "        vc.name as vendor,\n" +
+                    "        mc.name as model,\n" +
+                    "        cr.fuel_consumption as fuel_consumption,\n" +
+                    "        ct.name as car_type\n" +
+                    "FROM CAR cr\n" +
+                    "LEFT JOIN VENDOR_CAR vc ON cr.id_vendor_car = vc.id_vendor_car\n" +
+                    "LEFT JOIN MODEL_CAR mc ON cr.id_model_car = mc.id_model_car\n" +
+                    "LEFT JOIN CAR_TYPE ct ON cr.id_car_type = ct.id_car_type\n" +
+                    "WHERE cr.id_car = ?");
+            statement.setInt(1, cadId);
+
+            ResultSet result = statement.executeQuery();
+
+            while (result.next()) {
+                car.setId(result.getInt("id"));
+                car.setLicensePlate(result.getString("license_plate"));
+                car.setVendor(result.getString("vendor"));
+                car.setModel(result.getString("model"));
+                car.setType(result.getString("car_type"));
+                car.setFuelConsumption(result.getBigDecimal("fuel_consumption"));
+            }
+        } catch (SQLException | NamingException e) {
+            throw new DaoException("can't get tris car", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
+        }
+        return car;
+
+    }
+
     private Integer getIndexType(String name) throws SQLException, NamingException {
         Connection connection = null;
         PreparedStatement statement = null;

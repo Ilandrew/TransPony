@@ -10,4 +10,6 @@ public interface ICar {
     void addNewCar(Car car) throws DaoException;
     void deleteCar(Car car) throws DaoException;
     void updateCar(Car car) throws DaoException;
+
+    Car getForIndex(Integer cadId) throws DaoException;
 }
