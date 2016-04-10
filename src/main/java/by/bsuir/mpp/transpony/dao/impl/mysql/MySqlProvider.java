@@ -2,7 +2,6 @@ package by.bsuir.mpp.transpony.dao.impl.mysql;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
 import by.bsuir.mpp.transpony.dao.IProvider;
-import by.bsuir.mpp.transpony.entity.Car;
 import by.bsuir.mpp.transpony.entity.Provider;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 
@@ -150,7 +149,6 @@ public class MySqlProvider implements IProvider {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
         }
-
     }
     
 }

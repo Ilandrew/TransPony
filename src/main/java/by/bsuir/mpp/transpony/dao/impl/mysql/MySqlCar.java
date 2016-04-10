@@ -151,7 +151,7 @@ public class MySqlCar implements ICar {
         return 0;
     }
 
-    public Integer getIndexModel(String name) throws SQLException, NamingException {
+    private Integer getIndexModel(String name) throws SQLException, NamingException {
         Connection connection = null;
         PreparedStatement statement = null;
         try {

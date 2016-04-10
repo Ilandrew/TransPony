@@ -235,5 +235,5 @@ public class MySqlCargo implements ICargo {
         }
         return 0;
     }
-    
+
 }
