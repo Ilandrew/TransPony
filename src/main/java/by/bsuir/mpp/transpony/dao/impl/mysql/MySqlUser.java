@@ -14,6 +14,12 @@ import java.util.List;
 
 public class MySqlUser implements IUser {
 
+    private static final MySqlUser instance = new MySqlUser();
+    private MySqlUser() {};
+    public static MySqlUser getInstance() {
+        return instance;
+    }
+
     @Override
     public List<User> getAll() throws DaoException {
         Connection connection = null;

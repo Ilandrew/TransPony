@@ -12,6 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlRoute implements IRoute {
+
+    private static final MySqlRoute instance = new MySqlRoute();
+    private MySqlRoute() {};
+    public static MySqlRoute getInstance() {
+        return instance;
+    }
     @Override
     public List<Route> getAll() throws DaoException {
         Connection connection = null;
@@ -27,9 +33,9 @@ public class MySqlRoute implements IRoute {
             while (result.next()) {
                 route = new Route();
                 route.setId(result.getInt("id_route"));
-                route.setOwner(new MySqlUser().getForIndex(result.getInt("id_employee")));
+                route.setOwner(MySqlUser.getInstance().getForIndex(result.getInt("id_employee")));
                 route.setTotalLength(result.getBigDecimal("total_length"));
-                route.setPoints(new MySqlCheckPoint().getForRoute(route.getId()));
+                route.setPoints(MySqlCheckPoint.getInstance().getForRoute(route.getId()));
                 collection.add(route);
             }
         } catch (SQLException | NamingException e) {
@@ -57,7 +63,7 @@ public class MySqlRoute implements IRoute {
             statement.executeUpdate();
             DatabaseUtils.commit();
 
-            new MySqlCheckPoint().updateForRoute(route.getPoints(), route.getId());
+            MySqlCheckPoint.getInstance().updateForRoute(route.getPoints(), route.getId());
         } catch (NamingException|SQLException e) {
             throw new DaoException("Can't update this route", e);
         } finally {
@@ -78,7 +84,7 @@ public class MySqlRoute implements IRoute {
             statement.executeUpdate();
             DatabaseUtils.commit();
 
-            new MySqlCheckPoint().updateForRoute(route.getPoints(), route.getId());
+            MySqlCheckPoint.getInstance().updateForRoute(route.getPoints(), route.getId());
 
         } catch (NamingException|SQLException e) {
             throw new DaoException("can't add this route", e);
@@ -122,9 +128,9 @@ public class MySqlRoute implements IRoute {
 
             while (result.next()) {
                 route.setId(result.getInt("id_route"));
-                route.setOwner(new MySqlUser().getForIndex(result.getInt("id_employee")));
+                route.setOwner(MySqlUser.getInstance().getForIndex(result.getInt("id_employee")));
                 route.setTotalLength(result.getBigDecimal("total_length"));
-                route.setPoints(new MySqlCheckPoint().getForRoute(route.getId()));
+                route.setPoints(MySqlCheckPoint.getInstance().getForRoute(route.getId()));
             }
         } catch (SQLException | NamingException e) {
             throw new DaoException("can't get all route", e);
@@ -138,6 +144,6 @@ public class MySqlRoute implements IRoute {
     @Override
     public List<CheckPoint> getCheckPointForRoute(Integer index) throws DaoException {
 
-        return new MySqlCheckPoint().getForRoute(index);
+        return MySqlCheckPoint.getInstance().getForRoute(index);
     }
 }

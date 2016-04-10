@@ -12,6 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlDeliveryPoint implements IDeliveryPoint {
+
+    private static final MySqlDeliveryPoint instance = new MySqlDeliveryPoint();
+    private MySqlDeliveryPoint() {};
+    public static MySqlDeliveryPoint getInstance() {
+        return instance;
+    }
     @Override
     public DeliveryPoint getForIndex(Integer index) throws DaoException {
         Connection connection = null;

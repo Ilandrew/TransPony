@@ -11,6 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlProvider implements IProvider {
+
+    private static final MySqlProvider instance = new MySqlProvider();
+    private MySqlProvider() {};
+    public static MySqlProvider getInstance() {
+        return instance;
+    }
     @Override
     public Provider getForIndex(Integer index) throws DaoException {
         Connection connection = null;

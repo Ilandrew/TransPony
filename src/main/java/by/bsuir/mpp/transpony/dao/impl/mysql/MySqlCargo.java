@@ -11,6 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlCargo implements ICargo {
+
+    private static final MySqlCargo instance = new MySqlCargo();
+    private MySqlCargo() {};
+    public static MySqlCargo getInstance() {
+        return instance;
+    }
     @Override
     public List<Cargo> getAll() throws DaoException {
         Connection connection = null;
@@ -39,7 +45,7 @@ public class MySqlCargo implements ICargo {
                 cargo.setWeight(result.getInt("weight_cargo"));
                 cargo.setVolume(result.getInt("volume_cargo"));
                 cargo.setCargoType(result.getString("name_type"));
-                cargo.setProvider(new MySqlProvider().getForIndex(result.getInt("id_provider")));
+                cargo.setProvider(MySqlProvider.getInstance().getForIndex(result.getInt("id_provider")));
 
                 collection.add(cargo);
             }
@@ -79,7 +85,7 @@ public class MySqlCargo implements ICargo {
             cargo.setWeight(result.getInt("weight_cargo"));
             cargo.setVolume(result.getInt("volume_cargo"));
             cargo.setCargoType(result.getString("name_type"));
-            cargo.setProvider(new MySqlProvider().getForIndex(result.getInt("id_provider")));
+            cargo.setProvider(MySqlProvider.getInstance().getForIndex(result.getInt("id_provider")));
 
         } catch (SQLException | NamingException e) {
             throw new DaoException("can't get all cargo", e);

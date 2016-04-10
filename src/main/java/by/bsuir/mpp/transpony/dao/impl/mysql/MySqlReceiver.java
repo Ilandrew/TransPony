@@ -13,9 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlReceiver implements IReceiver {
+
+
+    private static final MySqlReceiver instance = new MySqlReceiver();
+    private MySqlReceiver() {};
+    public static MySqlReceiver getInstance() {
+        return instance;
+    }
     @Override
     public List<Receiver> getAll() throws DaoException {
-
         Connection connection = null;
         Statement statement = null;
         Receiver receiver;
@@ -130,7 +136,7 @@ public class MySqlReceiver implements IReceiver {
     public List<DeliveryPoint> getDeliveryPointForReceiver(Integer index) throws DaoException {
         Receiver receiver = new Receiver();
         receiver.setId(index);
-        return new MySqlDeliveryPoint().getAllForReceiver(receiver);
+        return MySqlDeliveryPoint.getInstance().getAllForReceiver(receiver);
     }
 
     @Override

@@ -2,7 +2,6 @@ package by.bsuir.mpp.transpony.dao.impl.mysql;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
 import by.bsuir.mpp.transpony.dao.ITrip;
-import by.bsuir.mpp.transpony.entity.Receiver;
 import by.bsuir.mpp.transpony.entity.Trip;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 
@@ -12,6 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlTrip implements ITrip {
+
+    private static final MySqlTrip instance = new MySqlTrip();
+    private MySqlTrip() {};
+    public static MySqlTrip getInstance() {
+        return instance;
+    }
+
     @Override
     public List<Trip> getAll() throws DaoException {
 
@@ -49,10 +55,10 @@ public class MySqlTrip implements ITrip {
                 trip.setExpectedFuelConsumption(result.getBigDecimal("expected_fuel_consuption"));
                 trip.setDriverProfit(result.getBigDecimal("driver_profit"));
                 trip.setExpenses(result.getBigDecimal("expenses"));
-                trip.setWaybill(new MySqlWaybill().getForIndex(result.getInt("id_waybill")));
-                trip.setRoute(new MySqlRoute().getForIndex(result.getInt("id_route")));
-                trip.setCar(new MySqlCar().getForIndex(result.getInt("id_car")));
-                trip.setDriver(new MySqlUser().getForIndex(result.getInt("id_driver")));
+                trip.setWaybill(MySqlWaybill.getInstance().getForIndex(result.getInt("id_waybill")));
+                trip.setRoute(MySqlRoute.getInstance().getForIndex(result.getInt("id_route")));
+                trip.setCar(MySqlCar.getInstance().getForIndex(result.getInt("id_car")));
+                trip.setDriver(MySqlUser.getInstance().getForIndex(result.getInt("id_driver")));
 
                 collection.add(trip);
             }

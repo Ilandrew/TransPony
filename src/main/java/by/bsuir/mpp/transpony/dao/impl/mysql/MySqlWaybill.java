@@ -12,6 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlWaybill implements IWaybill {
+
+    private static final MySqlWaybill instance = new MySqlWaybill();
+    private MySqlWaybill() {};
+    public static MySqlWaybill getInstance() {
+        return instance;
+    }
     @Override
     public List<Waybill> getAll() throws DaoException {
         Connection connection = null;
@@ -27,10 +33,10 @@ public class MySqlWaybill implements IWaybill {
             while (result.next()) {
                 waybill = new Waybill();
                 waybill.setId(result.getInt("id_waybill"));
-                waybill.setCargo(new MySqlCargo().getForIndex(result.getInt("id_cargo")));
+                waybill.setCargo(MySqlCargo.getInstance().getForIndex(result.getInt("id_cargo")));
                 waybill.setProfit(result.getBigDecimal("profit"));
-                waybill.setReceiver(new MySqlReceiver().getForIndex(result.getInt("id_reciever")));
-                waybill.setDeliveryPoint(new MySqlDeliveryPoint().getForIndex(result.getInt("id_delivery_point")));
+                waybill.setReceiver(MySqlReceiver.getInstance().getForIndex(result.getInt("id_reciever")));
+                waybill.setDeliveryPoint(MySqlDeliveryPoint.getInstance().getForIndex(result.getInt("id_delivery_point")));
                 collection.add(waybill);
             }
         } catch (SQLException | NamingException e) {
@@ -55,10 +61,10 @@ public class MySqlWaybill implements IWaybill {
 
             while (result.next()) {
                 waybill.setId(result.getInt(index));
-                waybill.setCargo(new MySqlCargo().getForIndex(result.getInt("id_cargo")));
+                waybill.setCargo(MySqlCargo.getInstance().getForIndex(result.getInt("id_cargo")));
                 waybill.setProfit(result.getBigDecimal("profit"));
-                waybill.setReceiver(new MySqlReceiver().getForIndex(result.getInt("id_reciever")));
-                waybill.setDeliveryPoint(new MySqlDeliveryPoint().getForIndex(result.getInt("id_delivery_point")));
+                waybill.setReceiver(MySqlReceiver.getInstance().getForIndex(result.getInt("id_reciever")));
+                waybill.setDeliveryPoint(MySqlDeliveryPoint.getInstance().getForIndex(result.getInt("id_delivery_point")));
             }
         } catch (SQLException | NamingException e) {
             throw new DaoException("can't get this waybill", e);

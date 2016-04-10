@@ -12,6 +12,12 @@ import java.util.List;
 
 public class MySqlCar implements ICar {
 
+    private static final MySqlCar instance = new MySqlCar();
+    private MySqlCar() {};
+    public static MySqlCar getInstance() {
+        return instance;
+    }
+
     @Override
     public List<Car> getFreeCars() throws DaoException {
         Connection connection = null;

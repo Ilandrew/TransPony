@@ -19,11 +19,10 @@ public class SampleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
 
-        MySqlCar mySqlCar = new MySqlCar();
         List<Car> collection = new ArrayList<>();
 
         try {
-            collection = mySqlCar.getFreeCars();
+            collection = MySqlCar.getInstance().getFreeCars();
         } catch (DaoException daoException) {
             daoException.printStackTrace();
         }
