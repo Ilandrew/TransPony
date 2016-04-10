@@ -141,6 +141,66 @@ public class MySqlUser implements IUser {
     }
 
     @Override
+    public User getForIndex(Integer index) throws DaoException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        User user = new User();
+        try {
+            connection = DatabaseUtils.getConnection();
+            statement = connection.prepareStatement("SELECT ee.id_employee AS id,\n" +
+                    "        ee.first_name AS first_name,\n" +
+                    "        ee.second_name AS second_name,\n" +
+                    "        ee.middle_name AS middle_name,\n" +
+                    "        ee.initials AS initials,\n" +
+                    "        mp.id_user_position AS id_position,\n" +
+                    "        up.name AS name_position,\n" +
+                    "        mp.begin AS begin_position,\n" +
+                    "        mp.end AS end_position,\n" +
+                    "        us.id_empoyee_status AS id_status,\n" +
+                    "        us.name AS name_status,\n" +
+                    "        es.begin AS begin_status,\n" +
+                    "        es.end AS end_status\n" +
+                    "FROM\n" +
+                    "        (SELECT max(ep.begin) bg, ep.id_employee FROM EMPLOYEE ee\n" +
+                    "                LEFT JOIN M2M_EMPLOYEE_POSITION ep ON ee.id_employee = ep.id_employee\n" +
+                    "        GROUP BY ep.id_employee) tm\n" +
+                    "        INNER JOIN M2M_EMPLOYEE_POSITION mp ON mp.id_employee = tm.id_employee AND tm.bg = mp.begin\n" +
+                    "        LEFT JOIN EMPLOYEE ee ON mp.id_employee = ee.id_employee\n" +
+                    "        LEFT JOIN USER_POSITION up ON mp.id_user_position = up.id_user_position\n" +
+                    "        INNER JOIN M2M_EMPLOYEE_STATUS es ON mp.id_employee = es.id_employee\n" +
+                    "        LEFT JOIN USER_STATUS us ON es.id_empoyee_status = us.id_empoyee_status\n" +
+                    "WHERE ee.id_employee = ?");
+            statement.setInt(1, index);
+
+            ResultSet result = statement.executeQuery();
+
+            while (result.next()) {
+                UserStatus userStatus = new UserStatus();
+                UserPosition userPosition = new UserPosition();
+                userStatus.setId(result.getInt("id_status"));
+                userStatus.setName(result.getString("name_status"));
+                userStatus.setDateBegin(result.getDate("begin_status"));
+                userStatus.setDateEnd(result.getDate("end_status"));
+                user.setUserStatus(userStatus);
+                userPosition.setId(result.getInt("id_position"));
+                userPosition.setName(result.getString("name_position"));
+                userPosition.setDateBegin(result.getDate("begin_position"));
+                userPosition.setDateEnd(result.getDate("end_position"));
+                user.setUserPosition(userPosition);
+                user.setId(result.getInt("id"));
+                user.setFirstName(result.getString("first_name"));
+                user.setSecondName(result.getString("second_name"));
+                user.setMiddleName(result.getString("middle_name"));
+                user.setInitials(result.getString("initials"));
+            }
+        } catch (SQLException|NamingException e) {
+            throw new DaoException("can't get this user", e);
+        }
+
+        return user;
+    }
+
+    @Override
     public void fire(User user) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;

@@ -9,6 +9,7 @@ public interface IUser {
 
     List<User> getAll() throws DaoException;
     List<User> getFreeDriver() throws DaoException;
+    User getForIndex(Integer index) throws DaoException;
 
     void fire(User user) throws DaoException;
 
