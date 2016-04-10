@@ -20,4 +20,5 @@ public class DeliveryPoint {
     public void setAddress(String address) {
         this.address = address;
     }
+
 }
