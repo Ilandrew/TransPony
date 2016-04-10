@@ -16,7 +16,6 @@ public class MySqlProvider implements IProvider {
         Connection connection = null;
         PreparedStatement statement = null;
         Provider provider = new Provider();
-        List<Provider> collection = new ArrayList<>();
         try {
             connection = DatabaseUtils.getConnection();
             statement = connection.prepareStatement("SELECT id_provider, name, phone, address, email FROM PROVIDER WHERE id_provider = ?");
@@ -24,13 +23,11 @@ public class MySqlProvider implements IProvider {
 
             ResultSet result = statement.executeQuery();
 
-            provider.setId(result.getInt("id_provider"));
+            provider.setId(index);
             provider.setName(result.getString("name"));
             provider.setPhone(result.getString("phone"));
             provider.setAddress(result.getString("address"));
             provider.setEmail(result.getString("email"));
-
-            collection.add(provider);
         } catch (SQLException | NamingException e) {
             throw new DaoException("can't get provider for index", e);
         } finally {
@@ -150,5 +147,5 @@ public class MySqlProvider implements IProvider {
             DatabaseUtils.closeConnection(connection);
         }
     }
-    
+
 }

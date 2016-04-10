@@ -73,7 +73,7 @@ public class MySqlCargo implements ICargo {
 
             ResultSet result = statement.executeQuery();
 
-            cargo.setId(result.getInt("id_cargo"));
+            cargo.setId(index);
             cargo.setName(result.getString("name_cargo"));
             cargo.setPrise(result.getBigDecimal("price_cargo"));
             cargo.setWeight(result.getInt("weight_cargo"));
