@@ -10,10 +10,10 @@ public interface IWaybill {
 
     List<Waybill> getAll() throws DaoException;
 
-    void delete(Waybill waybill);
-    void update(Waybill waybill);
-    void add(Waybill waybill);
+    void delete(Waybill waybill) throws DaoException;
+    void update(Waybill waybill) throws DaoException;
+    void add(Waybill waybill) throws DaoException;
 
-    List<Receiver> getAllReceiver();
-    List<DeliveryPoint> getAllDeliveryPoints();
+    Waybill getForIndex(Integer index) throws DaoException;
+
 }

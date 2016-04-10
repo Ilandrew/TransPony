@@ -15,4 +15,6 @@ public interface IReceiver {
 
     List<DeliveryPoint> getDeliveryPointForReceiver(Integer index) throws DaoException;
 
+    Receiver getForIndex(Integer index) throws DaoException;
+
 }

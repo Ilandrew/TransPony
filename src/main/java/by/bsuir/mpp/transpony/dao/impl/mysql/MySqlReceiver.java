@@ -132,4 +132,31 @@ public class MySqlReceiver implements IReceiver {
         receiver.setId(index);
         return new MySqlDeliveryPoint().getAllForReceiver(receiver);
     }
+
+    @Override
+    public Receiver getForIndex(Integer index) throws DaoException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        Receiver receiver = new Receiver();
+        try {
+            connection = DatabaseUtils.getConnection();
+            statement = connection.prepareStatement("SELECT id_reciever, name, phone, address, email FROM RECIEVER WHERE id_reciever = ?");
+            statement.setInt(1, index);
+
+            ResultSet result = statement.executeQuery();
+
+            receiver.setId(result.getInt("id_reciever"));
+            receiver.setName(result.getString("name"));
+            receiver.setPhone(result.getString("phone"));
+            receiver.setAddress(result.getString("address"));
+            receiver.setEmail(result.getString("email"));
+
+        } catch (SQLException | NamingException e) {
+            throw new DaoException("can't get receiver for index", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
+        }
+        return receiver;
+    }
 }
