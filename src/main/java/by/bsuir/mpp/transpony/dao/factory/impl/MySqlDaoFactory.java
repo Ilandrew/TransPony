@@ -60,4 +60,9 @@ public class MySqlDaoFactory extends DaoFactory{
     public WaybillDao getWaybillDao() {
         return MySqlWaybillDao.getInstance();
     }
+
+    @Override
+    public CredentialDao getCredentialDao() {
+        return null;
+    }
 }

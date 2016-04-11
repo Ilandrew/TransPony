@@ -39,5 +39,6 @@ public abstract class DaoFactory {
     public abstract TripDao getTripDao();
     public abstract UserDao getUserDao();
     public abstract WaybillDao getWaybillDao();
+    public abstract CredentialDao getCredentialDao();
 
 }
