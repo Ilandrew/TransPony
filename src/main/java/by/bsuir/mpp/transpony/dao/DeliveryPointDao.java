@@ -5,7 +5,7 @@ import by.bsuir.mpp.transpony.entity.Receiver;
 
 import java.util.List;
 
-public interface IDeliveryPoint {
+public interface DeliveryPointDao {
 
     DeliveryPoint getForIndex(Integer index) throws DaoException;
     List<DeliveryPoint> getAllForReceiver(Integer index) throws DaoException;

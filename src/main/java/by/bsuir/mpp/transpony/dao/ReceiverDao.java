@@ -5,7 +5,7 @@ import by.bsuir.mpp.transpony.entity.Receiver;
 
 import java.util.List;
 
-public interface IReceiver {
+public interface ReceiverDao {
 
     List<Receiver> getAll() throws DaoException;
 

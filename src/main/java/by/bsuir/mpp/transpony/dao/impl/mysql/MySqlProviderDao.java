@@ -1,7 +1,7 @@
 package by.bsuir.mpp.transpony.dao.impl.mysql;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
-import by.bsuir.mpp.transpony.dao.IProvider;
+import by.bsuir.mpp.transpony.dao.ProviderDao;
 import by.bsuir.mpp.transpony.entity.Provider;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 
@@ -10,11 +10,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlProvider implements IProvider {
+public class MySqlProviderDao implements ProviderDao {
 
-    private static final MySqlProvider instance = new MySqlProvider();
-    private MySqlProvider() {}
-    public static MySqlProvider getInstance() {
+    private static final MySqlProviderDao instance = new MySqlProviderDao();
+    private MySqlProviderDao() {}
+    public static MySqlProviderDao getInstance() {
         return instance;
     }
 

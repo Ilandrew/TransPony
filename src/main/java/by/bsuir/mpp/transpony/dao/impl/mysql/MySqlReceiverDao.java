@@ -1,7 +1,7 @@
 package by.bsuir.mpp.transpony.dao.impl.mysql;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
-import by.bsuir.mpp.transpony.dao.IReceiver;
+import by.bsuir.mpp.transpony.dao.ReceiverDao;
 import by.bsuir.mpp.transpony.entity.DeliveryPoint;
 import by.bsuir.mpp.transpony.entity.Receiver;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
@@ -11,12 +11,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlReceiver implements IReceiver {
+public class MySqlReceiverDao implements ReceiverDao {
 
 
-    private static final MySqlReceiver instance = new MySqlReceiver();
-    private MySqlReceiver() {}
-    public static MySqlReceiver getInstance() {
+    private static final MySqlReceiverDao instance = new MySqlReceiverDao();
+    private MySqlReceiverDao() {}
+    public static MySqlReceiverDao getInstance() {
         return instance;
     }
 
@@ -136,7 +136,7 @@ public class MySqlReceiver implements IReceiver {
 
     @Override
     public List<DeliveryPoint> getDeliveryPointForReceiver(Integer index) throws DaoException {
-        return MySqlDeliveryPoint.getInstance().getAllForReceiver(index);
+        return MySqlDeliveryPointDao.getInstance().getAllForReceiver(index);
     }
 
     @Override

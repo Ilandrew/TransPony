@@ -1,7 +1,7 @@
 package by.bsuir.mpp.transpony.dao.impl.mysql;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
-import by.bsuir.mpp.transpony.dao.IUser;
+import by.bsuir.mpp.transpony.dao.UserDao;
 import by.bsuir.mpp.transpony.entity.User;
 import by.bsuir.mpp.transpony.entity.UserPosition;
 import by.bsuir.mpp.transpony.entity.UserStatus;
@@ -12,11 +12,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlUser implements IUser {
+public class MySqlUserDao implements UserDao {
 
-    private static final MySqlUser instance = new MySqlUser();
-    private MySqlUser() {}
-    public static MySqlUser getInstance() {
+    private static final MySqlUserDao instance = new MySqlUserDao();
+    private MySqlUserDao() {}
+    public static MySqlUserDao getInstance() {
         return instance;
     }
 

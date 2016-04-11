@@ -1,14 +1,14 @@
 package by.bsuir.mpp.transpony.servise;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
-import by.bsuir.mpp.transpony.dao.ICheckPoint;
+import by.bsuir.mpp.transpony.dao.CheckPointDao;
 import by.bsuir.mpp.transpony.dao.factory.DaoFactory;
 import by.bsuir.mpp.transpony.entity.CheckPoint;
 
 import java.util.List;
 
-public class ServiceCheckpoint {
-    private static final ICheckPoint dao = DaoFactory.getDaoFactory().getCheckPointDao();
+public class CheckpointService {
+    private static final CheckPointDao dao = DaoFactory.getDaoFactory().getCheckPointDao();
 
 
     public static List<CheckPoint> getAll() throws ServiceException {

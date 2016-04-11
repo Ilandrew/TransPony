@@ -1,7 +1,7 @@
 package by.bsuir.mpp.transpony.dao.impl.mysql;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
-import by.bsuir.mpp.transpony.dao.ICar;
+import by.bsuir.mpp.transpony.dao.CarDao;
 import by.bsuir.mpp.transpony.entity.Car;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 
@@ -10,11 +10,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlCar implements ICar {
+public class MySqlCarDao implements CarDao {
 
-    private static final MySqlCar instance = new MySqlCar();
-    private MySqlCar() {}
-    public static MySqlCar getInstance() {
+    private static final MySqlCarDao instance = new MySqlCarDao();
+    private MySqlCarDao() {}
+    public static MySqlCarDao getInstance() {
         return instance;
     }
 

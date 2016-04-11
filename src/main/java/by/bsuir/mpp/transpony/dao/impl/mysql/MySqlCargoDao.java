@@ -1,7 +1,7 @@
 package by.bsuir.mpp.transpony.dao.impl.mysql;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
-import by.bsuir.mpp.transpony.dao.ICargo;
+import by.bsuir.mpp.transpony.dao.CargoDao;
 import by.bsuir.mpp.transpony.entity.Cargo;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 
@@ -10,11 +10,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlCargo implements ICargo {
+public class MySqlCargoDao implements CargoDao {
 
-    private static final MySqlCargo instance = new MySqlCargo();
-    private MySqlCargo() {}
-    public static MySqlCargo getInstance() {
+    private static final MySqlCargoDao instance = new MySqlCargoDao();
+    private MySqlCargoDao() {}
+    public static MySqlCargoDao getInstance() {
         return instance;
     }
 
@@ -46,7 +46,7 @@ public class MySqlCargo implements ICargo {
                 cargo.setWeight(result.getInt("weight_cargo"));
                 cargo.setVolume(result.getInt("volume_cargo"));
                 cargo.setCargoType(result.getString("name_type"));
-                cargo.setProvider(MySqlProvider.getInstance().getForIndex(result.getInt("id_provider")));
+                cargo.setProvider(MySqlProviderDao.getInstance().getForIndex(result.getInt("id_provider")));
 
                 collection.add(cargo);
             }
@@ -86,7 +86,7 @@ public class MySqlCargo implements ICargo {
                 cargo.setWeight(result.getInt("weight_cargo"));
                 cargo.setVolume(result.getInt("volume_cargo"));
                 cargo.setCargoType(result.getString("name_type"));
-                cargo.setProvider(MySqlProvider.getInstance().getForIndex(result.getInt("id_provider")));
+                cargo.setProvider(MySqlProviderDao.getInstance().getForIndex(result.getInt("id_provider")));
             }
 
         } catch (SQLException | NamingException e) {

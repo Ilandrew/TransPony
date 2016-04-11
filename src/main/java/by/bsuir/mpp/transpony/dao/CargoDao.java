@@ -4,7 +4,7 @@ import by.bsuir.mpp.transpony.entity.Cargo;
 
 import java.util.List;
 
-public interface ICargo {
+public interface CargoDao {
 
     List<Cargo> getAll() throws DaoException;
 

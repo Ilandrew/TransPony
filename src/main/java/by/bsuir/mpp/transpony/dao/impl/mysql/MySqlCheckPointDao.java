@@ -1,7 +1,7 @@
 package by.bsuir.mpp.transpony.dao.impl.mysql;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
-import by.bsuir.mpp.transpony.dao.ICheckPoint;
+import by.bsuir.mpp.transpony.dao.CheckPointDao;
 import by.bsuir.mpp.transpony.entity.CheckPoint;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 
@@ -10,11 +10,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlCheckPoint implements ICheckPoint {
+public class MySqlCheckPointDao implements CheckPointDao {
 
-    private static final MySqlCheckPoint instance = new MySqlCheckPoint();
-    private MySqlCheckPoint() {}
-    public static MySqlCheckPoint getInstance() {
+    private static final MySqlCheckPointDao instance = new MySqlCheckPointDao();
+    private MySqlCheckPointDao() {}
+    public static MySqlCheckPointDao getInstance() {
         return instance;
     }
 

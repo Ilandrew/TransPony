@@ -1,7 +1,7 @@
 package by.bsuir.mpp.transpony.dao.impl.mysql;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
-import by.bsuir.mpp.transpony.dao.IDeliveryPoint;
+import by.bsuir.mpp.transpony.dao.DeliveryPointDao;
 import by.bsuir.mpp.transpony.entity.DeliveryPoint;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 
@@ -10,11 +10,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlDeliveryPoint implements IDeliveryPoint {
+public class MySqlDeliveryPointDao implements DeliveryPointDao {
 
-    private static final MySqlDeliveryPoint instance = new MySqlDeliveryPoint();
-    private MySqlDeliveryPoint() {}
-    public static MySqlDeliveryPoint getInstance() {
+    private static final MySqlDeliveryPointDao instance = new MySqlDeliveryPointDao();
+    private MySqlDeliveryPointDao() {}
+    public static MySqlDeliveryPointDao getInstance() {
         return instance;
     }
 

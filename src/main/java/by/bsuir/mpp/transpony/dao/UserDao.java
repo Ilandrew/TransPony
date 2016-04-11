@@ -5,7 +5,7 @@ import by.bsuir.mpp.transpony.entity.UserCredentials;
 
 import java.util.List;
 
-public interface IUser {
+public interface UserDao {
 
     List<User> getAll() throws DaoException;
     List<User> getFreeDriver() throws DaoException;

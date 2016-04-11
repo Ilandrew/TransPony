@@ -29,15 +29,15 @@ public abstract class DaoFactory {
         }
     }
 
-    public abstract ICar getCarDao();
-    public abstract ICargo getCargoDao();
-    public abstract ICheckPoint getCheckPointDao();
-    public abstract IDeliveryPoint getDeliveryPointDao();
-    public abstract IProvider getProviderDao();
-    public abstract IReceiver getReceiverDao();
-    public abstract IRoute getRouteDao();
-    public abstract ITrip getTripDao();
-    public abstract IUser getUserDao();
-    public abstract IWaybill getWaybillDao();
+    public abstract CarDao getCarDao();
+    public abstract CargoDao getCargoDao();
+    public abstract CheckPointDao getCheckPointDao();
+    public abstract DeliveryPointDao getDeliveryPointDao();
+    public abstract ProviderDao getProviderDao();
+    public abstract ReceiverDao getReceiverDao();
+    public abstract RouteDao getRouteDao();
+    public abstract TripDao getTripDao();
+    public abstract UserDao getUserDao();
+    public abstract WaybillDao getWaybillDao();
 
 }

@@ -12,52 +12,52 @@ public class MySqlDaoFactory extends DaoFactory{
     }
 
     @Override
-    public ICar getCarDao() {
-        return MySqlCar.getInstance();
+    public CarDao getCarDao() {
+        return MySqlCarDao.getInstance();
     }
 
     @Override
-    public ICargo getCargoDao() {
-        return MySqlCargo.getInstance();
+    public CargoDao getCargoDao() {
+        return MySqlCargoDao.getInstance();
     }
 
     @Override
-    public ICheckPoint getCheckPointDao() {
-        return MySqlCheckPoint.getInstance();
+    public CheckPointDao getCheckPointDao() {
+        return MySqlCheckPointDao.getInstance();
     }
 
     @Override
-    public IDeliveryPoint getDeliveryPointDao() {
-        return MySqlDeliveryPoint.getInstance();
+    public DeliveryPointDao getDeliveryPointDao() {
+        return MySqlDeliveryPointDao.getInstance();
     }
 
     @Override
-    public IProvider getProviderDao() {
-        return MySqlProvider.getInstance();
+    public ProviderDao getProviderDao() {
+        return MySqlProviderDao.getInstance();
     }
 
     @Override
-    public IReceiver getReceiverDao() {
-        return MySqlReceiver.getInstance();
+    public ReceiverDao getReceiverDao() {
+        return MySqlReceiverDao.getInstance();
     }
 
     @Override
-    public IRoute getRouteDao() {
-        return MySqlRoute.getInstance();
+    public RouteDao getRouteDao() {
+        return MySqlRouteDao.getInstance();
     }
 
     @Override
-    public ITrip getTripDao() {
-        return MySqlTrip.getInstance();
+    public TripDao getTripDao() {
+        return MySqlTripDao.getInstance();
     }
 
     @Override
-    public IUser getUserDao() {
-        return MySqlUser.getInstance();
+    public UserDao getUserDao() {
+        return MySqlUserDao.getInstance();
     }
 
     @Override
-    public IWaybill getWaybillDao() {
-        return MySqlWaybill.getInstance();
+    public WaybillDao getWaybillDao() {
+        return MySqlWaybillDao.getInstance();
     }
 }

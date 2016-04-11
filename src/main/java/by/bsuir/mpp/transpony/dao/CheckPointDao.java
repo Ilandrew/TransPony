@@ -5,7 +5,7 @@ import by.bsuir.mpp.transpony.entity.CheckPoint;
 
 import java.util.List;
 
-public interface ICheckPoint {
+public interface CheckPointDao {
 
     List<CheckPoint> getAll() throws DaoException;
     List<CheckPoint> getForRoute(Integer routeID) throws DaoException;

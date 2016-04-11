@@ -1,7 +1,7 @@
 package by.bsuir.mpp.transpony.dao.impl.mysql;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
-import by.bsuir.mpp.transpony.dao.ITrip;
+import by.bsuir.mpp.transpony.dao.TripDao;
 import by.bsuir.mpp.transpony.entity.Trip;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 
@@ -10,11 +10,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlTrip implements ITrip {
+public class MySqlTripDao implements TripDao {
 
-    private static final MySqlTrip instance = new MySqlTrip();
-    private MySqlTrip() {}
-    public static MySqlTrip getInstance() {
+    private static final MySqlTripDao instance = new MySqlTripDao();
+    private MySqlTripDao() {}
+    public static MySqlTripDao getInstance() {
         return instance;
     }
 
@@ -55,10 +55,10 @@ public class MySqlTrip implements ITrip {
                 trip.setExpectedFuelConsumption(result.getBigDecimal("expected_fuel_consuption"));
                 trip.setDriverProfit(result.getBigDecimal("driver_profit"));
                 trip.setExpenses(result.getBigDecimal("expenses"));
-                trip.setWaybill(MySqlWaybill.getInstance().getForIndex(result.getInt("id_waybill")));
-                trip.setRoute(MySqlRoute.getInstance().getForIndex(result.getInt("id_route")));
-                trip.setCar(MySqlCar.getInstance().getForIndex(result.getInt("id_car")));
-                trip.setDriver(MySqlUser.getInstance().getForIndex(result.getInt("id_driver")));
+                trip.setWaybill(MySqlWaybillDao.getInstance().getForIndex(result.getInt("id_waybill")));
+                trip.setRoute(MySqlRouteDao.getInstance().getForIndex(result.getInt("id_route")));
+                trip.setCar(MySqlCarDao.getInstance().getForIndex(result.getInt("id_car")));
+                trip.setDriver(MySqlUserDao.getInstance().getForIndex(result.getInt("id_driver")));
 
                 collection.add(trip);
             }
@@ -107,10 +107,10 @@ public class MySqlTrip implements ITrip {
                 trip.setExpectedFuelConsumption(result.getBigDecimal("expected_fuel_consuption"));
                 trip.setDriverProfit(result.getBigDecimal("driver_profit"));
                 trip.setExpenses(result.getBigDecimal("expenses"));
-                trip.setWaybill(MySqlWaybill.getInstance().getForIndex(result.getInt("id_waybill")));
-                trip.setRoute(MySqlRoute.getInstance().getForIndex(result.getInt("id_route")));
-                trip.setCar(MySqlCar.getInstance().getForIndex(result.getInt("id_car")));
-                trip.setDriver(MySqlUser.getInstance().getForIndex(result.getInt("id_driver")));
+                trip.setWaybill(MySqlWaybillDao.getInstance().getForIndex(result.getInt("id_waybill")));
+                trip.setRoute(MySqlRouteDao.getInstance().getForIndex(result.getInt("id_route")));
+                trip.setCar(MySqlCarDao.getInstance().getForIndex(result.getInt("id_car")));
+                trip.setDriver(MySqlUserDao.getInstance().getForIndex(result.getInt("id_driver")));
             }
         } catch (SQLException | NamingException e) {
             throw new DaoException("can't get this trip", e);

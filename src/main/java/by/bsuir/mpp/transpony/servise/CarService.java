@@ -1,7 +1,7 @@
 package by.bsuir.mpp.transpony.servise;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
-import by.bsuir.mpp.transpony.dao.ICar;
+import by.bsuir.mpp.transpony.dao.CarDao;
 import by.bsuir.mpp.transpony.dao.factory.DaoFactory;
 import by.bsuir.mpp.transpony.entity.Car;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CarService {
 
-    private static final ICar dao = DaoFactory.getDaoFactory().getCarDao();
+    private static final CarDao dao = DaoFactory.getDaoFactory().getCarDao();
 
     public static List<Car> getFreeCar() throws ServiceException {
         try {

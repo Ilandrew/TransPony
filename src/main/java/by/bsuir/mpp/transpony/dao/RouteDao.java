@@ -5,7 +5,7 @@ import by.bsuir.mpp.transpony.entity.Route;
 
 import java.util.List;
 
-public interface IRoute {
+public interface RouteDao {
 
     List<Route> getAll() throws DaoException;
 

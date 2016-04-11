@@ -6,7 +6,7 @@ import by.bsuir.mpp.transpony.entity.Waybill;
 
 import java.util.List;
 
-public interface IWaybill {
+public interface WaybillDao {
 
     List<Waybill> getAll() throws DaoException;
 

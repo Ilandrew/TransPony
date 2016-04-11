@@ -1,15 +1,15 @@
 package by.bsuir.mpp.transpony.servise;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
-import by.bsuir.mpp.transpony.dao.ICargo;
+import by.bsuir.mpp.transpony.dao.CargoDao;
 import by.bsuir.mpp.transpony.dao.factory.DaoFactory;
 import by.bsuir.mpp.transpony.entity.Cargo;
 
 import java.util.List;
 
-public class ServiceCargo {
+public class CargoService {
 
-    private static final ICargo dao = DaoFactory.getDaoFactory().getCargoDao();
+    private static final CargoDao dao = DaoFactory.getDaoFactory().getCargoDao();
 
     public static List<Cargo> getAll() throws ServiceException {
         try {

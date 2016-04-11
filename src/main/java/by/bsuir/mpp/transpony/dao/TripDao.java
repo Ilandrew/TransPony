@@ -4,7 +4,7 @@ import by.bsuir.mpp.transpony.entity.Trip;
 
 import java.util.List;
 
-public interface ITrip {
+public interface TripDao {
 
     List<Trip> getAll() throws DaoException;
     Trip getForIndex(Integer index) throws DaoException;

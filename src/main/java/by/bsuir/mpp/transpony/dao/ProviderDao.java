@@ -4,7 +4,7 @@ import by.bsuir.mpp.transpony.entity.Provider;
 
 import java.util.List;
 
-public interface IProvider {
+public interface ProviderDao {
 
     Provider getForIndex(Integer index) throws DaoException;
     List<Provider> getAll() throws DaoException;

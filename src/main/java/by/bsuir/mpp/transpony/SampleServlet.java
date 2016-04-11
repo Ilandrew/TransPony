@@ -1,7 +1,7 @@
 package by.bsuir.mpp.transpony;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
-import by.bsuir.mpp.transpony.dao.impl.mysql.MySqlCar;
+import by.bsuir.mpp.transpony.dao.impl.mysql.MySqlCarDao;
 import by.bsuir.mpp.transpony.entity.Car;
 
 import javax.servlet.ServletException;
@@ -22,7 +22,7 @@ public class SampleServlet extends HttpServlet {
         List<Car> collection = new ArrayList<>();
 
         try {
-            collection = MySqlCar.getInstance().getFreeCars();
+            collection = MySqlCarDao.getInstance().getFreeCars();
         } catch (DaoException daoException) {
             daoException.printStackTrace();
         }
