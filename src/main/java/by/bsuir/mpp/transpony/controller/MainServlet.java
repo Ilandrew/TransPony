@@ -38,5 +38,4 @@ public class MainServlet extends HttpServlet {
         }
 
     }
-    //WARNING! This class is for example. You should delete it after git pull.
 }

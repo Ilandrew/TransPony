@@ -316,7 +316,7 @@ public class MySqlTripDao implements TripDao {
             connection = DatabaseUtils.getConnection();
             statement = connection.prepareStatement("INSERT INTO TRIP (id_trip_status, start_date, expected_finish_date, expected_fuel_consuption, driver_profit, expenses, id_waybill, id_route, id_car, id_employee) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-            statement.setInt(1, getIndexStatus(trip.getTripStatus()));
+            statement.setInt(1, 1);
             statement.setDate(2, new java.sql.Date(trip.getStarDate().getTime()));
             statement.setDate(3, new java.sql.Date(trip.getExpectedFinishDate().getTime()));
             statement.setBigDecimal(4, trip.getExpectedFuelConsumption());
