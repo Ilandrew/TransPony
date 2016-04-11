@@ -45,6 +45,6 @@ public class LoginCommand implements Command {
             }
         }
 
-            return "WEB-INF/userpage.jsp";
+            return "WEB-INF/login.jsp";
     }
 }
