@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Andrew
@@ -13,6 +14,8 @@
   </head>
   <body>
   $END$
-
+  <form action="getcar.do" method="post">
+    <button type="submit" name="button" value="get_car">Get car</button>
+  </form>
   </body>
 </html>
