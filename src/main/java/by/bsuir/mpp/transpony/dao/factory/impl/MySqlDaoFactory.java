@@ -63,6 +63,6 @@ public class MySqlDaoFactory extends DaoFactory{
 
     @Override
     public CredentialDao getCredentialDao() {
-        return null;
+        return MySqlCredentialDao.getInstance();
     }
 }

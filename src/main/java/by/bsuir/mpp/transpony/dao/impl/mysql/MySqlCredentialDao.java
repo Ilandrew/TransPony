@@ -10,10 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MySqlCredential implements CredentialDao {
-    private static final MySqlCredential instance = new MySqlCredential();
-    private MySqlCredential() {}
-    public static MySqlCredential getInstance() {
+public class MySqlCredentialDao implements CredentialDao {
+    private static final MySqlCredentialDao instance = new MySqlCredentialDao();
+    private MySqlCredentialDao() {}
+    public static MySqlCredentialDao getInstance() {
         return instance;
     }
 
