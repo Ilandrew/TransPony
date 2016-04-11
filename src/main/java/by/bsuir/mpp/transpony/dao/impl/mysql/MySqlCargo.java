@@ -13,10 +13,11 @@ import java.util.List;
 public class MySqlCargo implements ICargo {
 
     private static final MySqlCargo instance = new MySqlCargo();
-    private MySqlCargo() {};
+    private MySqlCargo() {}
     public static MySqlCargo getInstance() {
         return instance;
     }
+
     @Override
     public List<Cargo> getAll() throws DaoException {
         Connection connection = null;
@@ -78,14 +79,15 @@ public class MySqlCargo implements ICargo {
             statement.setInt(1, index);
 
             ResultSet result = statement.executeQuery();
-
-            cargo.setId(index);
-            cargo.setName(result.getString("name_cargo"));
-            cargo.setPrise(result.getBigDecimal("price_cargo"));
-            cargo.setWeight(result.getInt("weight_cargo"));
-            cargo.setVolume(result.getInt("volume_cargo"));
-            cargo.setCargoType(result.getString("name_type"));
-            cargo.setProvider(MySqlProvider.getInstance().getForIndex(result.getInt("id_provider")));
+            if (result.next()) {
+                cargo.setId(index);
+                cargo.setName(result.getString("name_cargo"));
+                cargo.setPrise(result.getBigDecimal("price_cargo"));
+                cargo.setWeight(result.getInt("weight_cargo"));
+                cargo.setVolume(result.getInt("volume_cargo"));
+                cargo.setCargoType(result.getString("name_type"));
+                cargo.setProvider(MySqlProvider.getInstance().getForIndex(result.getInt("id_provider")));
+            }
 
         } catch (SQLException | NamingException e) {
             throw new DaoException("can't get all cargo", e);
@@ -129,7 +131,9 @@ public class MySqlCargo implements ICargo {
             statement.setInt(5, cargo.getProvider().getId());
             statement.setBigDecimal(6, cargo.getPrise());
             ResultSet resultSet = statement.executeQuery();
-            index = resultSet.getInt("id");
+            if (resultSet.next()) {
+                index = resultSet.getInt("id");
+            }
         } catch (NamingException|SQLException e) {
             throw new DaoException("can't add this cargo", e);
         } finally {

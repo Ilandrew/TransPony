@@ -13,7 +13,7 @@ import java.util.List;
 public class MySqlCar implements ICar {
 
     private static final MySqlCar instance = new MySqlCar();
-    private MySqlCar() {};
+    private MySqlCar() {}
     public static MySqlCar getInstance() {
         return instance;
     }
@@ -151,7 +151,7 @@ public class MySqlCar implements ICar {
 
             ResultSet result = statement.executeQuery();
 
-            while (result.next()) {
+            if (result.next()) {
                 car.setId(result.getInt("id"));
                 car.setLicensePlate(result.getString("license_plate"));
                 car.setVendor(result.getString("vendor"));

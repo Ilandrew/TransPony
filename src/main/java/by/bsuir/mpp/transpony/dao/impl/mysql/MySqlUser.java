@@ -15,7 +15,7 @@ import java.util.List;
 public class MySqlUser implements IUser {
 
     private static final MySqlUser instance = new MySqlUser();
-    private MySqlUser() {};
+    private MySqlUser() {}
     public static MySqlUser getInstance() {
         return instance;
     }
@@ -180,7 +180,7 @@ public class MySqlUser implements IUser {
 
             ResultSet result = statement.executeQuery();
 
-            while (result.next()) {
+            if (result.next()) {
                 UserStatus userStatus = new UserStatus();
                 UserPosition userPosition = new UserPosition();
                 userStatus.setId(result.getInt("id_status"));
@@ -306,7 +306,9 @@ public class MySqlUser implements IUser {
             statement.setString(3, user.getMiddleName());
             statement.setString(4, user.getInitials());
             ResultSet resultSet = statement.executeQuery();
-            index = resultSet.getInt("id");
+            if (resultSet.next()) {
+                index = resultSet.getInt("id");
+            }
         } catch (NamingException|SQLException e) {
             throw new DaoException("can't add this user", e);
         } finally {

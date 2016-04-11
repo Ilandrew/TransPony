@@ -3,7 +3,6 @@ package by.bsuir.mpp.transpony.dao.impl.mysql;
 import by.bsuir.mpp.transpony.dao.DaoException;
 import by.bsuir.mpp.transpony.dao.IReceiver;
 import by.bsuir.mpp.transpony.entity.DeliveryPoint;
-import by.bsuir.mpp.transpony.entity.Provider;
 import by.bsuir.mpp.transpony.entity.Receiver;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 
@@ -16,10 +15,11 @@ public class MySqlReceiver implements IReceiver {
 
 
     private static final MySqlReceiver instance = new MySqlReceiver();
-    private MySqlReceiver() {};
+    private MySqlReceiver() {}
     public static MySqlReceiver getInstance() {
         return instance;
     }
+
     @Override
     public List<Receiver> getAll() throws DaoException {
         Connection connection = null;
@@ -76,7 +76,9 @@ public class MySqlReceiver implements IReceiver {
             statement.setString(3, receiver.getAddress());
             statement.setString(4, receiver.getEmail());
             ResultSet resultSet = statement.executeQuery();
-            index = resultSet.getInt("id");
+            if (resultSet.next()) {
+                index = resultSet.getInt("id");
+            }
         } catch (NamingException|SQLException e) {
             throw new DaoException("can't add this receiver", e);
         } finally {
@@ -134,9 +136,7 @@ public class MySqlReceiver implements IReceiver {
 
     @Override
     public List<DeliveryPoint> getDeliveryPointForReceiver(Integer index) throws DaoException {
-        Receiver receiver = new Receiver();
-        receiver.setId(index);
-        return MySqlDeliveryPoint.getInstance().getAllForReceiver(receiver);
+        return MySqlDeliveryPoint.getInstance().getAllForReceiver(index);
     }
 
     @Override
@@ -150,12 +150,13 @@ public class MySqlReceiver implements IReceiver {
             statement.setInt(1, index);
 
             ResultSet result = statement.executeQuery();
-
-            receiver.setId(result.getInt("id_reciever"));
-            receiver.setName(result.getString("name"));
-            receiver.setPhone(result.getString("phone"));
-            receiver.setAddress(result.getString("address"));
-            receiver.setEmail(result.getString("email"));
+            if (result.next()) {
+                receiver.setId(result.getInt("id_reciever"));
+                receiver.setName(result.getString("name"));
+                receiver.setPhone(result.getString("phone"));
+                receiver.setAddress(result.getString("address"));
+                receiver.setEmail(result.getString("email"));
+            }
 
         } catch (SQLException | NamingException e) {
             throw new DaoException("can't get receiver for index", e);

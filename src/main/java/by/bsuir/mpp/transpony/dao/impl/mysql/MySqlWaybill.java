@@ -14,10 +14,11 @@ import java.util.List;
 public class MySqlWaybill implements IWaybill {
 
     private static final MySqlWaybill instance = new MySqlWaybill();
-    private MySqlWaybill() {};
+    private MySqlWaybill() {}
     public static MySqlWaybill getInstance() {
         return instance;
     }
+
     @Override
     public List<Waybill> getAll() throws DaoException {
         Connection connection = null;
@@ -59,7 +60,7 @@ public class MySqlWaybill implements IWaybill {
             statement.setInt(1, index);
             ResultSet result = statement.executeQuery();
 
-            while (result.next()) {
+            if (result.next()) {
                 waybill.setId(result.getInt(index));
                 waybill.setCargo(MySqlCargo.getInstance().getForIndex(result.getInt("id_cargo")));
                 waybill.setProfit(result.getBigDecimal("profit"));

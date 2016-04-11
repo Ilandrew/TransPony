@@ -13,7 +13,7 @@ import java.util.List;
 public class MySqlTrip implements ITrip {
 
     private static final MySqlTrip instance = new MySqlTrip();
-    private MySqlTrip() {};
+    private MySqlTrip() {}
     public static MySqlTrip getInstance() {
         return instance;
     }
@@ -73,8 +73,52 @@ public class MySqlTrip implements ITrip {
     }
 
     @Override
-    public Trip getForIndex(Integer index) {
-        return null;
+    public Trip getForIndex(Integer index) throws DaoException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        Trip trip = new Trip();
+        try {
+            connection = DatabaseUtils.getConnection();
+            statement = connection.prepareStatement("SELECT tp.id_trip AS id_trip,\n" +
+                    "        ts.name AS name_status,\n" +
+                    "        tp.start_date AS start_date,\n" +
+                    "        tp.expected_finish_date AS expected_finish_date,\n" +
+                    "        tp.real_finish_date AS real_finish_date,\n" +
+                    "        tp.real_fuel_consumption AS real_fuel_consumption,\n" +
+                    "        tp.expected_fuel_consuption AS expected_fuel_consuption,\n" +
+                    "        tp.driver_profit AS driver_profit,\n" +
+                    "        tp.expenses AS expenses,\n" +
+                    "        tp.id_waybill AS id_waybill,\n" +
+                    "        tp.id_route AS id_route,\n" +
+                    "        tp.id_car AS id_car,\n" +
+                    "        tp.id_employee AS id_driver\n" +
+                    "FROM TRIP tp\n" +
+                    "LEFT JOIN TRIP_STATUS  ts ON tp.id_trip_status = ts.id_trip_status\n" +
+                    "WHERE  tp.id_trip = ?");
+            statement.setInt(1, index);
+            ResultSet result = statement.executeQuery();
+
+            if (result.next()) {
+                trip.setId(result.getInt("id_trip"));
+                trip.setTripStatus(result.getString("name_status"));
+                trip.setStarDate(result.getDate("start_date"));
+                trip.setExpectedFinishDate(result.getDate("expected_finish_date"));
+                trip.setRealFinishDate(result.getDate("real_finish_date"));
+                trip.setExpectedFuelConsumption(result.getBigDecimal("expected_fuel_consuption"));
+                trip.setDriverProfit(result.getBigDecimal("driver_profit"));
+                trip.setExpenses(result.getBigDecimal("expenses"));
+                trip.setWaybill(MySqlWaybill.getInstance().getForIndex(result.getInt("id_waybill")));
+                trip.setRoute(MySqlRoute.getInstance().getForIndex(result.getInt("id_route")));
+                trip.setCar(MySqlCar.getInstance().getForIndex(result.getInt("id_car")));
+                trip.setDriver(MySqlUser.getInstance().getForIndex(result.getInt("id_driver")));
+            }
+        } catch (SQLException | NamingException e) {
+            throw new DaoException("can't get this trip", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
+        }
+        return trip;
     }
 
     @Override
@@ -87,7 +131,6 @@ public class MySqlTrip implements ITrip {
                     "        id_trip_status = ?\n" +
                     "WHERE id_trip = ?");
             statement.setInt(1, getIndexStatus(trip.getTripStatus()));
-
             statement.setInt(2, trip.getId());
             statement.executeUpdate();
             DatabaseUtils.commit();

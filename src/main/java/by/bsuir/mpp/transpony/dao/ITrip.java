@@ -7,7 +7,7 @@ import java.util.List;
 public interface ITrip {
 
     List<Trip> getAll() throws DaoException;
-    Trip getForIndex(Integer index);
+    Trip getForIndex(Integer index) throws DaoException;
     void changeStatus(Trip trip, String statusName) throws DaoException;
 
     void update(Trip trip) throws DaoException;
@@ -16,8 +16,5 @@ public interface ITrip {
 
     List<String> getAllStatus() throws DaoException;
 
-    /*TODO
-    * методы для отчётов:
-    * - отчёт о топливе*/
 
 }

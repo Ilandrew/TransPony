@@ -8,7 +8,7 @@ import java.util.List;
 public interface IDeliveryPoint {
 
     DeliveryPoint getForIndex(Integer index) throws DaoException;
-    List<DeliveryPoint> getAllForReceiver(Receiver receiver) throws DaoException;
+    List<DeliveryPoint> getAllForReceiver(Integer index) throws DaoException;
 
     Integer add(DeliveryPoint deliveryPoint) throws DaoException;
     void update(DeliveryPoint deliveryPoint) throws DaoException;

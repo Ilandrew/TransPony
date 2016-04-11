@@ -13,10 +13,11 @@ import java.util.List;
 public class MySqlProvider implements IProvider {
 
     private static final MySqlProvider instance = new MySqlProvider();
-    private MySqlProvider() {};
+    private MySqlProvider() {}
     public static MySqlProvider getInstance() {
         return instance;
     }
+
     @Override
     public Provider getForIndex(Integer index) throws DaoException {
         Connection connection = null;
@@ -28,12 +29,13 @@ public class MySqlProvider implements IProvider {
             statement.setInt(1, index);
 
             ResultSet result = statement.executeQuery();
-
-            provider.setId(index);
-            provider.setName(result.getString("name"));
-            provider.setPhone(result.getString("phone"));
-            provider.setAddress(result.getString("address"));
-            provider.setEmail(result.getString("email"));
+            if (result.next()) {
+                provider.setId(index);
+                provider.setName(result.getString("name"));
+                provider.setPhone(result.getString("phone"));
+                provider.setAddress(result.getString("address"));
+                provider.setEmail(result.getString("email"));
+            }
         } catch (SQLException | NamingException e) {
             throw new DaoException("can't get provider for index", e);
         } finally {
@@ -99,7 +101,9 @@ public class MySqlProvider implements IProvider {
             statement.setString(3, provider.getAddress());
             statement.setString(4, provider.getEmail());
             ResultSet resultSet = statement.executeQuery();
-            index = resultSet.getInt("id");
+            if (resultSet.next()) {
+                index = resultSet.getInt("id");
+            }
         } catch (NamingException|SQLException e) {
             throw new DaoException("can't add this provider", e);
         } finally {

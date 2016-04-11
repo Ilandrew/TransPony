@@ -14,10 +14,11 @@ import java.util.List;
 public class MySqlRoute implements IRoute {
 
     private static final MySqlRoute instance = new MySqlRoute();
-    private MySqlRoute() {};
+    private MySqlRoute() {}
     public static MySqlRoute getInstance() {
         return instance;
     }
+
     @Override
     public List<Route> getAll() throws DaoException {
         Connection connection = null;
@@ -126,7 +127,7 @@ public class MySqlRoute implements IRoute {
 
             ResultSet result = statement.executeQuery();
 
-            while (result.next()) {
+            if (result.next()) {
                 route.setId(result.getInt("id_route"));
                 route.setOwner(MySqlUser.getInstance().getForIndex(result.getInt("id_employee")));
                 route.setTotalLength(result.getBigDecimal("total_length"));
@@ -143,7 +144,6 @@ public class MySqlRoute implements IRoute {
 
     @Override
     public List<CheckPoint> getCheckPointForRoute(Integer index) throws DaoException {
-
         return MySqlCheckPoint.getInstance().getForRoute(index);
     }
 }

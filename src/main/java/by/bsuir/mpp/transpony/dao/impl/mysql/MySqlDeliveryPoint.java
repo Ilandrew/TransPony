@@ -3,7 +3,6 @@ package by.bsuir.mpp.transpony.dao.impl.mysql;
 import by.bsuir.mpp.transpony.dao.DaoException;
 import by.bsuir.mpp.transpony.dao.IDeliveryPoint;
 import by.bsuir.mpp.transpony.entity.DeliveryPoint;
-import by.bsuir.mpp.transpony.entity.Receiver;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 
 import javax.naming.NamingException;
@@ -14,10 +13,11 @@ import java.util.List;
 public class MySqlDeliveryPoint implements IDeliveryPoint {
 
     private static final MySqlDeliveryPoint instance = new MySqlDeliveryPoint();
-    private MySqlDeliveryPoint() {};
+    private MySqlDeliveryPoint() {}
     public static MySqlDeliveryPoint getInstance() {
         return instance;
     }
+
     @Override
     public DeliveryPoint getForIndex(Integer index) throws DaoException {
         Connection connection = null;
@@ -29,9 +29,10 @@ public class MySqlDeliveryPoint implements IDeliveryPoint {
             statement.setInt(1, index);
 
             ResultSet result = statement.executeQuery();
-
-            deliveryPoint.setId(index);
-            deliveryPoint.setAddress(result.getString("address"));
+            if (result.next()) {
+                deliveryPoint.setId(index);
+                deliveryPoint.setAddress(result.getString("address"));
+            }
         } catch (SQLException | NamingException e) {
             throw new DaoException("can't get provider for index", e);
         } finally {
@@ -43,7 +44,7 @@ public class MySqlDeliveryPoint implements IDeliveryPoint {
     }
 
     @Override
-    public List<DeliveryPoint> getAllForReceiver(Receiver receiver) throws DaoException {
+    public List<DeliveryPoint> getAllForReceiver(Integer index) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;
         DeliveryPoint deliveryPoint;
@@ -54,7 +55,7 @@ public class MySqlDeliveryPoint implements IDeliveryPoint {
                     "FROM DELIVERY_POINT dp\n" +
                     "LEFT JOIN M2M_RECIEVER_DELIVERY_POINT rp ON dp.id_delivery_point = rp.id_delivery_point\n" +
                     "WHERE rp.id_reciever = ?");
-            statement.setInt(1, receiver.getId());
+            statement.setInt(1, index);
 
 
             ResultSet result = statement.executeQuery();
@@ -90,7 +91,9 @@ public class MySqlDeliveryPoint implements IDeliveryPoint {
                     "WHERE address = ?\n");
             statement.setString(1, deliveryPoint.getAddress());
             ResultSet resultSet = statement.executeQuery();
-            index = resultSet.getInt("id");
+            if (resultSet.next()) {
+                index = resultSet.getInt("id");
+            }
         } catch (NamingException|SQLException e) {
             throw new DaoException("can't add this provider", e);
         } finally {
