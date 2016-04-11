@@ -34,9 +34,11 @@ public class CheckpointService {
 
     }
 
-    public static void addNew(CheckPoint checkPoint) throws ServiceException {
+    public static CheckPoint addNew(CheckPoint checkPoint) throws ServiceException {
         try {
-            dao.addNew(checkPoint);
+
+            checkPoint.setId(dao.addNew(checkPoint));
+            return checkPoint;
         } catch (DaoException e) {
             throw new ServiceException("can't add new check point.", e);
         }

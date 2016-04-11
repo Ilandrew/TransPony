@@ -11,7 +11,7 @@ public interface CheckPointDao {
     List<CheckPoint> getForRoute(Integer routeID) throws DaoException;
     void updateForRoute(List<CheckPoint> checkPoints, Integer idRoute) throws DaoException;
 
-    void addNew(CheckPoint checkPoint) throws DaoException;
+    Integer addNew(CheckPoint checkPoint) throws DaoException;
     void delete(CheckPoint checkPoint) throws DaoException;
     void update(CheckPoint checkPoint) throws DaoException;
 

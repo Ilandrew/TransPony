@@ -9,6 +9,9 @@ public interface TripDao {
     List<Trip> getAll() throws DaoException;
     Trip getForIndex(Integer index) throws DaoException;
     void changeStatus(Trip trip, String statusName) throws DaoException;
+    List<Trip> getForDriver(Integer driverId) throws DaoException;
+
+    List<Trip> getWithoutFuel() throws DaoException;
 
     void update(Trip trip) throws DaoException;
     void delete(Trip trip) throws DaoException;

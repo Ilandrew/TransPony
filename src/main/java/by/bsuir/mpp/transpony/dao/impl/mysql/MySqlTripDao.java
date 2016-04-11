@@ -144,6 +144,109 @@ public class MySqlTripDao implements TripDao {
     }
 
     @Override
+    public List<Trip> getForDriver(Integer driverId) throws DaoException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        Trip trip = null;
+        List<Trip> collection = new ArrayList<>();
+        try {
+            connection = DatabaseUtils.getConnection();
+            statement = connection.prepareStatement("SELECT tp.id_trip AS id_trip,\n" +
+                    "        ts.name AS name_status,\n" +
+                    "        tp.start_date AS start_date,\n" +
+                    "        tp.expected_finish_date AS expected_finish_date,\n" +
+                    "        tp.real_finish_date AS real_finish_date,\n" +
+                    "        tp.real_fuel_consumption AS real_fuel_consumption,\n" +
+                    "        tp.expected_fuel_consuption AS expected_fuel_consuption,\n" +
+                    "        tp.driver_profit AS driver_profit,\n" +
+                    "        tp.expenses AS expenses,\n" +
+                    "        tp.id_waybill AS id_waybill,\n" +
+                    "        tp.id_route AS id_route,\n" +
+                    "        tp.id_car AS id_car,\n" +
+                    "        tp.id_employee AS id_driver\n" +
+                    "FROM TRIP tp\n" +
+                    "LEFT JOIN TRIP_STATUS  ts ON tp.id_trip_status = ts.id_trip_status\n" +
+                    "WHERE  tp.id_employee = ?");
+            statement.setInt(1, driverId);
+            ResultSet result = statement.executeQuery();
+
+            if (result.next()) {
+                trip = new Trip();
+                trip.setTripStatus(result.getString("name_status"));
+                trip.setId(result.getInt("id_trip"));
+                trip.setStarDate(result.getDate("start_date"));
+                trip.setExpectedFinishDate(result.getDate("expected_finish_date"));
+                trip.setRealFinishDate(result.getDate("real_finish_date"));
+                trip.setExpectedFuelConsumption(result.getBigDecimal("expected_fuel_consuption"));
+                trip.setDriverProfit(result.getBigDecimal("driver_profit"));
+                trip.setExpenses(result.getBigDecimal("expenses"));
+                trip.setWaybill(MySqlWaybillDao.getInstance().getForIndex(result.getInt("id_waybill")));
+                trip.setRoute(MySqlRouteDao.getInstance().getForIndex(result.getInt("id_route")));
+                trip.setCar(MySqlCarDao.getInstance().getForIndex(result.getInt("id_car")));
+                trip.setDriver(MySqlUserDao.getInstance().getForIndex(result.getInt("id_driver")));
+                collection.add(trip);
+            }
+        } catch (SQLException | NamingException e) {
+            throw new DaoException("can't get trip for driver", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
+        }
+        return collection;
+    }
+
+    @Override
+    public List<Trip> getWithoutFuel() throws DaoException {
+        Connection connection = null;
+        Statement statement = null;
+        Trip trip = null;
+        List<Trip> collection = new ArrayList<>();
+        try {
+            connection = DatabaseUtils.getConnection();
+            statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT tp.id_trip AS id_trip,\n" +
+                    "        ts.name AS name_status,\n" +
+                    "        tp.start_date AS start_date,\n" +
+                    "        tp.expected_finish_date AS expected_finish_date,\n" +
+                    "        tp.real_finish_date AS real_finish_date,\n" +
+                    "        tp.real_fuel_consumption AS real_fuel_consumption,\n" +
+                    "        tp.expected_fuel_consuption AS expected_fuel_consuption,\n" +
+                    "        tp.driver_profit AS driver_profit,\n" +
+                    "        tp.expenses AS expenses,\n" +
+                    "        tp.id_waybill AS id_waybill,\n" +
+                    "        tp.id_route AS id_route,\n" +
+                    "        tp.id_car AS id_car,\n" +
+                    "        tp.id_employee AS id_driver\n" +
+                    "FROM TRIP tp\n" +
+                    "LEFT JOIN TRIP_STATUS  ts ON tp.id_trip_status = ts.id_trip_status\n" +
+                    "WHERE  tp.real_fuel_consumption IS NULL");
+
+            if (result.next()) {
+                trip = new Trip();
+                trip.setTripStatus(result.getString("name_status"));
+                trip.setStarDate(result.getDate("start_date"));
+                trip.setId(result.getInt("id_trip"));
+                trip.setExpectedFinishDate(result.getDate("expected_finish_date"));
+                trip.setRealFinishDate(result.getDate("real_finish_date"));
+                trip.setExpectedFuelConsumption(result.getBigDecimal("expected_fuel_consuption"));
+                trip.setDriverProfit(result.getBigDecimal("driver_profit"));
+                trip.setExpenses(result.getBigDecimal("expenses"));
+                trip.setWaybill(MySqlWaybillDao.getInstance().getForIndex(result.getInt("id_waybill")));
+                trip.setRoute(MySqlRouteDao.getInstance().getForIndex(result.getInt("id_route")));
+                trip.setCar(MySqlCarDao.getInstance().getForIndex(result.getInt("id_car")));
+                trip.setDriver(MySqlUserDao.getInstance().getForIndex(result.getInt("id_driver")));
+                collection.add(trip);
+            }
+        } catch (SQLException | NamingException e) {
+            throw new DaoException("can't get trip without fuel", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
+        }
+        return collection;
+    }
+
+    @Override
     public void update(Trip trip) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;

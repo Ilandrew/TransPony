@@ -126,9 +126,10 @@ public class MySqlCheckPointDao implements CheckPointDao {
     }
 
     @Override
-    public void addNew(CheckPoint checkPoint) throws DaoException {
+    public Integer addNew(CheckPoint checkPoint) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;
+        Integer index = 0;
         try {
             connection = DatabaseUtils.getConnection();
             statement = connection.prepareStatement("INSERT INTO CHECK_POINT (x, y, name, id_check_point_type) VALUES (?, ?, ?, ?)");
@@ -138,12 +139,29 @@ public class MySqlCheckPointDao implements CheckPointDao {
             statement.setInt(4, getIndexType(checkPoint.getPointType()));
             statement.executeUpdate();
             DatabaseUtils.commit();
+
+            statement = connection.prepareStatement("SELECT max(id_check_point) as id\n" +
+                    "FROM CHECK_POINT\n" +
+                    "WHERE name = ?\n" +
+                    "      AND x = ?\n" +
+                    "      AND y = ?\n" +
+                    "      AND id_check_point_type = ?");
+            statement.setString(1, checkPoint.getName());
+            statement.setFloat(2, checkPoint.getX());
+            statement.setFloat(3, checkPoint.getY());
+            statement.setInt(4, getIndexType(checkPoint.getPointType()));
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                index = resultSet.getInt("id");
+            }
         } catch (NamingException|SQLException e) {
             throw new DaoException("can't add this check point", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
         }
+        return index;
     }
 
     @Override

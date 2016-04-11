@@ -18,6 +18,23 @@ public class TripService {
             throw new ServiceException("", e);
         }
     }
+
+     public static List<Trip> getForDriver(Integer driverId) throws ServiceException {
+         try {
+             return dao.getForDriver(driverId);
+         } catch (DaoException e) {
+             throw new ServiceException("", e);
+         }
+     }
+
+    public static List<Trip> getWithoutFuel() throws ServiceException {
+        try {
+            return dao.getWithoutFuel();
+        } catch (DaoException e) {
+            throw new ServiceException("", e);
+        }
+    }
+
     public static Trip getForIndex(Integer index) throws ServiceException {
         try {
             return dao.getForIndex(index);
