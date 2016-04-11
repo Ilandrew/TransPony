@@ -217,8 +217,8 @@ public class MySqlUser implements IUser {
                     "        end = ?\n" +
                     "WHERE begin = ?\n" +
                     "      AND id_employee = ?");
-            statement.setDate(1, (Date) user.getUserPosition().getDateEnd());
-            statement.setDate(2, (Date) user.getUserPosition().getDateBegin());
+            statement.setDate(1, new java.sql.Date(user.getUserPosition().getDateEnd().getTime()));
+            statement.setDate(2, new java.sql.Date(user.getUserPosition().getDateBegin().getTime()));
             statement.setInt(3, user.getId());
 
             statement.executeUpdate();

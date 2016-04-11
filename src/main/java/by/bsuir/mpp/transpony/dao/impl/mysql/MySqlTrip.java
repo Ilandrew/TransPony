@@ -164,9 +164,9 @@ public class MySqlTrip implements ITrip {
                     "        id_employee = ?\n" +
                     "WHERE id_trip = ?");
             statement.setInt(1, getIndexStatus(trip.getTripStatus()));
-            statement.setDate(2, (Date) trip.getStarDate());
-            statement.setDate(3, (Date) trip.getExpectedFinishDate());
-            statement.setDate(4, (Date) trip.getRealFinishDate());
+            statement.setDate(2, new java.sql.Date(trip.getStarDate().getTime()));
+            statement.setDate(3, new java.sql.Date(trip.getExpectedFinishDate().getTime()));
+            statement.setDate(4, new java.sql.Date(trip.getRealFinishDate().getTime()));
             statement.setBigDecimal(5, trip.getRealFuelConsumption());
             statement.setBigDecimal(6, trip.getExpectedFuelConsumption());
             statement.setBigDecimal(7, trip.getDriverProfit());
@@ -214,8 +214,8 @@ public class MySqlTrip implements ITrip {
             statement = connection.prepareStatement("INSERT INTO TRIP (id_trip_status, start_date, expected_finish_date, expected_fuel_consuption, driver_profit, expenses, id_waybill, id_route, id_car, id_employee) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             statement.setInt(1, getIndexStatus(trip.getTripStatus()));
-            statement.setDate(2, (Date) trip.getStarDate());
-            statement.setDate(3, (Date) trip.getExpectedFinishDate());
+            statement.setDate(2, new java.sql.Date(trip.getStarDate().getTime()));
+            statement.setDate(3, new java.sql.Date(trip.getExpectedFinishDate().getTime()));
             statement.setBigDecimal(4, trip.getExpectedFuelConsumption());
             statement.setBigDecimal(5, trip.getDriverProfit());
             statement.setBigDecimal(6, trip.getExpenses());
