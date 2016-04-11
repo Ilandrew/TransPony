@@ -1,9 +1,9 @@
 package by.bsuir.mpp.transpony.controller;
 
+import by.bsuir.mpp.transpony.command.impl.LoginCommand;
+import by.bsuir.mpp.transpony.command.impl.LoginStrCommand;
+import by.bsuir.mpp.transpony.command.impl.ShowUserCommand;
 import by.bsuir.mpp.transpony.command.impl.GetCarCommand;
-import by.bsuir.mpp.transpony.dao.DaoException;
-import by.bsuir.mpp.transpony.dao.impl.mysql.MySqlCarDao;
-import by.bsuir.mpp.transpony.entity.Car;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet(name = "sample", urlPatterns = "*.do")
 public class MainServlet extends HttpServlet {
@@ -35,7 +33,18 @@ public class MainServlet extends HttpServlet {
                 GetCarCommand getCarCommand = new GetCarCommand();
                 request.getRequestDispatcher(getCarCommand.execute(request)).forward(request, response);
             }
+            case SHOW_USER:{
+                ShowUserCommand showUserCommand = new ShowUserCommand();
+                request.getRequestDispatcher(showUserCommand.execute(request)).forward(request, response);
+            }
+            case LOGIN:{
+                LoginCommand loginCommand = new LoginCommand();
+                request.getRequestDispatcher(loginCommand.execute(request)).forward(request, response);
+            }
+            case LOGIN_STR:{
+                LoginStrCommand loginStrCommand = new LoginStrCommand();
+                request.getRequestDispatcher(loginStrCommand.execute(request)).forward(request, response);
+            }
         }
-
     }
 }
