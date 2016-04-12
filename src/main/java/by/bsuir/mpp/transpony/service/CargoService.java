@@ -42,7 +42,6 @@ public class CargoService {
         }
 
     }
-
     public static Cargo getForIndex(Integer index) throws ServiceException {
         try {
             return dao.getForIndex(index);
@@ -51,7 +50,6 @@ public class CargoService {
         }
 
     }
-
     public static List<String> getAllType() throws ServiceException {
         try {
             return dao.getAllType();

@@ -11,6 +11,16 @@ public class Route {
     protected User owner;
     protected List<CheckPoint> points;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    protected String name;
+
     public User getOwner() {
         return owner;
     }

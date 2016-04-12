@@ -1,8 +1,6 @@
 package by.bsuir.mpp.transpony.dao;
 
 import by.bsuir.mpp.transpony.entity.User;
-import by.bsuir.mpp.transpony.entity.UserCredentials;
-
 import java.util.List;
 
 public interface UserDao {

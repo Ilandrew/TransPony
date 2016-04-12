@@ -5,7 +5,6 @@ import by.bsuir.mpp.transpony.entity.Car;
 import java.util.List;
 
 public interface CarDao {
-
     List<Car> getFreeCars() throws DaoException;
     void addNewCar(Car car) throws DaoException;
     void deleteCar(Car car) throws DaoException;
