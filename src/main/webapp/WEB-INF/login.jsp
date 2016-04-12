@@ -12,11 +12,13 @@
 </head>
 <body>
 <form action="login.do" method="post">
-  <label for="login">Login</label>
-  <input id="login" type="text" name="login" size="30">
-  <label for="password">Password</label>
-  <input type="text" id="password" name="password" size="30">
+  <label for="login">Login</label><br>
+  <input id="login" type="text" name="login" size="30"><br><br>
+  <label for="password">Password</label><br>
+  <input type="password" id="password" name="password" size="30"><br><br>
+  <span style="color:red">${errorMessage}</span><br>
   <button type="submit" name="button" value="login">Login</button>
+
 </form>
 </body>
 </html>
