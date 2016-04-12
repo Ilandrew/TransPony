@@ -19,6 +19,16 @@
             <tr>
                 <td>Route</td>
             </tr>
+
+            <select id="selectedRecord" name="selectedRecord">
+
+                <c:forEach var="checkpoint" items="${checkpoint}">
+
+                    <option value="${checkpoint.getId()}">${checkpoint.getName()}</option>
+
+                </c:forEach>
+
+            </select>
             <c:forEach var="route" items="${routes}">
                 <tr>
                     <td>${route.getName()}</td>
