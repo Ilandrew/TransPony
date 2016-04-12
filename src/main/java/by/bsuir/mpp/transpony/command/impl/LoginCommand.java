@@ -24,7 +24,7 @@ public class LoginCommand implements Command {
             switch (CredentialService.getRole(id)) {
                 case 1: {
                     request.getSession().setAttribute("User", id);
-                    return "WEB-INF/carpage.jsp"; // адрес сайта 1 профиля
+                    return "WEB-INF/logistian/index_logistian.jsp"; // адрес сайта 1 профиля
                 }
                 case 2: {
                     request.getSession().setAttribute("User", id);

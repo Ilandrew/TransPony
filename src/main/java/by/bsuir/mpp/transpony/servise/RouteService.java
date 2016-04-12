@@ -51,5 +51,12 @@ public class RouteService {
         }
     }
 
+    public static List<Route> getAll() throws ServiceException {
+        try {
+            return dao.getAll();
+        } catch (DaoException e) {
+            throw new ServiceException("", e);
+        }
+    }
 
 }

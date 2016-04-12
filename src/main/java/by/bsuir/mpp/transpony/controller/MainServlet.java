@@ -1,9 +1,6 @@
 package by.bsuir.mpp.transpony.controller;
 
-import by.bsuir.mpp.transpony.command.impl.LoginCommand;
-import by.bsuir.mpp.transpony.command.impl.LoginStrCommand;
-import by.bsuir.mpp.transpony.command.impl.ShowUserCommand;
-import by.bsuir.mpp.transpony.command.impl.GetCarCommand;
+import by.bsuir.mpp.transpony.command.impl.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "sample", urlPatterns = "*.do")
+@WebServlet(name = "controller", urlPatterns = "*.do")
 public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,6 +41,14 @@ public class MainServlet extends HttpServlet {
             case LOGIN_STR:{
                 LoginStrCommand loginStrCommand = new LoginStrCommand();
                 request.getRequestDispatcher(loginStrCommand.execute(request)).forward(request, response);
+            }
+            case CREATE_ROUTE:{
+                CreateRouteCommand createRouteCommand = new CreateRouteCommand();
+                request.getRequestDispatcher(createRouteCommand.execute(request)).forward(request, response);
+            }
+            case SHOW_ROUTES:{
+                ShowRoutesCommand showRoutesCommand = new ShowRoutesCommand();
+                request.getRequestDispatcher(showRoutesCommand.execute(request)).forward(request, response);
             }
         }
     }
