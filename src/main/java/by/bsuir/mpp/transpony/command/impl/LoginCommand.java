@@ -9,7 +9,6 @@ import by.bsuir.mpp.transpony.service.RouteService;
 import by.bsuir.mpp.transpony.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
