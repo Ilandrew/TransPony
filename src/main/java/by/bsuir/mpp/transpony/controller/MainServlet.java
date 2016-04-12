@@ -50,6 +50,12 @@ public class MainServlet extends HttpServlet {
                 ShowRoutesCommand showRoutesCommand = new ShowRoutesCommand();
                 request.getRequestDispatcher(showRoutesCommand.execute(request)).forward(request, response);
             }
+            case CREATE_CHECKPOINT:{
+
+            }
+            case SHOW_CHECKPOINTS:{
+
+            }
         }
     }
 }

@@ -15,5 +15,10 @@
         <button type="submit" name="button" value="create_route">Create new route</button>
         <button type="submit" name="button" value="show_routes">Show all routes</button>
     </form>
+    <br>
+    <form action="checkpoint.do" method="post">
+        <button type="submit" name="button" value="create_checkpoint">Create new checkpoint</button>
+        <button type="submit" name="button" value="show_checkpoints">Show all checkpoints</button>
+    </form>
 </body>
 </html>

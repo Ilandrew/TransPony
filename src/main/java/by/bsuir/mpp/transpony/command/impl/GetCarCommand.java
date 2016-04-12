@@ -2,8 +2,8 @@ package by.bsuir.mpp.transpony.command.impl;
 
 import by.bsuir.mpp.transpony.command.Command;
 import by.bsuir.mpp.transpony.entity.Car;
-import by.bsuir.mpp.transpony.servise.CarService;
-import by.bsuir.mpp.transpony.servise.ServiceException;
+import by.bsuir.mpp.transpony.service.CarService;
+import by.bsuir.mpp.transpony.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;

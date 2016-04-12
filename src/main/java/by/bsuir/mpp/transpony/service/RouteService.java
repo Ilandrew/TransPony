@@ -1,4 +1,4 @@
-package by.bsuir.mpp.transpony.servise;
+package by.bsuir.mpp.transpony.service;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
 import by.bsuir.mpp.transpony.dao.RouteDao;

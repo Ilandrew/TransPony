@@ -1,8 +1,8 @@
 package by.bsuir.mpp.transpony.command.impl;
 
 import by.bsuir.mpp.transpony.command.Command;
-import by.bsuir.mpp.transpony.servise.CredentialService;
-import by.bsuir.mpp.transpony.servise.ServiceException;
+import by.bsuir.mpp.transpony.service.CredentialService;
+import by.bsuir.mpp.transpony.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 

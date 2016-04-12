@@ -1,4 +1,4 @@
-package by.bsuir.mpp.transpony.servise;
+package by.bsuir.mpp.transpony.service;
 
 
 public class ServiceException extends Exception {
