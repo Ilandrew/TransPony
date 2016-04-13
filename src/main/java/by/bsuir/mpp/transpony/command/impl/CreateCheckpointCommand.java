@@ -12,4 +12,5 @@ public class CreateCheckpointCommand implements Command
     {
         return "WEB-INF/logistian/create_checkpoint";
     }
+
 }

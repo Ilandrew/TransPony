@@ -2,6 +2,7 @@ package by.bsuir.mpp.transpony.controller;
 
 import by.bsuir.mpp.transpony.command.Command;
 import by.bsuir.mpp.transpony.command.CommandHelper;
+import by.bsuir.mpp.transpony.util.HttpUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,12 +30,12 @@ public class MainServlet extends HttpServlet {
 
     private void dispatch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        String request = req.getParameter("button").toUpperCase();
+
+        String request = HttpUtils.extractCommandFromQuery(req.getRequestURI(), ".do");
         Command command = helper.getCommand(request);
         if (command != null) {
              req.getRequestDispatcher(command.execute(req)).forward(req, resp);
         } else {
-            //тут будет дофига ошибка хз чего
             //req.getRequestDispatcher("WEB-INF/error.html").forward(req, resp);
         }
     }
