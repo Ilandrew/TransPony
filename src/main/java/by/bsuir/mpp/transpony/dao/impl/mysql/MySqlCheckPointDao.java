@@ -209,6 +209,41 @@ public class MySqlCheckPointDao implements CheckPointDao {
         }
     }
 
+    @Override
+    public CheckPoint getForIndex(Integer index) throws DaoException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        CheckPoint checkPoint = new CheckPoint();
+        try {
+            connection = DatabaseUtils.getConnection();
+            statement = connection.prepareStatement("SELECT cp.id_check_point as id_check_point,\n" +
+                    "        cp.x as x,\n" +
+                    "        cp.y as y,\n" +
+                    "        cp.name as name,\n" +
+                    "        ct.name as type\n" +
+                    "FROM CHECK_POINT cp\n" +
+                    "LEFT JOIN CHECK_POINT_TYPE ct ON cp.id_check_point_type = ct.id_check_point_type\n" +
+                    "WHERE cp.id_check_point = ?");
+            statement.setInt(1, index);
+            ResultSet result = statement.executeQuery();
+
+            if (result.next()) {
+                checkPoint.setId(result.getInt("id_check_point"));
+                checkPoint.setX(result.getFloat("x"));
+                checkPoint.setY(result.getFloat("y"));
+                checkPoint.setName(result.getString("name"));
+                checkPoint.setPointType(result.getString("type"));
+            }
+        } catch (SQLException|NamingException e) {
+            throw new DaoException("can't get all check point", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
+        }
+
+        return checkPoint;
+    }
+
 
     private Integer getIndexType(String name) throws SQLException, NamingException {
         Connection connection = null;

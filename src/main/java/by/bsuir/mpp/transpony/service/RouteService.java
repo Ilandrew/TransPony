@@ -62,7 +62,10 @@ public class RouteService {
     public static void setNameTo(Route route) {
         String name = "";
         for (CheckPoint checkPoint: route.getPoints()) {
-            name +=checkPoint.getName();
+            name +=checkPoint.getName() + "-";
+        }
+        if (name.length() != 0) {
+            name = name.substring(0, name.length() -1);
         }
         route.setName(name);
     }

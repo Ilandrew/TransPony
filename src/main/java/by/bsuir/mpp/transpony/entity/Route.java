@@ -60,4 +60,12 @@ public class Route {
     public void setPoints(List<CheckPoint> points) {
         this.points = points;
     }
+
+    public boolean equals(Route route) {
+        if (this.getId() == route.getId()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -14,6 +14,7 @@ public interface CheckPointDao {
     Integer addNew(CheckPoint checkPoint) throws DaoException;
     void delete(CheckPoint checkPoint) throws DaoException;
     void update(CheckPoint checkPoint) throws DaoException;
+    CheckPoint getForIndex(Integer index) throws DaoException;
 
 
 
