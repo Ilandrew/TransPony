@@ -33,7 +33,7 @@ public class CheckpointService {
         }
 
     }
-    public CheckPoint getForIndex(Integer index) throws ServiceException {
+    public static CheckPoint getForIndex(Integer index) throws ServiceException {
         try {
             return dao.getForIndex(index);
         } catch (DaoException e) {

@@ -13,13 +13,10 @@
     <title>$Title$</title>
   </head>
   <body>
-  $END$
-
-  <form action="getcar.do" method="post">
-    <button type="submit" name="button" value="get_car">Get car</button>
-    <button type="submit" name="button" value="show_user">Show user</button>
-    <button type="submit" name="button" value="login_str">Login</button>
-  </form>
-  <%-- <fmt:redirect url="WEB-INF/login.jsp"/>--%>
+  <jsp:forward page="/WEB-INF/login.jsp"/>
+  <%--<form action="getcar.do" method="post">--%>
+    <%----%>
+    <%--<a href="create_checkpoint.do?id=3">jj </a>--%>
+  <%--</form>--%>
   </body>
 </html>
