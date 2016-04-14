@@ -75,16 +75,5 @@ public class DatabaseUtils {
             }
         }
     }
-//
-//    public static void commit() {
-//        if (transactionOn) {
-//            try {
-//                connection.commit();
-//                connection.setAutoCommit(true);
-//                transactionOn = false;
-//            } catch (SQLException e) {
-//                System.out.println("Can't commit");
-//            }
-//        }
-//    }
+
 }
