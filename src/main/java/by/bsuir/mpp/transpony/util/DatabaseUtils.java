@@ -10,15 +10,38 @@ import java.sql.Statement;
 
 public class DatabaseUtils {
 
-    private static Connection connection;
-    private static boolean transactionOn = false;
+    private DatabaseUtils() {
+        dataSource = null;
+    }
 
-    public static Connection getConnection() throws NamingException, SQLException {
+    private DatabaseUtils(int a) throws NamingException {
         InitialContext initialContext = new InitialContext();
         Context context = (Context) initialContext.lookup("java:comp/env");
 
         String dataSourceName = "jdbc/transPony";
-        DataSource dataSource = (DataSource) context.lookup(dataSourceName);
+        dataSource = (DataSource) context.lookup(dataSourceName);
+    }
+
+    private static DatabaseUtils instance;
+    private final DataSource dataSource;
+
+    public static DatabaseUtils getInstance() throws NamingException {
+        if (instance == null) {
+            createInstance();
+        }
+        return instance;
+    }
+    private synchronized static void createInstance() throws NamingException {
+        if (instance == null) {
+            instance = new DatabaseUtils(1);
+        }
+    }
+
+    public static void setInstance(DatabaseUtils instance) {
+        DatabaseUtils.instance = instance;
+    }
+
+    public  Connection getConnection() throws NamingException, SQLException {
         return dataSource.getConnection();
     }
 
@@ -42,15 +65,25 @@ public class DatabaseUtils {
         }
     }
 
-    public static void commit() {
-        if (transactionOn) {
+    public static void rollback(Connection connection) {
+        if (connection != null) {
             try {
-                connection.commit();
-                connection.setAutoCommit(true);
-                transactionOn = false;
+                connection.rollback();
             } catch (SQLException e) {
-                System.out.println("Can't commit");
+                System.out.println("Can't rollback connection!");
             }
         }
     }
+//
+//    public static void commit() {
+//        if (transactionOn) {
+//            try {
+//                connection.commit();
+//                connection.setAutoCommit(true);
+//                transactionOn = false;
+//            } catch (SQLException e) {
+//                System.out.println("Can't commit");
+//            }
+//        }
+//    }
 }

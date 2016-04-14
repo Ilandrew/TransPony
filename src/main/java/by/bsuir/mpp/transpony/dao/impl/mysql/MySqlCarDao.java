@@ -25,7 +25,7 @@ public class MySqlCarDao implements CarDao {
         Car car;
         List<Car> collection = new ArrayList<>();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT  cr.id_car as id,\n" +
@@ -51,6 +51,7 @@ public class MySqlCarDao implements CarDao {
                 collection.add(car);
             }
         } catch (SQLException | NamingException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't get all car", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -64,7 +65,7 @@ public class MySqlCarDao implements CarDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("INSERT INTO CAR (license_plate, id_vendor_car, id_model_car, id_car_type, fuel_consumption) VALUES (?, ?, ?, ?, ?)");
             statement.setString(1, car.getLicensePlate());
             statement.setInt(2, getIndexVendor(car.getVendor()));
@@ -72,8 +73,9 @@ public class MySqlCarDao implements CarDao {
             statement.setInt(4, getIndexType(car.getType()));
             statement.setBigDecimal(5, car.getFuelConsumption());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this car", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -86,12 +88,13 @@ public class MySqlCarDao implements CarDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("DELETE FROM CAR WHERE id_car = ?");
             statement.setInt(1, car.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this car", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -104,7 +107,7 @@ public class MySqlCarDao implements CarDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("UPDATE CAR SET\n" +
                     "        license_plate = ?,\n" +
                     "        id_vendor_car = ?,\n" +
@@ -119,8 +122,9 @@ public class MySqlCarDao implements CarDao {
             statement.setBigDecimal(5, car.getFuelConsumption());
             statement.setInt(6, car.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this car", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -135,7 +139,7 @@ public class MySqlCarDao implements CarDao {
         PreparedStatement statement = null;
         Car car = new Car();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT  cr.id_car as id,\n" +
                     "        cr.license_plate as license_plate,\n" +
                     "        vc.name as vendor,\n" +
@@ -160,6 +164,7 @@ public class MySqlCarDao implements CarDao {
                 car.setFuelConsumption(result.getBigDecimal("fuel_consumption"));
             }
         } catch (SQLException | NamingException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't get tris car", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -173,7 +178,7 @@ public class MySqlCarDao implements CarDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT id_car_type FROM CAR_TYPE WHERE name = ?");
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
@@ -183,7 +188,6 @@ public class MySqlCarDao implements CarDao {
             statement = connection.prepareStatement("INSERT INTO CAR_TYPE (name) VALUES (?)");
             statement.setString(1, name);
             statement.executeUpdate();
-            DatabaseUtils.commit();
             statement = connection.prepareStatement("SELECT id_car_type FROM CAR_TYPE WHERE name = ?");
             statement.setString(1, name);
             resultSet = statement.executeQuery();
@@ -201,7 +205,7 @@ public class MySqlCarDao implements CarDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT id_model_car FROM MODEL_CAR WHERE name = ?");
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
@@ -211,7 +215,6 @@ public class MySqlCarDao implements CarDao {
             statement = connection.prepareStatement("INSERT INTO MODEL_CAR (name) VALUES (?)");
             statement.setString(1, name);
             statement.executeUpdate();
-            DatabaseUtils.commit();
             statement = connection.prepareStatement("SELECT id_model_car FROM MODEL_CAR WHERE name = ?");
             statement.setString(1, name);
             resultSet = statement.executeQuery();
@@ -229,7 +232,7 @@ public class MySqlCarDao implements CarDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT id_vendor_car FROM VENDOR_CAR WHERE name = ?");
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
@@ -239,7 +242,6 @@ public class MySqlCarDao implements CarDao {
             statement = connection.prepareStatement("INSERT INTO VENDOR_CAR (name) VALUES (?)");
             statement.setString(1, name);
             statement.executeUpdate();
-            DatabaseUtils.commit();
             statement = connection.prepareStatement("SELECT id_vendor_car FROM VENDOR_CAR WHERE name = ?");
             statement.setString(1, name);
             resultSet = statement.executeQuery();

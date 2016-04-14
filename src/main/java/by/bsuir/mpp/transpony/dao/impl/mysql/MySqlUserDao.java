@@ -27,7 +27,7 @@ public class MySqlUserDao implements UserDao {
         User user;
         List<User> users = new ArrayList<>();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT ee.id_employee as id,\n" +
@@ -77,6 +77,9 @@ public class MySqlUserDao implements UserDao {
             }
         } catch (SQLException|NamingException e) {
             throw new DaoException("can't get free driver", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
         }
 
         return users;
@@ -89,7 +92,7 @@ public class MySqlUserDao implements UserDao {
         User user;
         List<User> users = new ArrayList<>();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT ee.id_employee as id,\n" +
@@ -141,6 +144,9 @@ public class MySqlUserDao implements UserDao {
             }
         } catch (SQLException|NamingException e) {
             throw new DaoException("can't get free driver", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
         }
 
         return users;
@@ -152,7 +158,7 @@ public class MySqlUserDao implements UserDao {
         PreparedStatement statement = null;
         User user = new User();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT ee.id_employee AS id,\n" +
                     "        ee.first_name AS first_name,\n" +
                     "        ee.second_name AS second_name,\n" +
@@ -201,6 +207,9 @@ public class MySqlUserDao implements UserDao {
             }
         } catch (SQLException|NamingException e) {
             throw new DaoException("can't get this user", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
         }
 
         return user;
@@ -211,7 +220,7 @@ public class MySqlUserDao implements UserDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("UPDATE M2M_EMPLOYEE_STATUS SET\n" +
                     "        id_empoyee_status = 4,\n" +
                     "        end = ?\n" +
@@ -222,8 +231,9 @@ public class MySqlUserDao implements UserDao {
             statement.setInt(3, user.getId());
 
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't fire this user", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -237,11 +247,12 @@ public class MySqlUserDao implements UserDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("DELETE FROM EMPLOYEE WHERE id_employee = ?");
             statement.setInt(1, user.getId());
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this user", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -252,11 +263,10 @@ public class MySqlUserDao implements UserDao {
 
     @Override
     public void update(User user) throws DaoException {
-
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("UPDATE EMPLOYEE SET\n" +
                     "        first_name = ?,\n" +
                     "        second_name = ?,\n" +
@@ -270,8 +280,9 @@ public class MySqlUserDao implements UserDao {
             statement.setInt(5, user.getId());
             statement.executeUpdate();
 
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this user", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -286,14 +297,13 @@ public class MySqlUserDao implements UserDao {
         PreparedStatement statement = null;
         Integer index = 0;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("INSERT INTO EMPLOYEE (first_name, second_name, middle_name, initials) VALUES (?, ?, ?, ?)");
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getSecondName());
             statement.setString(3, user.getMiddleName());
             statement.setString(4, user.getInitials());
             statement.executeUpdate();
-            DatabaseUtils.commit();
 
             statement = connection.prepareStatement("SELECT max(id_employee) as id\n" +
                     "FROM EMPLOYEE\n" +
@@ -309,7 +319,9 @@ public class MySqlUserDao implements UserDao {
             if (resultSet.next()) {
                 index = resultSet.getInt("id");
             }
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this user", e);
         } finally {
             DatabaseUtils.closeStatement(statement);

@@ -26,7 +26,7 @@ public class MySqlRouteDao implements RouteDao {
         Route route;
         List<Route> collection = new ArrayList<>();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT id_route, id_employee, total_length FROM ROUTE");
@@ -53,7 +53,7 @@ public class MySqlRouteDao implements RouteDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("UPDATE ROUTE SET\n" +
                     "        total_length = ?,\n" +
                     "        id_employee = ?\n" +
@@ -62,10 +62,10 @@ public class MySqlRouteDao implements RouteDao {
             statement.setInt(2, route.getOwner().getId());
             statement.setInt(3, route.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
-
             MySqlCheckPointDao.getInstance().updateForRoute(route.getPoints(), route.getId());
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this route", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -78,22 +78,20 @@ public class MySqlRouteDao implements RouteDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("INSERT INTO ROUTE (total_length, id_employee) VALUES (?, ?)");
             statement.setBigDecimal(1, route.getTotalLength());
             statement.setInt(2, route.getOwner().getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
-
             MySqlCheckPointDao.getInstance().updateForRoute(route.getPoints(), route.getId());
-
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this route", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
         }
-        return;
     }
 
     @Override
@@ -101,12 +99,13 @@ public class MySqlRouteDao implements RouteDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("DELETE FROM ROUTE WHERE id_route = ?");
             statement.setInt(1, route.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException |SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this route", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -121,7 +120,7 @@ public class MySqlRouteDao implements RouteDao {
         PreparedStatement statement = null;
         Route route = new Route();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT id_route, id_employee, total_length FROM ROUTE WHERE  id_route = ?");
             statement.setInt(1, index);
 

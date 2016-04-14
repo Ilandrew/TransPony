@@ -26,7 +26,7 @@ public class MySqlWaybillDao implements WaybillDao {
         Waybill waybill;
         List<Waybill> collection = new ArrayList<>();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT id_waybill, id_cargo, profit, id_reciever, id_delivery_point FROM WAYBILL");
@@ -55,7 +55,7 @@ public class MySqlWaybillDao implements WaybillDao {
         PreparedStatement statement = null;
         Waybill waybill = new Waybill();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT id_waybill, id_cargo, profit, id_reciever, id_delivery_point FROM WAYBILL WHERE id_waybill = ?");
             statement.setInt(1, index);
             ResultSet result = statement.executeQuery();
@@ -81,12 +81,13 @@ public class MySqlWaybillDao implements WaybillDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("DELETE FROM WAYBILL WHERE id_waybill = ?");
             statement.setInt(1, waybill.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException |SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this waybill", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -99,7 +100,7 @@ public class MySqlWaybillDao implements WaybillDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("UPDATE WAYBILL SET\n" +
                     "        id_cargo = ?,\n" +
                     "        profit = ?,\n" +
@@ -112,8 +113,9 @@ public class MySqlWaybillDao implements WaybillDao {
             statement.setInt(4, waybill.getDeliveryPoint().getId());
             statement.setInt(5, waybill.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this waybill", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -127,24 +129,21 @@ public class MySqlWaybillDao implements WaybillDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("INSERT INTO WAYBILL (id_cargo, profit, id_reciever, id_delivery_point) VALUES (?, ?, ?, ?)");
             statement.setInt(1, waybill.getCargo().getId());
             statement.setBigDecimal(2, waybill.getProfit());
             statement.setInt(3, waybill.getReceiver().getId());
             statement.setInt(4, waybill.getDeliveryPoint().getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
-
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this waybill", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
         }
-        return ;
-
     }
-
 
 }

@@ -26,7 +26,7 @@ public class MySqlTripDao implements TripDao {
         Trip trip;
         List<Trip> collection = new ArrayList<>();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT tp.id_trip AS id_trip,\n" +
@@ -78,7 +78,7 @@ public class MySqlTripDao implements TripDao {
         PreparedStatement statement = null;
         Trip trip = new Trip();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT tp.id_trip AS id_trip,\n" +
                     "        ts.name AS name_status,\n" +
                     "        tp.start_date AS start_date,\n" +
@@ -126,31 +126,31 @@ public class MySqlTripDao implements TripDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("UPDATE TRIP SET\n" +
                     "        id_trip_status = ?\n" +
                     "WHERE id_trip = ?");
             statement.setInt(1, getIndexStatus(trip.getTripStatus()));
             statement.setInt(2, trip.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't change this trip status", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
         }
-
     }
 
     @Override
     public List<Trip> getForDriver(Integer driverId) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;
-        Trip trip = null;
+        Trip trip;
         List<Trip> collection = new ArrayList<>();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT tp.id_trip AS id_trip,\n" +
                     "        ts.name AS name_status,\n" +
                     "        tp.start_date AS start_date,\n" +
@@ -187,6 +187,7 @@ public class MySqlTripDao implements TripDao {
                 collection.add(trip);
             }
         } catch (SQLException | NamingException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't get trip for driver", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -202,7 +203,7 @@ public class MySqlTripDao implements TripDao {
         Trip trip = null;
         List<Trip> collection = new ArrayList<>();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
             ResultSet result = statement.executeQuery("SELECT tp.id_trip AS id_trip,\n" +
                     "        ts.name AS name_status,\n" +
@@ -251,7 +252,7 @@ public class MySqlTripDao implements TripDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("UPDATE TRIP SET\n" +
                     "        id_trip_status = ?,\n" +
                     "        start_date = ?,\n" +
@@ -280,8 +281,9 @@ public class MySqlTripDao implements TripDao {
             statement.setInt(12, trip.getDriver().getId());
             statement.setInt(13, trip.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this trip", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -294,12 +296,13 @@ public class MySqlTripDao implements TripDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("DELETE FROM TRIP WHERE id_trip = ?");
             statement.setInt(1, trip.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException |SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this trip", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -313,7 +316,7 @@ public class MySqlTripDao implements TripDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("INSERT INTO TRIP (id_trip_status, start_date, expected_finish_date, expected_fuel_consuption, driver_profit, expenses, id_waybill, id_route, id_car, id_employee) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
             statement.setInt(1, 1);
@@ -327,16 +330,15 @@ public class MySqlTripDao implements TripDao {
             statement.setInt(9, trip.getCar().getId());
             statement.setInt(10, trip.getDriver().getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
 
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this trip", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
         }
-        return;
-
     }
 
     @Override
@@ -346,7 +348,7 @@ public class MySqlTripDao implements TripDao {
         String name;
         List<String> collection = new ArrayList<>();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT name FROM TRIP_STATUS");
@@ -368,7 +370,7 @@ public class MySqlTripDao implements TripDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT id_trip_status FROM TRIP_STATUS WHERE name = ?");
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
@@ -378,7 +380,6 @@ public class MySqlTripDao implements TripDao {
             statement = connection.prepareStatement("INSERT INTO TRIP_STATUS (name) VALUES (?)");
             statement.setString(1, name);
             statement.executeUpdate();
-            DatabaseUtils.commit();
             statement = connection.prepareStatement("SELECT id_trip_status FROM TRIP_STATUS WHERE name = ?");
             statement.setString(1, name);
             resultSet = statement.executeQuery();

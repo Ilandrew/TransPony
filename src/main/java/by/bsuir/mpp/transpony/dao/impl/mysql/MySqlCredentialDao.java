@@ -23,7 +23,7 @@ public class MySqlCredentialDao implements CredentialDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT ee.id_employee as id FROM EMPLOYEE ee\n" +
                     "WHERE ee.id_user_credantials in (SELECT id_user_credantials \n" +
                     "                                 FROM USER_CREDANTIALS uc \n" +

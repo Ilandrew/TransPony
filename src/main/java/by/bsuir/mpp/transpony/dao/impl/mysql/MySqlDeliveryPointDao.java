@@ -24,7 +24,7 @@ public class MySqlDeliveryPointDao implements DeliveryPointDao {
         PreparedStatement statement = null;
         DeliveryPoint deliveryPoint = new DeliveryPoint();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT address FROM DELIVERY_POINT WHERE id_provider = ?");
             statement.setInt(1, index);
 
@@ -50,16 +50,14 @@ public class MySqlDeliveryPointDao implements DeliveryPointDao {
         DeliveryPoint deliveryPoint;
         List<DeliveryPoint> collection = new ArrayList<>();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT dp.id_delivery_point AS id, dp.address AS address\n" +
                     "FROM DELIVERY_POINT dp\n" +
                     "LEFT JOIN M2M_RECIEVER_DELIVERY_POINT rp ON dp.id_delivery_point = rp.id_delivery_point\n" +
                     "WHERE rp.id_reciever = ?");
             statement.setInt(1, index);
 
-
             ResultSet result = statement.executeQuery();
-
             while (result.next()) {
                 deliveryPoint = new DeliveryPoint();
                 deliveryPoint.setId(result.getInt("id"));
@@ -80,12 +78,10 @@ public class MySqlDeliveryPointDao implements DeliveryPointDao {
         PreparedStatement statement = null;
         Integer index = 0;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("INSERT INTO DELIVERY_POINT (address) VALUES (?)");
             statement.setString(1, deliveryPoint.getAddress());
             statement.executeUpdate();
-            DatabaseUtils.commit();
-
             statement = connection.prepareStatement("SELECT max(id_delivery_point) as id\n" +
                     "FROM DELIVERY_POINT\n" +
                     "WHERE address = ?\n");
@@ -94,7 +90,9 @@ public class MySqlDeliveryPointDao implements DeliveryPointDao {
             if (resultSet.next()) {
                 index = resultSet.getInt("id");
             }
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this provider", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -108,15 +106,16 @@ public class MySqlDeliveryPointDao implements DeliveryPointDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("UPDATE DELIVERY_POINT SET\n" +
                     "        address = ?\n" +
                     "WHERE id_delivery_point = ?");
             statement.setString(1, deliveryPoint.getAddress());
             statement.setInt(2, deliveryPoint.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException |SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this delivery point", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -129,12 +128,13 @@ public class MySqlDeliveryPointDao implements DeliveryPointDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("DELETE FROM DELIVERY_POINT WHERE id_delivery_point = ?");
             statement.setInt(1, deliveryPoint.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this delivery point", e);
         } finally {
             DatabaseUtils.closeStatement(statement);

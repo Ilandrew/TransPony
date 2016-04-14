@@ -24,7 +24,7 @@ public class MySqlProviderDao implements ProviderDao {
         PreparedStatement statement = null;
         Provider provider = new Provider();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT id_provider, name, phone, address, email FROM PROVIDER WHERE id_provider = ?");
             statement.setInt(1, index);
 
@@ -37,6 +37,7 @@ public class MySqlProviderDao implements ProviderDao {
                 provider.setEmail(result.getString("email"));
             }
         } catch (SQLException | NamingException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't get provider for index", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -52,7 +53,7 @@ public class MySqlProviderDao implements ProviderDao {
         Provider provider;
         List<Provider> collection = new ArrayList<>();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT id_provider, name, phone, address, email FROM PROVIDER");
@@ -67,6 +68,7 @@ public class MySqlProviderDao implements ProviderDao {
                 collection.add(provider);
             }
         } catch (SQLException | NamingException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't get all provider", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -81,14 +83,13 @@ public class MySqlProviderDao implements ProviderDao {
         PreparedStatement statement = null;
         Integer index = 0;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("INSERT INTO PROVIDER (name, phone, address, email) VALUES (?, ?, ?, ?)");
             statement.setString(1, provider.getName());
             statement.setString(2, provider.getPhone());
             statement.setString(3, provider.getAddress());
             statement.setString(4, provider.getEmail());
             statement.executeUpdate();
-            DatabaseUtils.commit();
 
             statement = connection.prepareStatement("SELECT max(id_provider) as id\n" +
                     "FROM PROVIDER\n" +
@@ -104,7 +105,9 @@ public class MySqlProviderDao implements ProviderDao {
             if (resultSet.next()) {
                 index = resultSet.getInt("id");
             }
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this provider", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -118,12 +121,13 @@ public class MySqlProviderDao implements ProviderDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("DELETE FROM PROVIDER WHERE id_provider = ?");
             statement.setInt(1, provider.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this provider", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -136,7 +140,7 @@ public class MySqlProviderDao implements ProviderDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("UPDATE PROVIDER SET\n" +
                     "        name = ?,\n" +
                     "        address = ?,\n" +
@@ -149,13 +153,13 @@ public class MySqlProviderDao implements ProviderDao {
             statement.setString(4, provider.getEmail());
             statement.setInt(5, provider.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this provider", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
         }
     }
-
 }

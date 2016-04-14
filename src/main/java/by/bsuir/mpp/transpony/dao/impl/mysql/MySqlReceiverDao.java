@@ -27,7 +27,7 @@ public class MySqlReceiverDao implements ReceiverDao {
         Receiver receiver;
         List<Receiver> collection = new ArrayList<>();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT id_reciever, name, phone, address, email FROM RECIEVER");
@@ -41,6 +41,7 @@ public class MySqlReceiverDao implements ReceiverDao {
                 receiver.setEmail(result.getString("email"));
                 collection.add(receiver);
             }
+
         } catch (SQLException | NamingException e) {
             throw new DaoException("can't get all receiver", e);
         } finally {
@@ -56,14 +57,13 @@ public class MySqlReceiverDao implements ReceiverDao {
         PreparedStatement statement = null;
         Integer index = 0;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("INSERT INTO RECIEVER (name, phone, address, email) VALUES (?, ?, ?, ?)");
             statement.setString(1, receiver.getName());
             statement.setString(2, receiver.getPhone());
             statement.setString(3, receiver.getAddress());
             statement.setString(4, receiver.getEmail());
             statement.executeUpdate();
-            DatabaseUtils.commit();
 
             statement = connection.prepareStatement("SELECT max(id_reciever) as id\n" +
                     "FROM RECIEVER\n" +
@@ -79,7 +79,9 @@ public class MySqlReceiverDao implements ReceiverDao {
             if (resultSet.next()) {
                 index = resultSet.getInt("id");
             }
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this receiver", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -93,12 +95,13 @@ public class MySqlReceiverDao implements ReceiverDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("DELETE FROM RECIEVER WHERE id_reciever = ?");
             statement.setInt(1, receiver.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException |SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this receiver", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -111,7 +114,7 @@ public class MySqlReceiverDao implements ReceiverDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("UPDATE RECIEVER SET\n" +
                     "        name = ?,\n" +
                     "        address = ?,\n" +
@@ -124,8 +127,9 @@ public class MySqlReceiverDao implements ReceiverDao {
             statement.setString(4, receiver.getEmail());
             statement.setInt(5, receiver.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this receiver", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -145,7 +149,7 @@ public class MySqlReceiverDao implements ReceiverDao {
         PreparedStatement statement = null;
         Receiver receiver = new Receiver();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT id_reciever, name, phone, address, email FROM RECIEVER WHERE id_reciever = ?");
             statement.setInt(1, index);
 

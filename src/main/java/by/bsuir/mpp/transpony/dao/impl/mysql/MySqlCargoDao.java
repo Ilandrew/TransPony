@@ -25,7 +25,7 @@ public class MySqlCargoDao implements CargoDao {
         Cargo cargo;
         List<Cargo> collection = new ArrayList<>();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT co.id_cargo AS id_cargo,\n" +
@@ -51,6 +51,7 @@ public class MySqlCargoDao implements CargoDao {
                 collection.add(cargo);
             }
         } catch (SQLException | NamingException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't get all cargo", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -65,7 +66,7 @@ public class MySqlCargoDao implements CargoDao {
         PreparedStatement statement = null;
         Cargo cargo = new Cargo();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT co.id_cargo AS id_cargo,\n" +
                     "        co.name AS name_cargo,\n" +
                     "        co.price AS price_cargo,\n" +
@@ -90,6 +91,7 @@ public class MySqlCargoDao implements CargoDao {
             }
 
         } catch (SQLException | NamingException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't get all cargo", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -105,7 +107,7 @@ public class MySqlCargoDao implements CargoDao {
         PreparedStatement statement = null;
         Integer index = 0;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("INSERT INTO CARGO (name, weight, volume, id_cargo_type, id_provider, price) VALUES (?, ?, ?, ?, ?, ?)");
             statement.setString(1, cargo.getName());
             statement.setInt(2, cargo.getWeight());
@@ -114,7 +116,7 @@ public class MySqlCargoDao implements CargoDao {
             statement.setInt(5, cargo.getProvider().getId());
             statement.setBigDecimal(6, cargo.getPrise());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
 
             statement = connection.prepareStatement("SELECT max(id_cargo) as id\n" +
                     "FROM CARGO\n" +
@@ -135,6 +137,7 @@ public class MySqlCargoDao implements CargoDao {
                 index = resultSet.getInt("id");
             }
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this cargo", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -148,12 +151,13 @@ public class MySqlCargoDao implements CargoDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("DELETE FROM CARGO WHERE id_cargo = ?");
             statement.setInt(1, cargo.getId());
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this cargo", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -166,7 +170,7 @@ public class MySqlCargoDao implements CargoDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("UPDATE CARGO SET\n" +
                     "        name = ?,\n" +
                     "        weight = ?,\n" +
@@ -184,8 +188,9 @@ public class MySqlCargoDao implements CargoDao {
             statement.setInt(7, cargo.getId());
 
             statement.executeUpdate();
-            DatabaseUtils.commit();
+            connection.commit();
         } catch (NamingException|SQLException e) {
+            DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this provider", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -200,7 +205,7 @@ public class MySqlCargoDao implements CargoDao {
         String name;
         List<String> collection = new ArrayList<>();
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
             ResultSet result = statement.executeQuery("SELECT name FROM CARGO_TYPE");
@@ -222,7 +227,7 @@ public class MySqlCargoDao implements CargoDao {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
-            connection = DatabaseUtils.getConnection();
+            connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("SELECT id_cargo_type FROM CARGO_TYPE WHERE name = ?");
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
@@ -232,7 +237,6 @@ public class MySqlCargoDao implements CargoDao {
             statement = connection.prepareStatement("INSERT INTO CARGO_TYPE (name) VALUES (?)");
             statement.setString(1, name);
             statement.executeUpdate();
-            DatabaseUtils.commit();
             statement = connection.prepareStatement("SELECT id_cargo_type FROM CARGO_TYPE WHERE name = ?");
             statement.setString(1, name);
             resultSet = statement.executeQuery();
