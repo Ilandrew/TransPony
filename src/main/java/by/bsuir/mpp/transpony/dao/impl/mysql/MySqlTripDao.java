@@ -133,7 +133,6 @@ public class MySqlTripDao implements TripDao {
             statement.setInt(1, getIndexStatus(trip.getTripStatus()));
             statement.setInt(2, trip.getId());
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't change this trip status", e);
@@ -281,7 +280,6 @@ public class MySqlTripDao implements TripDao {
             statement.setInt(12, trip.getDriver().getId());
             statement.setInt(13, trip.getId());
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this trip", e);
@@ -300,7 +298,6 @@ public class MySqlTripDao implements TripDao {
             statement = connection.prepareStatement("DELETE FROM TRIP WHERE id_trip = ?");
             statement.setInt(1, trip.getId());
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException |SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this trip", e);
@@ -330,7 +327,6 @@ public class MySqlTripDao implements TripDao {
             statement.setInt(9, trip.getCar().getId());
             statement.setInt(10, trip.getDriver().getId());
             statement.executeUpdate();
-            connection.commit();
 
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);

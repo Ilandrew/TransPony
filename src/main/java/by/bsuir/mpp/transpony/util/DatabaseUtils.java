@@ -10,7 +10,10 @@ import java.sql.Statement;
 
 public class DatabaseUtils {
 
-    private DatabaseUtils() {
+    private static DatabaseUtils instance;
+    private final DataSource dataSource;
+
+    public DatabaseUtils() {
         dataSource = null;
     }
 
@@ -22,8 +25,6 @@ public class DatabaseUtils {
         dataSource = (DataSource) context.lookup(dataSourceName);
     }
 
-    private static DatabaseUtils instance;
-    private final DataSource dataSource;
 
     public static DatabaseUtils getInstance() throws NamingException {
         if (instance == null) {
@@ -41,7 +42,7 @@ public class DatabaseUtils {
         DatabaseUtils.instance = instance;
     }
 
-    public  Connection getConnection() throws NamingException, SQLException {
+    public Connection getConnection() throws NamingException, SQLException {
         return dataSource.getConnection();
     }
 

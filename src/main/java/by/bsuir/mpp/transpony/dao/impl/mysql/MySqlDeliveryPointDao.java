@@ -90,7 +90,6 @@ public class MySqlDeliveryPointDao implements DeliveryPointDao {
             if (resultSet.next()) {
                 index = resultSet.getInt("id");
             }
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this provider", e);
@@ -113,7 +112,7 @@ public class MySqlDeliveryPointDao implements DeliveryPointDao {
             statement.setString(1, deliveryPoint.getAddress());
             statement.setInt(2, deliveryPoint.getId());
             statement.executeUpdate();
-            connection.commit();
+
         } catch (NamingException |SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this delivery point", e);
@@ -132,7 +131,6 @@ public class MySqlDeliveryPointDao implements DeliveryPointDao {
             statement = connection.prepareStatement("DELETE FROM DELIVERY_POINT WHERE id_delivery_point = ?");
             statement.setInt(1, deliveryPoint.getId());
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this delivery point", e);

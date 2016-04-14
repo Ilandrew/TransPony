@@ -63,7 +63,6 @@ public class MySqlRouteDao implements RouteDao {
             statement.setInt(3, route.getId());
             statement.executeUpdate();
             MySqlCheckPointDao.getInstance().updateForRoute(route.getPoints(), route.getId());
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this route", e);
@@ -84,7 +83,6 @@ public class MySqlRouteDao implements RouteDao {
             statement.setInt(2, route.getOwner().getId());
             statement.executeUpdate();
             MySqlCheckPointDao.getInstance().updateForRoute(route.getPoints(), route.getId());
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this route", e);
@@ -103,7 +101,6 @@ public class MySqlRouteDao implements RouteDao {
             statement = connection.prepareStatement("DELETE FROM ROUTE WHERE id_route = ?");
             statement.setInt(1, route.getId());
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException |SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this route", e);

@@ -231,7 +231,6 @@ public class MySqlUserDao implements UserDao {
             statement.setInt(3, user.getId());
 
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("can't fire this user", e);
@@ -250,7 +249,6 @@ public class MySqlUserDao implements UserDao {
             connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.prepareStatement("DELETE FROM EMPLOYEE WHERE id_employee = ?");
             statement.setInt(1, user.getId());
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this user", e);
@@ -280,7 +278,6 @@ public class MySqlUserDao implements UserDao {
             statement.setInt(5, user.getId());
             statement.executeUpdate();
 
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this user", e);
@@ -319,7 +316,6 @@ public class MySqlUserDao implements UserDao {
             if (resultSet.next()) {
                 index = resultSet.getInt("id");
             }
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this user", e);

@@ -85,7 +85,6 @@ public class MySqlWaybillDao implements WaybillDao {
             statement = connection.prepareStatement("DELETE FROM WAYBILL WHERE id_waybill = ?");
             statement.setInt(1, waybill.getId());
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException |SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this waybill", e);
@@ -113,7 +112,6 @@ public class MySqlWaybillDao implements WaybillDao {
             statement.setInt(4, waybill.getDeliveryPoint().getId());
             statement.setInt(5, waybill.getId());
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this waybill", e);
@@ -136,7 +134,7 @@ public class MySqlWaybillDao implements WaybillDao {
             statement.setInt(3, waybill.getReceiver().getId());
             statement.setInt(4, waybill.getDeliveryPoint().getId());
             statement.executeUpdate();
-            connection.commit();
+
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this waybill", e);

@@ -79,7 +79,6 @@ public class MySqlReceiverDao implements ReceiverDao {
             if (resultSet.next()) {
                 index = resultSet.getInt("id");
             }
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this receiver", e);
@@ -99,7 +98,6 @@ public class MySqlReceiverDao implements ReceiverDao {
             statement = connection.prepareStatement("DELETE FROM RECIEVER WHERE id_reciever = ?");
             statement.setInt(1, receiver.getId());
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException |SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this receiver", e);
@@ -127,7 +125,6 @@ public class MySqlReceiverDao implements ReceiverDao {
             statement.setString(4, receiver.getEmail());
             statement.setInt(5, receiver.getId());
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this receiver", e);

@@ -115,7 +115,6 @@ public class MySqlCheckPointDao implements CheckPointDao {
                 i++;
                 statement.executeUpdate();
             }
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update route", e);
@@ -140,7 +139,6 @@ public class MySqlCheckPointDao implements CheckPointDao {
             statement.setString(3, checkPoint.getName());
             statement.setInt(4, getIndexType(checkPoint.getPointType()));
             statement.executeUpdate();
-            connection.commit();
 
             statement = connection.prepareStatement("SELECT max(id_check_point) as id\n" +
                     "FROM CHECK_POINT\n" +
@@ -176,7 +174,6 @@ public class MySqlCheckPointDao implements CheckPointDao {
             statement = connection.prepareStatement("DELETE FROM CHECK_POINT WHERE id_check_point = ?");
             statement.setInt(1, checkPoint.getId());
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this check point", e);

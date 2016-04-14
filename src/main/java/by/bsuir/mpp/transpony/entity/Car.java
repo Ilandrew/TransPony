@@ -58,4 +58,11 @@ public class Car {
     public void setFuelConsumption(BigDecimal fuelConsumption) {
         this.fuelConsumption = fuelConsumption;
     }
+
+    public boolean equals (Car car) {
+        if (car.getLicensePlate().equals(getLicensePlate())){
+            return true;
+        }
+        return false;
+    }
 }

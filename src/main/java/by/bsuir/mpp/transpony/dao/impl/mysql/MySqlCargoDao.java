@@ -116,7 +116,6 @@ public class MySqlCargoDao implements CargoDao {
             statement.setInt(5, cargo.getProvider().getId());
             statement.setBigDecimal(6, cargo.getPrise());
             statement.executeUpdate();
-            connection.commit();
 
             statement = connection.prepareStatement("SELECT max(id_cargo) as id\n" +
                     "FROM CARGO\n" +
@@ -155,7 +154,7 @@ public class MySqlCargoDao implements CargoDao {
             statement = connection.prepareStatement("DELETE FROM CARGO WHERE id_cargo = ?");
             statement.setInt(1, cargo.getId());
             statement.executeUpdate();
-            connection.commit();
+
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this cargo", e);
@@ -186,9 +185,7 @@ public class MySqlCargoDao implements CargoDao {
             statement.setInt(5, cargo.getProvider().getId());
             statement.setBigDecimal(6, cargo.getPrise());
             statement.setInt(7, cargo.getId());
-
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this provider", e);

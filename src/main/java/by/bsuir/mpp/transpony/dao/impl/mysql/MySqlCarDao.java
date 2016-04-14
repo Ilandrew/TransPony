@@ -73,7 +73,7 @@ public class MySqlCarDao implements CarDao {
             statement.setInt(4, getIndexType(car.getType()));
             statement.setBigDecimal(5, car.getFuelConsumption());
             statement.executeUpdate();
-            connection.commit();
+
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this car", e);
@@ -92,7 +92,6 @@ public class MySqlCarDao implements CarDao {
             statement = connection.prepareStatement("DELETE FROM CAR WHERE id_car = ?");
             statement.setInt(1, car.getId());
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this car", e);
@@ -122,7 +121,6 @@ public class MySqlCarDao implements CarDao {
             statement.setBigDecimal(5, car.getFuelConsumption());
             statement.setInt(6, car.getId());
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this car", e);

@@ -105,7 +105,6 @@ public class MySqlProviderDao implements ProviderDao {
             if (resultSet.next()) {
                 index = resultSet.getInt("id");
             }
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("can't add this provider", e);
@@ -125,7 +124,6 @@ public class MySqlProviderDao implements ProviderDao {
             statement = connection.prepareStatement("DELETE FROM PROVIDER WHERE id_provider = ?");
             statement.setInt(1, provider.getId());
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't remove this provider", e);
@@ -153,7 +151,6 @@ public class MySqlProviderDao implements ProviderDao {
             statement.setString(4, provider.getEmail());
             statement.setInt(5, provider.getId());
             statement.executeUpdate();
-            connection.commit();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
             throw new DaoException("Can't update this provider", e);
