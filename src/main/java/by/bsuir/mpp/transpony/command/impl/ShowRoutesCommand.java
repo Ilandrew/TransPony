@@ -15,13 +15,13 @@ public class ShowRoutesCommand implements Command{
     @Override
     public String execute(HttpServletRequest request)
     {
-        List<Route> collection = new ArrayList<>();
+        List<Route> routes = new ArrayList<>();
         try {
-            collection = RouteService.getAll();
+            routes = RouteService.getAll();
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        request.setAttribute("collection", collection);
+        request.setAttribute("routes", routes);
         return "WEB-INF/logistian/show_routes.jsp";
     }
 }

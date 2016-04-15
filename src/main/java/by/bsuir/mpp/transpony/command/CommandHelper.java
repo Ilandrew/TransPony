@@ -16,6 +16,7 @@ public class CommandHelper {
         commands.put("GET_CAR", new GetCarCommand());
         commands.put("LOGIN", new LoginCommand());
         commands.put("LOGIN_STR", new LoginStrCommand());
+        commands.put("SAVE_ROUTE", new SaveRouteCommand());
         commands.put("SHOW_CHECKPOINTS", new ShowCheckpointsCommand());
         commands.put("SHOW_ROUTES", new ShowRoutesCommand());
         commands.put("SHOW_USER", new ShowUserCommand());

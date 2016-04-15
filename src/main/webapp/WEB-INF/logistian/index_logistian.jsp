@@ -10,49 +10,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title></title>
+    <title>Logistian Main</title>
 </head>
 <body>
-    <form action="route.do" method="post">
-        <button type="submit" name="button" value="create_route">Create new route</button>
-        <table>
-            <tr>
-                <td>Route</td>
-            </tr>
-
-            <select id="selectedRecord" name="selectedRecord">
-
-                <c:forEach var="checkpoint" items="${checkpoint}">
-
-                    <option value="${checkpoint.getId()}">${checkpoint.getName()}</option>
-
-                </c:forEach>
-
-            </select>
-            <c:forEach var="route" items="${routes}">
-                <tr>
-                    <td>${route.getName()}</td>
-                    <td><button type="submit" name="button" value="${route.getId()}">Change</button></td>
-                    <td><button type="submit" name="button" value="${route.getId()}">Delete</button></td>
-                </tr>
-            </c:forEach>
-        </table>
-    </form>
-    <br>
-    <form action="checkpoint.do" method="post">
-        <button type="submit" name="button" value="create_checkpoint">Create new checkpoint</button>
-        <table>
-            <tr>
-                <td>Points</td>
-            </tr>
-            <c:forEach var="checkpoint" items="${checkpoint}">
-                <tr>
-                    <td>${checkpoint.getName()}</td>
-                    <td><button type="submit" name="button" value="${checkpoint.getId()}">Change</button></td>
-                    <td><button type="submit" name="button" value="${checkpoint.getId()}">Delete</button></td>
-                </tr>
-            </c:forEach>
-        </table>
-    </form>
+    <a href="create_route.do"><button type="button">Create new route</button></a>
+    <a href="show_routes.do"><button type="button">Show all routes</button></a><br>
+    <a href="create_checkpoint.do"><button type="button">Create new checkpoint</button></a>
+    <a href="show_checkpoints.do"><button type="button">Show all checkpoints</button></a>
 </body>
 </html>

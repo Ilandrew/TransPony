@@ -10,13 +10,9 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>TransPony Main</title>
   </head>
   <body>
   <jsp:forward page="/WEB-INF/login.jsp"/>
-  <%--<form action="getcar.do" method="post">--%>
-    <%----%>
-    <%--<a href="create_checkpoint.do?id=3">jj </a>--%>
-  <%--</form>--%>
   </body>
 </html>

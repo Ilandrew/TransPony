@@ -18,7 +18,6 @@
   <input type="password" id="password" name="password" size="30"><br><br>
   <span style="color:red">${errorMessage}</span><br>
   <button type="submit" name="button" value="login">Login</button>
-
 </form>
 </body>
 </html>
