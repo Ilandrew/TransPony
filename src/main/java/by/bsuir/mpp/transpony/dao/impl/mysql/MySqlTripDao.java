@@ -52,6 +52,7 @@ public class MySqlTripDao implements TripDao {
                 trip.setStarDate(result.getDate("start_date"));
                 trip.setExpectedFinishDate(result.getDate("expected_finish_date"));
                 trip.setRealFinishDate(result.getDate("real_finish_date"));
+                trip.setRealFuelConsumption(result.getBigDecimal("real_fuel_consumption"));
                 trip.setExpectedFuelConsumption(result.getBigDecimal("expected_fuel_consuption"));
                 trip.setDriverProfit(result.getBigDecimal("driver_profit"));
                 trip.setExpenses(result.getBigDecimal("expenses"));
