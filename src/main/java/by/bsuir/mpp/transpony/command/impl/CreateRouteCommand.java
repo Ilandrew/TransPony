@@ -5,6 +5,7 @@ import by.bsuir.mpp.transpony.entity.CheckPoint;
 import by.bsuir.mpp.transpony.entity.Route;
 import by.bsuir.mpp.transpony.service.CheckpointService;
 import by.bsuir.mpp.transpony.service.ServiceException;
+import by.bsuir.mpp.transpony.util.PagePath;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -53,7 +54,7 @@ public class CreateRouteCommand implements Command {
             session.setAttribute("new_route", route);
         }
 
-        return "WEB-INF/logistian/create_route.jsp";
+        return PagePath.CREATE_ROUTE_PAGE.getPage();
     }
 
     private List<CheckPoint> getAllCheckpoints() {

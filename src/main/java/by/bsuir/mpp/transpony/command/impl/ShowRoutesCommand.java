@@ -5,6 +5,7 @@ import by.bsuir.mpp.transpony.command.Command;
 import by.bsuir.mpp.transpony.entity.Route;
 import by.bsuir.mpp.transpony.service.RouteService;
 import by.bsuir.mpp.transpony.service.ServiceException;
+import by.bsuir.mpp.transpony.util.PagePath;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -22,6 +23,6 @@ public class ShowRoutesCommand implements Command{
             e.printStackTrace();
         }
         request.setAttribute("routes", routes);
-        return "WEB-INF/logistian/show_routes.jsp";
+        return PagePath.SHOW_ROUTES_PAGE.getPage();
     }
 }

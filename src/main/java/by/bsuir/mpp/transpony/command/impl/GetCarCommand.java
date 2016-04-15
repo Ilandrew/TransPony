@@ -4,6 +4,7 @@ import by.bsuir.mpp.transpony.command.Command;
 import by.bsuir.mpp.transpony.entity.Car;
 import by.bsuir.mpp.transpony.service.CarService;
 import by.bsuir.mpp.transpony.service.ServiceException;
+import by.bsuir.mpp.transpony.util.PagePath;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -26,6 +27,6 @@ public class GetCarCommand implements Command {
         }
 
         request.setAttribute("collection", collection);
-        return "WEB-INF/carpage.jsp";
+        return PagePath.SHOW_FREE_CARS_PAGE.getPage();
     }
 }

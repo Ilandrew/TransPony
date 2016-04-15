@@ -4,6 +4,7 @@ import by.bsuir.mpp.transpony.command.Command;
 import by.bsuir.mpp.transpony.entity.CheckPoint;
 import by.bsuir.mpp.transpony.service.CheckpointService;
 import by.bsuir.mpp.transpony.service.ServiceException;
+import by.bsuir.mpp.transpony.util.PagePath;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -19,6 +20,6 @@ public class ShowCheckpointsCommand implements Command {
             e.printStackTrace();
         }
         request.setAttribute("collection", collection);
-        return "WEB-INF/logistian/show_checkpoints";
+        return PagePath.SHOW_CHECKPOINTS_PAGE.getPage();
     }
 }

@@ -13,6 +13,6 @@
     <title>TransPony Main</title>
   </head>
   <body>
-  <jsp:forward page="/WEB-INF/login.jsp"/>
+  <jsp:forward page="/jsp/login.jsp"/>
   </body>
 </html>

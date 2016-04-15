@@ -4,6 +4,7 @@ import by.bsuir.mpp.transpony.command.Command;
 import by.bsuir.mpp.transpony.entity.User;
 import by.bsuir.mpp.transpony.service.ServiceException;
 import by.bsuir.mpp.transpony.service.UserService;
+import by.bsuir.mpp.transpony.util.PagePath;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -20,6 +21,6 @@ public class ShowUserCommand implements Command {
             e.printStackTrace();
         }
         request.setAttribute("collection", collection);
-        return "WEB-INF/userpage.jsp";
+        return PagePath.SHOW_USERS_PAGE.getPage();
     }
 }

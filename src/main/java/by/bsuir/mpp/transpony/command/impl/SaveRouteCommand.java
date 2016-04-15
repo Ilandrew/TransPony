@@ -6,6 +6,7 @@ import by.bsuir.mpp.transpony.entity.User;
 import by.bsuir.mpp.transpony.service.RouteService;
 import by.bsuir.mpp.transpony.service.ServiceException;
 import by.bsuir.mpp.transpony.service.UserService;
+import by.bsuir.mpp.transpony.util.PagePath;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,13 +27,14 @@ public class SaveRouteCommand implements Command {
             } catch (ServiceException e) {
                 e.printStackTrace();
             }
+
             try {
                 RouteService.add(route);
             } catch (ServiceException e) {
                 e.printStackTrace();
             }
             request.getSession().setAttribute("new_route", null);
-            return "WEB-INF/logistian/index_logistian.jsp";
+            return PagePath.HOME_LOGISTIAN.getPage();
         }
     }
 }
