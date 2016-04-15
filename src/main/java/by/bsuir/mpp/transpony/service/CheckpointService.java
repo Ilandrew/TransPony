@@ -43,7 +43,6 @@ public class CheckpointService {
 
     public static CheckPoint addNew(CheckPoint checkPoint) throws ServiceException {
         try {
-
             checkPoint.setId(dao.addNew(checkPoint));
             return checkPoint;
         } catch (DaoException e) {
@@ -66,5 +65,13 @@ public class CheckpointService {
             throw new ServiceException("can't update this check point.", e);
         }
 
+    }
+
+    public List<String> getAllType() throws ServiceException {
+        try {
+            return dao.getAllType();
+        } catch (DaoException e) {
+            throw new ServiceException("can't get all type of check point.", e);
+        }
     }
 }

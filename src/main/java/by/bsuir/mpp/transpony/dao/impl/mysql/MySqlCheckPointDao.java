@@ -246,6 +246,31 @@ public class MySqlCheckPointDao implements CheckPointDao {
         return checkPoint;
     }
 
+    @Override
+    public List<String> getAllType() throws DaoException {
+        Connection connection = null;
+        Statement statement = null;
+        String name;
+        List<String> collection = new ArrayList<>();
+        try {
+            connection = DatabaseUtils.getInstance().getConnection();
+            statement = connection.createStatement();
+
+            ResultSet result = statement.executeQuery("SELECT name FROM CHECK_POINT_TYPE");
+
+            while (result.next()) {
+                name = result.getString("name");
+                collection.add(name);
+            }
+        } catch (SQLException | NamingException e) {
+            throw new DaoException("can't get all check point type", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
+        }
+        return collection;
+    }
+
 
     private Integer getIndexType(String name) throws SQLException, NamingException {
         Connection connection = null;

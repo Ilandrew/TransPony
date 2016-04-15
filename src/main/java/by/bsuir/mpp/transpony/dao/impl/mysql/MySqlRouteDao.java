@@ -82,6 +82,7 @@ public class MySqlRouteDao implements RouteDao {
             statement.setBigDecimal(1, route.getTotalLength());
             statement.setInt(2, route.getOwner().getId());
             statement.executeUpdate();
+            route.setId(getMaxIndex());
             MySqlCheckPointDao.getInstance().updateForRoute(route.getPoints(), route.getId());
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
@@ -142,4 +143,26 @@ public class MySqlRouteDao implements RouteDao {
     public List<CheckPoint> getCheckPointForRoute(Integer index) throws DaoException {
         return MySqlCheckPointDao.getInstance().getForRoute(index);
     }
+
+     private Integer getMaxIndex() throws DaoException {
+         Connection connection = null;
+         Statement statement = null;
+         Integer value = null;
+         try {
+             connection = DatabaseUtils.getInstance().getConnection();
+             statement = connection.createStatement();
+
+             ResultSet result = statement.executeQuery("SELECT max(id_route) as value FROM ROUTE");
+
+             if (result.next()) {
+                value = result.getInt("value");
+             }
+         } catch (SQLException | NamingException e) {
+             throw new DaoException("can't get all route", e);
+         } finally {
+             DatabaseUtils.closeStatement(statement);
+             DatabaseUtils.closeConnection(connection);
+         }
+         return value;
+     }
 }

@@ -16,6 +16,7 @@ public interface CheckPointDao {
     void update(CheckPoint checkPoint) throws DaoException;
     CheckPoint getForIndex(Integer index) throws DaoException;
 
+    List<String> getAllType() throws DaoException;
 
 
 }
