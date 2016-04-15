@@ -21,4 +21,12 @@ public class DeliveryPoint {
         this.address = address;
     }
 
+    public boolean equals(DeliveryPoint deliveryPoint) {
+        if(deliveryPoint.getAddress().equals(getAddress())||
+                deliveryPoint.getId().equals(getId())) {
+            return true;
+        }
+        return false;
+    }
+
 }

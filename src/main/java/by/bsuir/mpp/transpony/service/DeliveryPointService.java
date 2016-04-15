@@ -7,7 +7,7 @@ import by.bsuir.mpp.transpony.entity.DeliveryPoint;
 
 import java.util.List;
 
-public class DeliveryPointServise {
+public class DeliveryPointService {
     private static final DeliveryPointDao dao = DaoFactory.getDaoFactory().getDeliveryPointDao();
 
     public static DeliveryPoint getForIndex(Integer index) throws ServiceException {

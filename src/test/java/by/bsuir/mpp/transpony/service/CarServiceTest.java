@@ -48,7 +48,7 @@ public class CarServiceTest {
         car.setModel("Соник");
         car.setVendor("МАЗ");
         car.setFuelConsumption(BigDecimal.valueOf(12.3));
-        car.setLicensePlate("1234-kd");
+        car.setLicensePlate("1234-kp");
         Connection connection = null;
         Statement statement = null;
         Car carTest = new Car();
@@ -140,7 +140,7 @@ public class CarServiceTest {
                 carTest.setLicensePlate(result.getString("license_plate"));
             }
             CarService.deleteCar(carTest);
-        } catch (ServiceException|SQLException | NamingException e) {
+        } catch (ServiceException | SQLException | NamingException e) {
             e.printStackTrace();
         } finally {
             DatabaseUtils.closeStatement(statement);
@@ -148,7 +148,6 @@ public class CarServiceTest {
         }
         assertTrue(car.equals(carTest));
     }
-
 
 
 

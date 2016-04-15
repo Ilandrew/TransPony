@@ -25,7 +25,7 @@ public class MySqlDeliveryPointDao implements DeliveryPointDao {
         DeliveryPoint deliveryPoint = new DeliveryPoint();
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("SELECT address FROM DELIVERY_POINT WHERE id_provider = ?");
+            statement = connection.prepareStatement("SELECT address FROM DELIVERY_POINT WHERE id_delivery_point = ?");
             statement.setInt(1, index);
 
             ResultSet result = statement.executeQuery();

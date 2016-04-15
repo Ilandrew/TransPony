@@ -47,4 +47,14 @@ public class Provider {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public boolean equals(Provider provider) {
+        if (provider.getAddress().equals(getAddress())
+                && provider.getEmail().equals(getEmail())
+                && provider.getName().equals(getName())
+                && provider.getPhone().equals(getPhone())) {
+            return true;
+        }
+        return false;
+    }
 }
