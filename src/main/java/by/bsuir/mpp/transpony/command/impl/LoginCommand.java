@@ -1,6 +1,7 @@
 package by.bsuir.mpp.transpony.command.impl;
 
 import by.bsuir.mpp.transpony.command.Command;
+import by.bsuir.mpp.transpony.command.RoleHelper;
 import by.bsuir.mpp.transpony.service.CredentialService;
 import by.bsuir.mpp.transpony.service.ServiceException;
 
@@ -19,28 +20,9 @@ public class LoginCommand implements Command {
             e.printStackTrace();
         }
         if (id > 0) {
-            switch (CredentialService.getRole(id)) {
-                case 1: {
-                    request.getSession().setAttribute("user_id", id);
-                    return "WEB-INF/logistian/index_logistian.jsp";
-                }
-                case 2: {
-                    request.getSession().setAttribute("user_id", id);
-                    return "WEB-INF/carpage.jsp";
-                }
-                case 3: {
-                    request.getSession().setAttribute("user_id", id);
-                    return "WEB-INF/carpage.jsp";
-                }
-                case 4: {
-                    request.getSession().setAttribute("user_id", id);
-                    return "WEB-INF/carpage.jsp";
-                }
-                case 5: {
-                    request.getSession().setAttribute("user_id", id);
-                    return "WEB-INF/carpage.jsp";
-                }
-            }
+        request.getSession().setAttribute("user_id", id);
+            RoleHelper roleHelper = new RoleHelper();
+            return roleHelper.getRole(id);
         }
         request.setAttribute("errorMessage", "Incorrect login/password");
         return "WEB-INF/login.jsp";
