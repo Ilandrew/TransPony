@@ -13,11 +13,11 @@
 </head>
 <body>
 ${message}<br>
-<form action="add_checkpoint.do" method="post">
+<form action="save_checkpoint.do" method="post">
     <label for="types_list">Checkpoint types</label>
     <select id="types_list" name="types_list">
-        <c:forEach var="type" items="${types}">
-            <option value="${type.getName()}">${type.getName()}</option>
+        <c:forEach var="type" items="${type}">
+            <option value="${type}">${type}</option>
         </c:forEach>
     </select><br>
     <label for="name_text">Checkpoint name: </label>
