@@ -13,7 +13,8 @@ public enum PagePath {
 	SHOW_FREE_CARS_PAGE("jsp/carpage.jsp"),
 	SHOW_CHECKPOINTS_PAGE("jsp/logistian/show_checkpoints.jsp"),
 	SHOW_ROUTES_PAGE("jsp/logistian/show_routes.jsp"),
-	SHOW_USERS_PAGE("jsp/userpage.jsp");
+	SHOW_USERS_PAGE("jsp/userpage.jsp"),
+	EDIT_ROUTE_PAGE("jsp/logistian/edit_route.jsp");
 
 	private String page;
 

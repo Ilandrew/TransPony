@@ -20,6 +20,8 @@ public class CommandHelper {
         commands.put("SHOW_ROUTES", new ShowRoutesCommand());
         commands.put("SHOW_USER", new ShowUserCommand());
         commands.put("SAVE_CHECKPOINT", new SaveCheckpointCommand());
+        commands.put("EDIT_ROUTE", new EditRouteCommand());
+        commands.put("SAVE_ROUTE_CHANGES", new SaveRouteChangesCommand());
     }
 
     public Command getCommand(String command) {
