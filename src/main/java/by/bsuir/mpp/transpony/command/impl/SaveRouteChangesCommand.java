@@ -21,7 +21,7 @@ public class SaveRouteChangesCommand implements Command{
             Integer index = (Integer) request.getSession().getAttribute("user_id");
             User routeCreator;
             try {
-                routeCreator = UserService.getForIndex(index);
+                routeCreator = UserService.getById(index);
                 route.setOwner(routeCreator);
             } catch (ServiceException e) {
                 e.printStackTrace();

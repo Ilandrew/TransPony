@@ -1,7 +1,6 @@
 package by.bsuir.mpp.transpony.entity;
 
 public class DeliveryPoint {
-
     protected Integer id;
     protected String address;
 
@@ -22,11 +21,7 @@ public class DeliveryPoint {
     }
 
     public boolean equals(DeliveryPoint deliveryPoint) {
-        if(deliveryPoint.getAddress().equals(getAddress())||
-                deliveryPoint.getId().equals(getId())) {
-            return true;
-        }
-        return false;
+        return deliveryPoint.getAddress().equals(getAddress()) ||
+                deliveryPoint.getId().equals(getId());
     }
-
 }

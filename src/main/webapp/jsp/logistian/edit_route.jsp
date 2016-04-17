@@ -27,7 +27,7 @@ ${message}<br>
     </form>
     <br><br>
 
-    <form action="edit_route.do?func=add_total_length" method="post">
+    <form action="edit_route.do?func=change_total_length" method="post">
         <label for="length">Total route length</label>
         <input id="length" type="text" name="length_value" value="${route.getTotalLength()}"/>
         <button type="submit">Set total length</button>

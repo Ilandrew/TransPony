@@ -3,7 +3,6 @@ package by.bsuir.mpp.transpony.entity;
 import java.util.List;
 
 public class Receiver {
-
     protected Integer id;
     protected String name;
     protected String address;

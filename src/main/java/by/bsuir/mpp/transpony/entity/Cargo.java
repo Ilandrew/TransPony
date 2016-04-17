@@ -3,14 +3,13 @@ package by.bsuir.mpp.transpony.entity;
 import java.math.BigDecimal;
 
 public class Cargo {
-
     protected Integer id;
     protected String name;
     protected Integer weight;
     protected Integer volume;
     protected String cargoType;
     protected Provider provider;
-    protected BigDecimal prise;
+    protected BigDecimal price;
 
     public Integer getId() {
         return id;
@@ -60,11 +59,11 @@ public class Cargo {
         this.provider = provider;
     }
 
-    public BigDecimal getPrise() {
-        return prise;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setPrise(BigDecimal prise) {
-        this.prise = prise;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

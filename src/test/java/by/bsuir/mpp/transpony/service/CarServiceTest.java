@@ -34,7 +34,7 @@ public class CarServiceTest {
     @Test
     public void getForIndexTest() {
         try {
-            Car car = CarService.getForIndex(1);
+            Car car = CarService.getById(1);
             assertEquals(new Integer(1), car.getId());
         } catch (ServiceException e) {
             e.printStackTrace();

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowRoutesCommand implements Command{
+    private static final String ROUTES_ATTRIBUTE = "routes";
 
     @Override
     public String execute(HttpServletRequest request)
@@ -22,7 +23,7 @@ public class ShowRoutesCommand implements Command{
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        request.setAttribute("routes", routes);
+        request.setAttribute(ROUTES_ATTRIBUTE, routes);
         return PagePath.SHOW_ROUTES_PAGE.getPage();
     }
 }

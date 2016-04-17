@@ -35,17 +35,17 @@ public class RouteService {
         }
 
     }
-    public static Route getForIndex(Integer index) throws ServiceException {
+    public static Route getById(Integer id) throws ServiceException {
         try {
-            return dao.getForIndex(index);
+            return dao.getById(id);
         } catch (DaoException e) {
             throw new ServiceException("", e);
         }
     }
 
-    public static List<CheckPoint> getCheckPointForRoute(Integer index) throws ServiceException {
+    public static List<CheckPoint> getByRouteId(Integer routeId) throws ServiceException {
         try {
-            return dao.getCheckPointForRoute(index);
+            return dao.getByRouteId(routeId);
         } catch (DaoException e) {
             throw new ServiceException("", e);
         }
@@ -59,7 +59,7 @@ public class RouteService {
         }
     }
 
-    public static void setNameTo(Route route) {
+    public static void generateName(Route route) {
         String name = "";
         for (CheckPoint checkPoint: route.getPoints()) {
             name +=checkPoint.getName() + "-";

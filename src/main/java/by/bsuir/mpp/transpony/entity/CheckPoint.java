@@ -1,7 +1,6 @@
 package by.bsuir.mpp.transpony.entity;
 
 public class CheckPoint {
-
     protected Integer id;
     protected Float x;
     protected Float y;
@@ -47,5 +46,4 @@ public class CheckPoint {
     public void setPointType(String pointType) {
         this.pointType = pointType;
     }
-
 }

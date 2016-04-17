@@ -20,6 +20,96 @@ public class MySqlUserDao implements UserDao {
         return instance;
     }
 
+	private static final String SQL_GET_ALL = "SELECT ee.id_employee as id,\n" +
+			"        ee.first_name as first_name,\n" +
+			"        ee.second_name as second_name,\n" +
+			"        ee.middle_name as middle_name,\n" +
+			"        ee.initials as initials,\n" +
+			"        mp.id_user_position as id_position,\n" +
+			"        up.name as name_position,\n" +
+			"        mp.begin as begin_position,\n" +
+			"        mp.end as end_position,\n" +
+			"        us.id_empoyee_status as id_status,\n" +
+			"        us.name as name_status,\n" +
+			"        es.begin as begin_status,\n" +
+			"        es.end as end_status\n" +
+			"FROM\n" +
+			"        (SELECT max(ep.begin) bg, ep.id_employee FROM EMPLOYEE ee\n" +
+			"LEFT JOIN M2M_EMPLOYEE_POSITION ep ON ee.id_employee = ep.id_employee\n" +
+			"GROUP BY ep.id_employee) tm\n" +
+			"INNER JOIN M2M_EMPLOYEE_POSITION mp ON mp.id_employee = tm.id_employee AND tm.bg = mp.begin\n" +
+			"LEFT JOIN EMPLOYEE ee ON mp.id_employee = ee.id_employee\n" +
+			"LEFT JOIN USER_POSITION up ON mp.id_user_position = up.id_user_position\n" +
+			"INNER JOIN M2M_EMPLOYEE_STATUS es ON mp.id_employee = es.id_employee\n" +
+			"LEFT JOIN USER_STATUS us ON es.id_empoyee_status = us.id_empoyee_status;";
+	private static final String SQL_GET_FREE_DRIVERS = "SELECT ee.id_employee as id,\n" +
+			"        ee.first_name as first_name,\n" +
+			"        ee.second_name as second_name,\n" +
+			"        ee.middle_name as middle_name,\n" +
+			"        ee.initials as initials,\n" +
+			"        mp.id_user_position as id_position,\n" +
+			"        up.name as name_position,\n" +
+			"        mp.begin as begin_position,\n" +
+			"        mp.end as end_position,\n" +
+			"        us.id_empoyee_status as id_status,\n" +
+			"        us.name as name_status,\n" +
+			"        es.begin as begin_status,\n" +
+			"        es.end as end_status\n" +
+			"FROM\n" +
+			"(SELECT max(ep.begin) bg, ep.id_employee FROM EMPLOYEE ee\n" +
+			"        LEFT JOIN M2M_EMPLOYEE_POSITION ep ON ee.id_employee = ep.id_employee\n" +
+			"        GROUP BY ep.id_employee) tm\n" +
+			"INNER JOIN M2M_EMPLOYEE_POSITION mp ON mp.id_employee = tm.id_employee AND tm.bg = mp.begin\n" +
+			"LEFT JOIN EMPLOYEE ee ON mp.id_employee = ee.id_employee\n" +
+			"LEFT JOIN USER_POSITION up ON mp.id_user_position = up.id_user_position\n" +
+			"INNER JOIN M2M_EMPLOYEE_STATUS es ON mp.id_employee = es.id_employee\n" +
+			"LEFT JOIN USER_STATUS us ON es.id_empoyee_status = us.id_empoyee_status\n" +
+			"WHERE mp.id_user_position = 5 AND es.id_empoyee_status = 1 AND ee.id_employee NOT IN (\n" +
+			"                           SELECT tr.id_employee FROM TRIP tr WHERE tr.id_trip_status = 2\n" +
+			")";
+	private static final String SQL_GET_BY_ID = "SELECT ee.id_employee AS id,\n" +
+			"        ee.first_name AS first_name,\n" +
+			"        ee.second_name AS second_name,\n" +
+			"        ee.middle_name AS middle_name,\n" +
+			"        ee.initials AS initials,\n" +
+			"        mp.id_user_position AS id_position,\n" +
+			"        up.name AS name_position,\n" +
+			"        mp.begin AS begin_position,\n" +
+			"        mp.end AS end_position,\n" +
+			"        us.id_empoyee_status AS id_status,\n" +
+			"        us.name AS name_status,\n" +
+			"        es.begin AS begin_status,\n" +
+			"        es.end AS end_status\n" +
+			"FROM\n" +
+			"        (SELECT max(ep.begin) bg, ep.id_employee FROM EMPLOYEE ee\n" +
+			"                LEFT JOIN M2M_EMPLOYEE_POSITION ep ON ee.id_employee = ep.id_employee\n" +
+			"        GROUP BY ep.id_employee) tm\n" +
+			"        INNER JOIN M2M_EMPLOYEE_POSITION mp ON mp.id_employee = tm.id_employee AND tm.bg = mp.begin\n" +
+			"        LEFT JOIN EMPLOYEE ee ON mp.id_employee = ee.id_employee\n" +
+			"        LEFT JOIN USER_POSITION up ON mp.id_user_position = up.id_user_position\n" +
+			"        INNER JOIN M2M_EMPLOYEE_STATUS es ON mp.id_employee = es.id_employee\n" +
+			"        LEFT JOIN USER_STATUS us ON es.id_empoyee_status = us.id_empoyee_status\n" +
+			"WHERE ee.id_employee = ?";
+	private static final String SQL_FIRE = "UPDATE M2M_EMPLOYEE_STATUS SET\n" +
+			"        id_empoyee_status = 4,\n" +
+			"        end = ?\n" +
+			"WHERE begin = ?\n" +
+			"      AND id_employee = ?";
+	private static final String SQL_DELETE = "DELETE FROM EMPLOYEE WHERE id_employee = ?";
+	private static final String SQL_UPDATE = "UPDATE EMPLOYEE SET\n" +
+			"        first_name = ?,\n" +
+			"        second_name = ?,\n" +
+			"        middle_name = ?,\n" +
+			"        initials = ?\n" +
+			"WHERE id_employee = ?";
+	private static final String SQL_ADD = "INSERT INTO EMPLOYEE (first_name, second_name, middle_name, initials) VALUES (?, ?, ?, ?)";
+	private static final String SQL_GET_MAX_INDEX = "SELECT max(id_employee) as id\n" +
+			"FROM EMPLOYEE\n" +
+			"WHERE first_name = ?\n" +
+			"      AND second_name = ?\n" +
+			"      AND middle_name = ?\n" +
+			"      AND initials = ?";
+
     @Override
     public List<User> getAll() throws DaoException {
         Connection connection = null;
@@ -30,29 +120,7 @@ public class MySqlUserDao implements UserDao {
             connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
-            ResultSet result = statement.executeQuery("SELECT ee.id_employee as id,\n" +
-                    "        ee.first_name as first_name,\n" +
-                    "        ee.second_name as second_name,\n" +
-                    "        ee.middle_name as middle_name,\n" +
-                    "        ee.initials as initials,\n" +
-                    "        mp.id_user_position as id_position,\n" +
-                    "        up.name as name_position,\n" +
-                    "        mp.begin as begin_position,\n" +
-                    "        mp.end as end_position,\n" +
-                    "        us.id_empoyee_status as id_status,\n" +
-                    "        us.name as name_status,\n" +
-                    "        es.begin as begin_status,\n" +
-                    "        es.end as end_status\n" +
-                    "FROM\n" +
-                    "        (SELECT max(ep.begin) bg, ep.id_employee FROM EMPLOYEE ee\n" +
-                    "LEFT JOIN M2M_EMPLOYEE_POSITION ep ON ee.id_employee = ep.id_employee\n" +
-                    "GROUP BY ep.id_employee) tm\n" +
-                    "INNER JOIN M2M_EMPLOYEE_POSITION mp ON mp.id_employee = tm.id_employee AND tm.bg = mp.begin\n" +
-                    "LEFT JOIN EMPLOYEE ee ON mp.id_employee = ee.id_employee\n" +
-                    "LEFT JOIN USER_POSITION up ON mp.id_user_position = up.id_user_position\n" +
-                    "INNER JOIN M2M_EMPLOYEE_STATUS es ON mp.id_employee = es.id_employee\n" +
-                    "LEFT JOIN USER_STATUS us ON es.id_empoyee_status = us.id_empoyee_status;"
-            );
+            ResultSet result = statement.executeQuery(SQL_GET_ALL);
 
             while (result.next()) {
                 user = new User();
@@ -86,7 +154,7 @@ public class MySqlUserDao implements UserDao {
     }
 
     @Override
-    public List<User> getFreeDriver() throws DaoException {
+    public List<User> getFreeDrivers() throws DaoException {
         Connection connection = null;
         Statement statement = null;
         User user;
@@ -95,31 +163,7 @@ public class MySqlUserDao implements UserDao {
             connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
-            ResultSet result = statement.executeQuery("SELECT ee.id_employee as id,\n" +
-                    "        ee.first_name as first_name,\n" +
-                    "        ee.second_name as second_name,\n" +
-                    "        ee.middle_name as middle_name,\n" +
-                    "        ee.initials as initials,\n" +
-                    "        mp.id_user_position as id_position,\n" +
-                    "        up.name as name_position,\n" +
-                    "        mp.begin as begin_position,\n" +
-                    "        mp.end as end_position,\n" +
-                    "        us.id_empoyee_status as id_status,\n" +
-                    "        us.name as name_status,\n" +
-                    "        es.begin as begin_status,\n" +
-                    "        es.end as end_status\n" +
-                    "FROM\n" +
-                    "(SELECT max(ep.begin) bg, ep.id_employee FROM EMPLOYEE ee\n" +
-                    "        LEFT JOIN M2M_EMPLOYEE_POSITION ep ON ee.id_employee = ep.id_employee\n" +
-                    "        GROUP BY ep.id_employee) tm\n" +
-                    "INNER JOIN M2M_EMPLOYEE_POSITION mp ON mp.id_employee = tm.id_employee AND tm.bg = mp.begin\n" +
-                    "LEFT JOIN EMPLOYEE ee ON mp.id_employee = ee.id_employee\n" +
-                    "LEFT JOIN USER_POSITION up ON mp.id_user_position = up.id_user_position\n" +
-                    "INNER JOIN M2M_EMPLOYEE_STATUS es ON mp.id_employee = es.id_employee\n" +
-                    "LEFT JOIN USER_STATUS us ON es.id_empoyee_status = us.id_empoyee_status\n" +
-                    "WHERE mp.id_user_position = 5 AND es.id_empoyee_status = 1 AND ee.id_employee NOT IN (\n" +
-                    "                           SELECT tr.id_employee FROM TRIP tr WHERE tr.id_trip_status = 2\n" +
-                    ")");
+            ResultSet result = statement.executeQuery(SQL_GET_FREE_DRIVERS);
 
             while (result.next()) {
                 user = new User();
@@ -143,7 +187,7 @@ public class MySqlUserDao implements UserDao {
                 users.add(user);
             }
         } catch (SQLException|NamingException e) {
-            throw new DaoException("can't get free driver", e);
+            throw new DaoException("Can't get free drivers.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -153,35 +197,13 @@ public class MySqlUserDao implements UserDao {
     }
 
     @Override
-    public User getForIndex(Integer index) throws DaoException {
+    public User getById(Integer index) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;
         User user = new User();
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("SELECT ee.id_employee AS id,\n" +
-                    "        ee.first_name AS first_name,\n" +
-                    "        ee.second_name AS second_name,\n" +
-                    "        ee.middle_name AS middle_name,\n" +
-                    "        ee.initials AS initials,\n" +
-                    "        mp.id_user_position AS id_position,\n" +
-                    "        up.name AS name_position,\n" +
-                    "        mp.begin AS begin_position,\n" +
-                    "        mp.end AS end_position,\n" +
-                    "        us.id_empoyee_status AS id_status,\n" +
-                    "        us.name AS name_status,\n" +
-                    "        es.begin AS begin_status,\n" +
-                    "        es.end AS end_status\n" +
-                    "FROM\n" +
-                    "        (SELECT max(ep.begin) bg, ep.id_employee FROM EMPLOYEE ee\n" +
-                    "                LEFT JOIN M2M_EMPLOYEE_POSITION ep ON ee.id_employee = ep.id_employee\n" +
-                    "        GROUP BY ep.id_employee) tm\n" +
-                    "        INNER JOIN M2M_EMPLOYEE_POSITION mp ON mp.id_employee = tm.id_employee AND tm.bg = mp.begin\n" +
-                    "        LEFT JOIN EMPLOYEE ee ON mp.id_employee = ee.id_employee\n" +
-                    "        LEFT JOIN USER_POSITION up ON mp.id_user_position = up.id_user_position\n" +
-                    "        INNER JOIN M2M_EMPLOYEE_STATUS es ON mp.id_employee = es.id_employee\n" +
-                    "        LEFT JOIN USER_STATUS us ON es.id_empoyee_status = us.id_empoyee_status\n" +
-                    "WHERE ee.id_employee = ?");
+            statement = connection.prepareStatement(SQL_GET_BY_ID);
             statement.setInt(1, index);
 
             ResultSet result = statement.executeQuery();
@@ -206,7 +228,7 @@ public class MySqlUserDao implements UserDao {
                 user.setInitials(result.getString("initials"));
             }
         } catch (SQLException|NamingException e) {
-            throw new DaoException("can't get this user", e);
+            throw new DaoException("Can't get this user.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -221,11 +243,7 @@ public class MySqlUserDao implements UserDao {
         PreparedStatement statement = null;
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("UPDATE M2M_EMPLOYEE_STATUS SET\n" +
-                    "        id_empoyee_status = 4,\n" +
-                    "        end = ?\n" +
-                    "WHERE begin = ?\n" +
-                    "      AND id_employee = ?");
+            statement = connection.prepareStatement(SQL_FIRE);
             statement.setDate(1, new java.sql.Date(user.getUserPosition().getDateEnd().getTime()));
             statement.setDate(2, new java.sql.Date(user.getUserPosition().getDateBegin().getTime()));
             statement.setInt(3, user.getId());
@@ -233,7 +251,7 @@ public class MySqlUserDao implements UserDao {
             statement.executeUpdate();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
-            throw new DaoException("can't fire this user", e);
+            throw new DaoException("Can't fire this user.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -247,11 +265,11 @@ public class MySqlUserDao implements UserDao {
         PreparedStatement statement = null;
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("DELETE FROM EMPLOYEE WHERE id_employee = ?");
+            statement = connection.prepareStatement(SQL_DELETE);
             statement.setInt(1, user.getId());
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
-            throw new DaoException("Can't remove this user", e);
+            throw new DaoException("Can't remove this user.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -265,12 +283,7 @@ public class MySqlUserDao implements UserDao {
         PreparedStatement statement = null;
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("UPDATE EMPLOYEE SET\n" +
-                    "        first_name = ?,\n" +
-                    "        second_name = ?,\n" +
-                    "        middle_name = ?,\n" +
-                    "        initials = ?\n" +
-                    "WHERE id_employee = ?");
+            statement = connection.prepareStatement(SQL_UPDATE);
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getSecondName());
             statement.setString(3, user.getMiddleName());
@@ -280,7 +293,7 @@ public class MySqlUserDao implements UserDao {
 
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
-            throw new DaoException("Can't update this user", e);
+            throw new DaoException("Can't update this user.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -295,19 +308,14 @@ public class MySqlUserDao implements UserDao {
         Integer index = 0;
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("INSERT INTO EMPLOYEE (first_name, second_name, middle_name, initials) VALUES (?, ?, ?, ?)");
+            statement = connection.prepareStatement(SQL_ADD);
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getSecondName());
             statement.setString(3, user.getMiddleName());
             statement.setString(4, user.getInitials());
             statement.executeUpdate();
 
-            statement = connection.prepareStatement("SELECT max(id_employee) as id\n" +
-                    "FROM EMPLOYEE\n" +
-                    "WHERE first_name = ?\n" +
-                    "      AND second_name = ?\n" +
-                    "      AND middle_name = ?\n" +
-                    "      AND initials = ?");
+            statement = connection.prepareStatement(SQL_GET_MAX_INDEX);
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getSecondName());
             statement.setString(3, user.getMiddleName());

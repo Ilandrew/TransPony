@@ -12,21 +12,17 @@ import java.util.List;
 
 
 public class GetCarCommand implements Command {
+	private static final String COLLECTION_ATTRIBUTE = "collection";
+
     @Override
     public String execute(HttpServletRequest request) {
-
         List<Car> collection = new ArrayList<>();
-
         try {
-
             collection = CarService.getFreeCar();
-
-
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-
-        request.setAttribute("collection", collection);
+        request.setAttribute(COLLECTION_ATTRIBUTE, collection);
         return PagePath.SHOW_FREE_CARS_PAGE.getPage();
     }
 }

@@ -21,7 +21,7 @@ public class CarService {
 
     public static void addNewCar(Car car) throws ServiceException {
         try {
-            dao.addNewCar(car);
+            dao.add(car);
         } catch (DaoException e) {
             throw new ServiceException("can't add new car.", e);
         }
@@ -29,7 +29,7 @@ public class CarService {
 
     public static void deleteCar(Car car) throws ServiceException {
         try {
-            dao.deleteCar(car);
+            dao.delete(car);
         } catch (DaoException e) {
             throw new ServiceException("can't remove this car.", e);
         }
@@ -37,17 +37,17 @@ public class CarService {
 
     public static void updateCar(Car car) throws ServiceException {
         try {
-            dao.updateCar(car);
+            dao.update(car);
         } catch (DaoException e) {
             throw new ServiceException("can't update this car.", e);
         }
     }
 
-    public static Car getForIndex(Integer index) throws ServiceException {
+    public static Car getById(Integer id) throws ServiceException {
         try {
-            return dao.getForIndex(index);
+            return dao.getById(id);
         } catch (DaoException e) {
-            throw new ServiceException("can't get for index car.", e);
+            throw new ServiceException("can't get for id car.", e);
         }
     }
 }

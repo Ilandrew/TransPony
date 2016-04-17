@@ -40,9 +40,9 @@ public class WaybillService {
         }
     }
 
-    public static Waybill getForIndex(Integer index) throws ServiceException {
+    public static Waybill getById(Integer index) throws ServiceException {
         try {
-            return dao.getForIndex(index);
+            return dao.getById(index);
         } catch (DaoException e) {
             throw new ServiceException("", e);
         }

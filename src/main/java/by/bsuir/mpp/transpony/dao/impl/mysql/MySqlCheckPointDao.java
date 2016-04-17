@@ -11,14 +11,58 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlCheckPointDao implements CheckPointDao {
-
     private static final MySqlCheckPointDao instance = new MySqlCheckPointDao();
     private MySqlCheckPointDao() {}
     public static MySqlCheckPointDao getInstance() {
         return instance;
     }
 
-    @Override
+    private static final String SQL_GET_ALL = "SELECT cp.id_check_point as id_check_point,\n" +
+			"        cp.x as x,\n" +
+			"        cp.y as y,\n" +
+			"        cp.name as name,\n" +
+			"        ct.name as type\n" +
+			"FROM CHECK_POINT cp\n" +
+			"LEFT JOIN CHECK_POINT_TYPE ct ON cp.id_check_point_type = ct.id_check_point_type";
+	private static final String SQL_GET_BY_ROUTE_ID = "SELECT cp.id_check_point as id_check_point,\n" +
+			"        cp.x as x,\n" +
+			"        cp.y as y,\n" +
+			"        cp.name as name,\n" +
+			"        ct.name as type\n" +
+			"FROM CHECK_POINT cp\n" +
+			"LEFT JOIN CHECK_POINT_TYPE ct ON cp.id_check_point_type = ct.id_check_point_type\n" +
+			"LEFT JOIN M2M_CHECK_POINT_ROUTE cr ON cp.id_check_point = cr.id_check_point\n" +
+			"WHERE cr.id_route = ?\n" +
+			"ORDER BY cr.number";
+	private static final String SQL_DELETE_CHECKPOINTS = "DELETE FROM M2M_CHECK_POINT_ROUTE WHERE id_route = ?";
+	private static final String SQL_INSERT_CHECKPOINTS = "INSERT INTO M2M_CHECK_POINT_ROUTE (id_route, id_check_point, number) VALUES (?, ?, ?)";
+	private static final String SQL_ADD_CHECKPOINT = "INSERT INTO CHECK_POINT (x, y, name, id_check_point_type) VALUES (?, ?, ?, ?)";
+	private static final String SQL_GET_MAX_ID = "SELECT max(id_check_point) as id\n" +
+			"FROM CHECK_POINT\n" +
+			"WHERE name = ?\n" +
+			"      AND x = ?\n" +
+			"      AND y = ?\n" +
+			"      AND id_check_point_type = ?";
+	private static final String SQL_DELETE_CHECKPOINT = "DELETE FROM CHECK_POINT WHERE id_check_point = ?";
+	private static final String UPDATE_CHECKPOINT = "UPDATE CHECK_POINT SET\n" +
+			"        x = ?,\n" +
+			"        y = ?,\n" +
+			"        name = ?,\n" +
+			"        id_check_point = ?\n" +
+			"WHERE id_check_point = ?";
+	private static final String SQL_GET_BY_ID = "SELECT cp.id_check_point as id_check_point,\n" +
+			"        cp.x as x,\n" +
+			"        cp.y as y,\n" +
+			"        cp.name as name,\n" +
+			"        ct.name as type\n" +
+			"FROM CHECK_POINT cp\n" +
+			"LEFT JOIN CHECK_POINT_TYPE ct ON cp.id_check_point_type = ct.id_check_point_type\n" +
+			"WHERE cp.id_check_point = ?";
+	private static final String SQL_GET_ALL_TYPES = "SELECT name FROM CHECK_POINT_TYPE";
+	private static final String SQL_GET_TYPE_ID = "SELECT id_check_point_type FROM CHECK_POINT_TYPE WHERE name = ?";
+	private static final String SQL_ADD_TYPE = "INSERT INTO CHECK_POINT_TYPE (name) VALUES (?)";
+
+	@Override
     public List<CheckPoint> getAll() throws DaoException {
         Connection connection = null;
         Statement statement = null;
@@ -27,13 +71,7 @@ public class MySqlCheckPointDao implements CheckPointDao {
         try {
             connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
-            ResultSet result = statement.executeQuery("SELECT cp.id_check_point as id_check_point,\n" +
-                    "        cp.x as x,\n" +
-                    "        cp.y as y,\n" +
-                    "        cp.name as name,\n" +
-                    "        ct.name as type\n" +
-                    "FROM CHECK_POINT cp\n" +
-                    "LEFT JOIN CHECK_POINT_TYPE ct ON cp.id_check_point_type = ct.id_check_point_type");
+            ResultSet result = statement.executeQuery(SQL_GET_ALL);
 
             while (result.next()) {
                 checkPoint = new CheckPoint();
@@ -46,7 +84,7 @@ public class MySqlCheckPointDao implements CheckPointDao {
             }
         } catch (SQLException|NamingException e) {
             DatabaseUtils.rollback(connection);
-            throw new DaoException("can't get all check point", e);
+            throw new DaoException("Can't get all checkpoints.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -56,24 +94,15 @@ public class MySqlCheckPointDao implements CheckPointDao {
     }
 
     @Override
-    public List<CheckPoint> getForRoute(Integer routeID) throws DaoException {
+    public List<CheckPoint> getByRouteId(Integer routeId) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;
         CheckPoint checkPoint;
         List<CheckPoint> collection = new ArrayList<>();
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("SELECT cp.id_check_point as id_check_point,\n" +
-                    "        cp.x as x,\n" +
-                    "        cp.y as y,\n" +
-                    "        cp.name as name,\n" +
-                    "        ct.name as type\n" +
-                    "FROM CHECK_POINT cp\n" +
-                    "LEFT JOIN CHECK_POINT_TYPE ct ON cp.id_check_point_type = ct.id_check_point_type\n" +
-                    "LEFT JOIN M2M_CHECK_POINT_ROUTE cr ON cp.id_check_point = cr.id_check_point\n" +
-                    "WHERE cr.id_route = ?\n" +
-                    "ORDER BY cr.number");
-            statement.setInt(1, routeID);
+            statement = connection.prepareStatement(SQL_GET_BY_ROUTE_ID);
+            statement.setInt(1, routeId);
             ResultSet result = statement.executeQuery();
 
             while (result.next()) {
@@ -87,7 +116,7 @@ public class MySqlCheckPointDao implements CheckPointDao {
             }
         } catch (SQLException|NamingException e) {
             DatabaseUtils.rollback(connection);
-            throw new DaoException("can't get check point for route", e);
+            throw new DaoException("Can't get checkpoint for route.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -97,18 +126,18 @@ public class MySqlCheckPointDao implements CheckPointDao {
     }
 
     @Override
-    public void updateForRoute(List<CheckPoint> checkPoints, Integer idRoute) throws DaoException {
+    public void updateRouteCheckpoints(List<CheckPoint> checkPoints, Integer idRoute) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("DELETE FROM M2M_CHECK_POINT_ROUTE WHERE id_route = ?");
+            statement = connection.prepareStatement(SQL_DELETE_CHECKPOINTS);
             statement.setInt(1, idRoute);
             statement.executeUpdate();
 
             int i = 1;
             for (CheckPoint checkPoint: checkPoints) {
-                statement = connection.prepareStatement("INSERT INTO M2M_CHECK_POINT_ROUTE (id_route, id_check_point, number) VALUES (?, ?, ?)");
+                statement = connection.prepareStatement(SQL_INSERT_CHECKPOINTS);
                 statement.setInt(1, idRoute);
                 statement.setInt(2, checkPoint.getId());
                 statement.setInt(3, i);
@@ -117,7 +146,7 @@ public class MySqlCheckPointDao implements CheckPointDao {
             }
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
-            throw new DaoException("Can't update route", e);
+            throw new DaoException("Can't update route.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -127,29 +156,24 @@ public class MySqlCheckPointDao implements CheckPointDao {
     }
 
     @Override
-    public Integer addNew(CheckPoint checkPoint) throws DaoException {
+    public Integer add(CheckPoint checkPoint) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;
         Integer index = 0;
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("INSERT INTO CHECK_POINT (x, y, name, id_check_point_type) VALUES (?, ?, ?, ?)");
+            statement = connection.prepareStatement(SQL_ADD_CHECKPOINT);
             statement.setFloat(1, checkPoint.getX());
             statement.setFloat(2, checkPoint.getY());
             statement.setString(3, checkPoint.getName());
-            statement.setInt(4, getIndexType(checkPoint.getPointType()));
+            statement.setInt(4, getTypeId(checkPoint.getPointType()));
             statement.executeUpdate();
 
-            statement = connection.prepareStatement("SELECT max(id_check_point) as id\n" +
-                    "FROM CHECK_POINT\n" +
-                    "WHERE name = ?\n" +
-                    "      AND x = ?\n" +
-                    "      AND y = ?\n" +
-                    "      AND id_check_point_type = ?");
+            statement = connection.prepareStatement(SQL_GET_MAX_ID);
             statement.setString(1, checkPoint.getName());
             statement.setFloat(2, checkPoint.getX());
             statement.setFloat(3, checkPoint.getY());
-            statement.setInt(4, getIndexType(checkPoint.getPointType()));
+            statement.setInt(4, getTypeId(checkPoint.getPointType()));
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -171,12 +195,12 @@ public class MySqlCheckPointDao implements CheckPointDao {
         PreparedStatement statement = null;
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("DELETE FROM CHECK_POINT WHERE id_check_point = ?");
+            statement = connection.prepareStatement(SQL_DELETE_CHECKPOINT);
             statement.setInt(1, checkPoint.getId());
             statement.executeUpdate();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
-            throw new DaoException("Can't remove this check point", e);
+            throw new DaoException("Can't remove this checkpoint.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -189,21 +213,16 @@ public class MySqlCheckPointDao implements CheckPointDao {
         PreparedStatement statement = null;
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("UPDATE CHECK_POINT SET\n" +
-                    "        x = ?,\n" +
-                    "        y = ?,\n" +
-                    "        name = ?,\n" +
-                    "        id_check_point = ?\n" +
-                    "WHERE id_check_point = ?");
+            statement = connection.prepareStatement(UPDATE_CHECKPOINT);
             statement.setFloat(1, checkPoint.getX());
             statement.setFloat(2, checkPoint.getY());
             statement.setString(3, checkPoint.getName());
-            statement.setInt(4, getIndexType(checkPoint.getPointType()));
+            statement.setInt(4, getTypeId(checkPoint.getPointType()));
             statement.setInt(5, checkPoint.getId());
             statement.executeUpdate();
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
-            throw new DaoException("Can't update this check point", e);
+            throw new DaoException("Can't update this checkpoint.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -211,20 +230,13 @@ public class MySqlCheckPointDao implements CheckPointDao {
     }
 
     @Override
-    public CheckPoint getForIndex(Integer index) throws DaoException {
+    public CheckPoint getById(Integer index) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;
         CheckPoint checkPoint = new CheckPoint();
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("SELECT cp.id_check_point as id_check_point,\n" +
-                    "        cp.x as x,\n" +
-                    "        cp.y as y,\n" +
-                    "        cp.name as name,\n" +
-                    "        ct.name as type\n" +
-                    "FROM CHECK_POINT cp\n" +
-                    "LEFT JOIN CHECK_POINT_TYPE ct ON cp.id_check_point_type = ct.id_check_point_type\n" +
-                    "WHERE cp.id_check_point = ?");
+            statement = connection.prepareStatement(SQL_GET_BY_ID);
             statement.setInt(1, index);
             ResultSet result = statement.executeQuery();
 
@@ -237,7 +249,7 @@ public class MySqlCheckPointDao implements CheckPointDao {
             }
         } catch (SQLException|NamingException e) {
             DatabaseUtils.rollback(connection);
-            throw new DaoException("can't get all check point", e);
+            throw new DaoException("Can't get all checkpoint.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -247,7 +259,7 @@ public class MySqlCheckPointDao implements CheckPointDao {
     }
 
     @Override
-    public List<String> getAllType() throws DaoException {
+    public List<String> getAllTypes() throws DaoException {
         Connection connection = null;
         Statement statement = null;
         String name;
@@ -256,14 +268,14 @@ public class MySqlCheckPointDao implements CheckPointDao {
             connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
-            ResultSet result = statement.executeQuery("SELECT name FROM CHECK_POINT_TYPE");
+            ResultSet result = statement.executeQuery(SQL_GET_ALL_TYPES);
 
             while (result.next()) {
                 name = result.getString("name");
                 collection.add(name);
             }
         } catch (SQLException | NamingException e) {
-            throw new DaoException("can't get all check point type", e);
+            throw new DaoException("Can't get all checkpoint type.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -272,21 +284,21 @@ public class MySqlCheckPointDao implements CheckPointDao {
     }
 
 
-    private Integer getIndexType(String name) throws SQLException, NamingException {
+    private Integer getTypeId(String name) throws SQLException, NamingException {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("SELECT id_check_point_type FROM CHECK_POINT_TYPE WHERE name = ?");
+            statement = connection.prepareStatement(SQL_GET_TYPE_ID);
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("id_check_point_type");
             }
-            statement = connection.prepareStatement("INSERT INTO VENDOR_CAR (name) VALUES (?)");
+            statement = connection.prepareStatement(SQL_ADD_TYPE);
             statement.setString(1, name);
             statement.executeUpdate();
-            statement = connection.prepareStatement("SELECT id_check_point_type FROM CHECK_POINT_TYPE WHERE name = ?");
+            statement = connection.prepareStatement(SQL_GET_TYPE_ID);
             statement.setString(1, name);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {

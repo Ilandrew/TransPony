@@ -10,7 +10,6 @@ import java.util.List;
 public class CheckpointService {
     private static final CheckPointDao dao = DaoFactory.getDaoFactory().getCheckPointDao();
 
-
     public static List<CheckPoint> getAll() throws ServiceException {
         try {
             return dao.getAll();
@@ -18,24 +17,24 @@ public class CheckpointService {
             throw new ServiceException("can't get all check point.", e);
         }
     }
-    public static List<CheckPoint> getForRoute(Integer routeID) throws ServiceException {
+    public static List<CheckPoint> getByRouteId(Integer routeId) throws ServiceException {
         try {
-            return dao.getForRoute(routeID);
+            return dao.getByRouteId(routeId);
         } catch (DaoException e) {
             throw new ServiceException("can't get for route check point.", e);
         }
     }
-    public static void updateForRoute(List<CheckPoint> checkPoints, Integer idRoute) throws ServiceException {
+    public static void updateRouteCheckpoints(List<CheckPoint> checkPoints, Integer routeId) throws ServiceException {
         try {
-            dao.updateForRoute(checkPoints, idRoute);
+            dao.updateRouteCheckpoints(checkPoints, routeId);
         } catch (DaoException e) {
             throw new ServiceException("can't update for route.", e);
         }
 
     }
-    public static CheckPoint getForIndex(Integer index) throws ServiceException {
+    public static CheckPoint getById(Integer id) throws ServiceException {
         try {
-            return dao.getForIndex(index);
+            return dao.getById(id);
         } catch (DaoException e) {
             throw new ServiceException("can't get for index.", e);
         }
@@ -43,7 +42,7 @@ public class CheckpointService {
 
     public static CheckPoint addNew(CheckPoint checkPoint) throws ServiceException {
         try {
-            checkPoint.setId(dao.addNew(checkPoint));
+            checkPoint.setId(dao.add(checkPoint));
             return checkPoint;
         } catch (DaoException e) {
             throw new ServiceException("can't add new check point.", e);
@@ -67,9 +66,9 @@ public class CheckpointService {
 
     }
 
-    public List<String> getAllType() throws ServiceException {
+    public List<String> getAllTypes() throws ServiceException {
         try {
-            return dao.getAllType();
+            return dao.getAllTypes();
         } catch (DaoException e) {
             throw new ServiceException("can't get all type of check point.", e);
         }

@@ -3,7 +3,6 @@ package by.bsuir.mpp.transpony.entity;
 import java.util.Date;
 
 public class UserPosition {
-
     protected Integer id;
     protected String name;
     protected Date dateBegin;

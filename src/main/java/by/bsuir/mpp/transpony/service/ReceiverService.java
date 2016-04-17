@@ -45,18 +45,18 @@ public class ReceiverService {
 
     }
 
-    public static List<DeliveryPoint> getDeliveryPointForReceiver(Integer index) throws ServiceException {
+    public static List<DeliveryPoint> getByReceiverId(Integer receiverId) throws ServiceException {
         try {
-            return dao.getDeliveryPointForReceiver(index);
+            return dao.getByReceiverId(receiverId);
         } catch (DaoException e) {
             throw new ServiceException("", e);
         }
 
     }
 
-    public static Receiver getForIndex(Integer index) throws ServiceException {
+    public static Receiver getById(Integer id) throws ServiceException {
         try {
-            return dao.getForIndex(index);
+            return dao.getById(id);
         } catch (DaoException e) {
             throw new ServiceException("", e);
         }

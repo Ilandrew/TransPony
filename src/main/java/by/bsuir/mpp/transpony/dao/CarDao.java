@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface CarDao {
     List<Car> getFreeCars() throws DaoException;
-    void addNewCar(Car car) throws DaoException;
-    void deleteCar(Car car) throws DaoException;
-    void updateCar(Car car) throws DaoException;
-    Car getForIndex(Integer cadId) throws DaoException;
+    void add(Car car) throws DaoException;
+    void delete(Car car) throws DaoException;
+    void update(Car car) throws DaoException;
+    Car getById(Integer carId) throws DaoException;
 }

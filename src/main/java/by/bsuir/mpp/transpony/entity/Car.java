@@ -3,7 +3,6 @@ package by.bsuir.mpp.transpony.entity;
 import java.math.BigDecimal;
 
 public class Car {
-
     protected Integer id;
     protected String licensePlate;
     protected String vendor;
@@ -60,9 +59,6 @@ public class Car {
     }
 
     public boolean equals (Car car) {
-        if (car.getLicensePlate().equals(getLicensePlate())){
-            return true;
-        }
-        return false;
+        return car.getLicensePlate().equals(getLicensePlate());
     }
 }

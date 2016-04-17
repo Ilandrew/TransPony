@@ -24,7 +24,7 @@ ${message}<br>
     <button type="submit">Add checkpoint to route</button>
 </form>
 <br><br>
-<c:if test="${new_route != null}">
+<c:if test="${new_route != null && new_route.getPoints().size() != 0}">
     <form action="create_route.do?func=add_total_length" method="post">
         <label for="length">Total route length</label>
         <input id="length" type="text" name="length_value" value="${new_route.getTotalLength()}"/>

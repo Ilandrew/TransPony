@@ -42,17 +42,17 @@ public class CargoService {
         }
 
     }
-    public static Cargo getForIndex(Integer index) throws ServiceException {
+    public static Cargo getById(Integer id) throws ServiceException {
         try {
-            return dao.getForIndex(index);
+            return dao.getById(id);
         } catch (DaoException e) {
-            throw new ServiceException("can't get for index cargo.", e);
+            throw new ServiceException("can't get for id cargo.", e);
         }
 
     }
-    public static List<String> getAllType() throws ServiceException {
+    public static List<String> getAllTypes() throws ServiceException {
         try {
-            return dao.getAllType();
+            return dao.getAllTypes();
         } catch (DaoException e) {
             throw new ServiceException("can't get all type cargo.", e);
         }

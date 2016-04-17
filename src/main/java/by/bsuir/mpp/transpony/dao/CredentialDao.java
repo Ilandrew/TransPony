@@ -1,7 +1,5 @@
 package by.bsuir.mpp.transpony.dao;
 
 public interface CredentialDao {
-
-    Integer getForCredential(String login, String pass) throws DaoException;
-
+    Integer getId(String login, String pass) throws DaoException;
 }

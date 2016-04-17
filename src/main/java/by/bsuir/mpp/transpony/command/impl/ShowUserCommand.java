@@ -12,6 +12,8 @@ import java.util.List;
 
 
 public class ShowUserCommand implements Command {
+    private static final String COLLECTION_ATTRIBUTE = "collection";
+
     @Override
     public String execute(HttpServletRequest request) {
         List<User> collection = new ArrayList<>();
@@ -20,7 +22,7 @@ public class ShowUserCommand implements Command {
         }catch (ServiceException e){
             e.printStackTrace();
         }
-        request.setAttribute("collection", collection);
+        request.setAttribute(COLLECTION_ATTRIBUTE, collection);
         return PagePath.SHOW_USERS_PAGE.getPage();
     }
 }

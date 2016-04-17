@@ -10,16 +10,16 @@ import java.util.List;
 public class DeliveryPointService {
     private static final DeliveryPointDao dao = DaoFactory.getDaoFactory().getDeliveryPointDao();
 
-    public static DeliveryPoint getForIndex(Integer index) throws ServiceException {
+    public static DeliveryPoint getById(Integer id) throws ServiceException {
         try {
-           return dao.getForIndex(index);
+           return dao.getById(id);
         } catch (DaoException e) {
             throw new ServiceException("can't get for index delivery point.", e);
         }
     }
-    public static List<DeliveryPoint> getAllForReceiver(Integer index) throws ServiceException {
+    public static List<DeliveryPoint> getByReceiverId(Integer receiverId) throws ServiceException {
         try {
-            return dao.getAllForReceiver(index);
+            return dao.getByReceiverId(receiverId);
         } catch (DaoException e) {
             throw new ServiceException("can't get all for index receiver.", e);
         }

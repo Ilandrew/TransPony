@@ -19,6 +19,16 @@ public class MySqlRouteDao implements RouteDao {
         return instance;
     }
 
+    private static final String SQL_GET_ALL = "SELECT id_route, id_employee, total_length FROM ROUTE";
+	private static final String SQL_UPDATE = "UPDATE ROUTE SET\n" +
+			"        total_length = ?,\n" +
+			"        id_employee = ?\n" +
+			"WHERE id_route = ?";
+	private static final String SQL_ADD = "INSERT INTO ROUTE (total_length, id_employee) VALUES (?, ?)";
+	private static final String SQL_DELETE = "DELETE FROM ROUTE WHERE id_route = ?";
+	private static final String SQL_GET_BY_ID = "SELECT id_route, id_employee, total_length FROM ROUTE WHERE  id_route = ?";
+	private static final String SQL_GET_MAX_ID = "SELECT max(id_route) as value FROM ROUTE";
+
     @Override
     public List<Route> getAll() throws DaoException {
         Connection connection = null;
@@ -29,18 +39,18 @@ public class MySqlRouteDao implements RouteDao {
             connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
 
-            ResultSet result = statement.executeQuery("SELECT id_route, id_employee, total_length FROM ROUTE");
+            ResultSet result = statement.executeQuery(SQL_GET_ALL);
 
             while (result.next()) {
                 route = new Route();
                 route.setId(result.getInt("id_route"));
-                route.setOwner(MySqlUserDao.getInstance().getForIndex(result.getInt("id_employee")));
+                route.setOwner(MySqlUserDao.getInstance().getById(result.getInt("id_employee")));
                 route.setTotalLength(result.getBigDecimal("total_length"));
-                route.setPoints(MySqlCheckPointDao.getInstance().getForRoute(route.getId()));
+                route.setPoints(MySqlCheckPointDao.getInstance().getByRouteId(route.getId()));
                 collection.add(route);
             }
         } catch (SQLException | NamingException e) {
-            throw new DaoException("can't get all route", e);
+            throw new DaoException("Can't get all routes.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -54,18 +64,15 @@ public class MySqlRouteDao implements RouteDao {
         PreparedStatement statement = null;
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("UPDATE ROUTE SET\n" +
-                    "        total_length = ?,\n" +
-                    "        id_employee = ?\n" +
-                    "WHERE id_route = ?");
+            statement = connection.prepareStatement(SQL_UPDATE);
             statement.setBigDecimal(1, route.getTotalLength());
             statement.setInt(2, route.getOwner().getId());
             statement.setInt(3, route.getId());
             statement.executeUpdate();
-            MySqlCheckPointDao.getInstance().updateForRoute(route.getPoints(), route.getId());
+            MySqlCheckPointDao.getInstance().updateRouteCheckpoints(route.getPoints(), route.getId());
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
-            throw new DaoException("Can't update this route", e);
+            throw new DaoException("Can't update this route.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -78,15 +85,15 @@ public class MySqlRouteDao implements RouteDao {
         PreparedStatement statement = null;
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("INSERT INTO ROUTE (total_length, id_employee) VALUES (?, ?)");
+            statement = connection.prepareStatement(SQL_ADD);
             statement.setBigDecimal(1, route.getTotalLength());
             statement.setInt(2, route.getOwner().getId());
             statement.executeUpdate();
-            route.setId(getMaxIndex());
-            MySqlCheckPointDao.getInstance().updateForRoute(route.getPoints(), route.getId());
+            route.setId(getMaxId());
+            MySqlCheckPointDao.getInstance().updateRouteCheckpoints(route.getPoints(), route.getId());
         } catch (NamingException|SQLException e) {
             DatabaseUtils.rollback(connection);
-            throw new DaoException("can't add this route", e);
+            throw new DaoException("Can't add this route.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -99,12 +106,12 @@ public class MySqlRouteDao implements RouteDao {
         PreparedStatement statement = null;
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("DELETE FROM ROUTE WHERE id_route = ?");
+            statement = connection.prepareStatement(SQL_DELETE);
             statement.setInt(1, route.getId());
             statement.executeUpdate();
         } catch (NamingException |SQLException e) {
             DatabaseUtils.rollback(connection);
-            throw new DaoException("Can't remove this route", e);
+            throw new DaoException("Can't remove this route.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -113,25 +120,25 @@ public class MySqlRouteDao implements RouteDao {
     }
 
     @Override
-    public Route getForIndex(Integer index) throws DaoException {
+    public Route getById(Integer id) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;
         Route route = new Route();
         try {
             connection = DatabaseUtils.getInstance().getConnection();
-            statement = connection.prepareStatement("SELECT id_route, id_employee, total_length FROM ROUTE WHERE  id_route = ?");
-            statement.setInt(1, index);
+            statement = connection.prepareStatement(SQL_GET_BY_ID);
+            statement.setInt(1, id);
 
             ResultSet result = statement.executeQuery();
 
             if (result.next()) {
                 route.setId(result.getInt("id_route"));
-                route.setOwner(MySqlUserDao.getInstance().getForIndex(result.getInt("id_employee")));
+                route.setOwner(MySqlUserDao.getInstance().getById(result.getInt("id_employee")));
                 route.setTotalLength(result.getBigDecimal("total_length"));
-                route.setPoints(MySqlCheckPointDao.getInstance().getForRoute(route.getId()));
+                route.setPoints(MySqlCheckPointDao.getInstance().getByRouteId(route.getId()));
             }
         } catch (SQLException | NamingException e) {
-            throw new DaoException("can't get all route", e);
+            throw new DaoException("Can't get all route.", e);
         } finally {
             DatabaseUtils.closeStatement(statement);
             DatabaseUtils.closeConnection(connection);
@@ -140,29 +147,28 @@ public class MySqlRouteDao implements RouteDao {
     }
 
     @Override
-    public List<CheckPoint> getCheckPointForRoute(Integer index) throws DaoException {
-        return MySqlCheckPointDao.getInstance().getForRoute(index);
+    public List<CheckPoint> getByRouteId(Integer id) throws DaoException {
+        return MySqlCheckPointDao.getInstance().getByRouteId(id);
     }
 
-     private Integer getMaxIndex() throws DaoException {
-         Connection connection = null;
-         Statement statement = null;
-         Integer value = null;
-         try {
-             connection = DatabaseUtils.getInstance().getConnection();
-             statement = connection.createStatement();
+	private Integer getMaxId() throws DaoException {
+       	Connection connection = null;
+        Statement statement = null;
+        Integer value = null;
+        try {
+            connection = DatabaseUtils.getInstance().getConnection();
+            statement = connection.createStatement();
 
-             ResultSet result = statement.executeQuery("SELECT max(id_route) as value FROM ROUTE");
-
-             if (result.next()) {
-                value = result.getInt("value");
-             }
-         } catch (SQLException | NamingException e) {
-             throw new DaoException("can't get all route", e);
-         } finally {
-             DatabaseUtils.closeStatement(statement);
-             DatabaseUtils.closeConnection(connection);
-         }
-         return value;
-     }
+            ResultSet result = statement.executeQuery(SQL_GET_MAX_ID);
+            if (result.next()) {
+               value = result.getInt("value");
+            }
+        } catch (SQLException | NamingException e) {
+            throw new DaoException("Can't get all route.", e);
+        } finally {
+            DatabaseUtils.closeStatement(statement);
+            DatabaseUtils.closeConnection(connection);
+        }
+        return value;
+    }
 }

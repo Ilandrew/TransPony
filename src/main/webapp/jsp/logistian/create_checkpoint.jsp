@@ -16,7 +16,7 @@ ${message}<br>
 <form action="save_checkpoint.do" method="post">
     <label for="types_list">Checkpoint types</label>
     <select id="types_list" name="types_list">
-        <c:forEach var="type" items="${type}">
+        <c:forEach var="type" items="${types}">
             <option value="${type}">${type}</option>
         </c:forEach>
     </select><br>

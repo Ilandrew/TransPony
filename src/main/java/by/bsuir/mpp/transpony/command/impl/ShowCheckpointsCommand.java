@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowCheckpointsCommand implements Command {
+    private static final String COLLECTION_ATTRIBUTE = "collection";
+
     @Override
     public String execute(HttpServletRequest request) {
         List<CheckPoint> collection = new ArrayList<>();
@@ -19,7 +21,7 @@ public class ShowCheckpointsCommand implements Command {
         } catch (ServiceException e) {
             e.printStackTrace();
         }
-        request.setAttribute("collection", collection);
+        request.setAttribute(COLLECTION_ATTRIBUTE, collection);
         return PagePath.SHOW_CHECKPOINTS_PAGE.getPage();
     }
 }

@@ -1,7 +1,5 @@
 package by.bsuir.mpp.transpony.service;
 
-import by.bsuir.mpp.transpony.entity.Car;
-import by.bsuir.mpp.transpony.entity.DeliveryPoint;
 import by.bsuir.mpp.transpony.entity.Provider;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 import by.bsuir.mpp.transpony.util.DatabaseUtilsTest;
@@ -25,7 +23,7 @@ public class ProviderServiceTest {
     @Test
     public void getForIndexTest() {
         try {
-            Provider provider = ProviderService.getForIndex(1);
+            Provider provider = ProviderService.getById(1);
             assertEquals(new Integer(1), provider.getId());
         } catch (ServiceException e) {
             e.printStackTrace();

@@ -11,18 +11,22 @@ import by.bsuir.mpp.transpony.util.PagePath;
 import javax.servlet.http.HttpServletRequest;
 
 public class SaveRouteCommand implements Command {
+	private static final String NEW_ROUTE_ATTRIBUTE = "new_route";
+	private static final String MESSAGE_ATTRIBUTE = "message";
+	private static final String LENGTH_NOT_SET_MESSAGE = "Total length is not set.";
+
     @Override
     public String execute(HttpServletRequest request)
     {
-        Route route = (Route) request.getSession().getAttribute("new_route");
+        Route route = (Route) request.getSession().getAttribute(NEW_ROUTE_ATTRIBUTE);
         if (route.getTotalLength() == null) {
-            request.setAttribute("message", "Total length is not set.");
+            request.setAttribute(MESSAGE_ATTRIBUTE, LENGTH_NOT_SET_MESSAGE);
             return new CreateRouteCommand().execute(request);
         } else {
-            Integer index = (Integer) request.getSession().getAttribute("user_id");
+            Integer index = (Integer) request.getSession().getAttribute(USER_ID_ATTRIBUTE);
             User routeCreator;
             try {
-                routeCreator = UserService.getForIndex(index);
+                routeCreator = UserService.getById(index);
                 route.setOwner(routeCreator);
             } catch (ServiceException e) {
                 e.printStackTrace();
@@ -33,7 +37,7 @@ public class SaveRouteCommand implements Command {
             } catch (ServiceException e) {
                 e.printStackTrace();
             }
-            request.getSession().setAttribute("new_route", null);
+            request.getSession().setAttribute(NEW_ROUTE_ATTRIBUTE, null);
             return PagePath.HOME_LOGISTIAN.getPage();
         }
     }

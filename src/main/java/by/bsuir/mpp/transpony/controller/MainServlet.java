@@ -13,30 +13,27 @@ import java.io.IOException;
 
 @WebServlet(name = "controller", urlPatterns = "*.do")
 public class MainServlet extends HttpServlet {
-
     private CommandHelper helper = new CommandHelper();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        dispatch(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        dispatch(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        dispatch(req, resp);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        dispatch(request, response);
     }
 
-    private void dispatch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
+    private void dispatch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
 
-        String request = HttpUtils.extractCommandFromQuery(req.getRequestURI(), ".do");
-        Command command = helper.getCommand(request);
+        String commandName = HttpUtils.extractCommandFromQuery(request.getRequestURI(), ".do");
+        Command command = helper.getCommand(commandName);
         if (command != null) {
-             req.getRequestDispatcher(command.execute(req)).forward(req, resp);
-        } else {
-            //req.getRequestDispatcher("WEB-INF/error.html").forward(req, resp);
+            request.getRequestDispatcher(command.execute(request)).forward(request, response);
         }
     }
 }

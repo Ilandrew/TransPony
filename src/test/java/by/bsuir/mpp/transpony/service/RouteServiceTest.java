@@ -30,7 +30,7 @@ public class RouteServiceTest  {
         collection.add(cp1);
         Route route = new Route();
         route.setPoints(collection);
-        RouteService.setNameTo(route);
+        RouteService.generateName(route);
         assertEquals(route.getName(), "test1-test2");
     }
 
@@ -39,7 +39,7 @@ public class RouteServiceTest  {
         List<CheckPoint> collection = new ArrayList<>();
         Route route = new Route();
         route.setPoints(collection);
-        RouteService.setNameTo(route);
+        RouteService.generateName(route);
         assertEquals(route.getName(), "");
     }
 

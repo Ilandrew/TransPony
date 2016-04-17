@@ -4,10 +4,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Trip {
-
     protected Integer id;
     protected String tripStatus;
-    protected Date starDate;
+    protected Date startDate;
     protected Date expectedFinishDate;
     protected Date realFinishDate;
     protected BigDecimal realFuelConsumption;
@@ -35,12 +34,12 @@ public class Trip {
         this.tripStatus = tripStatus;
     }
 
-    public Date getStarDate() {
-        return starDate;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStarDate(Date starDate) {
-        this.starDate = starDate;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public Date getExpectedFinishDate() {

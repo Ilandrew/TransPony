@@ -19,9 +19,9 @@ public class TripService {
         }
     }
 
-     public static List<Trip> getForDriver(Integer driverId) throws ServiceException {
+     public static List<Trip> getByDriverId(Integer driverId) throws ServiceException {
          try {
-             return dao.getForDriver(driverId);
+             return dao.getByDriverId(driverId);
          } catch (DaoException e) {
              throw new ServiceException("", e);
          }
@@ -35,16 +35,16 @@ public class TripService {
         }
     }
 
-    public static Trip getForIndex(Integer index) throws ServiceException {
+    public static Trip getById(Integer index) throws ServiceException {
         try {
-            return dao.getForIndex(index);
+            return dao.getById(index);
         } catch (DaoException e) {
             throw new ServiceException("", e);
         }
     }
-    public static void changeStatus(Trip trip, String statusName) throws ServiceException {
+    public static void updateStatus(Trip trip, String statusName) throws ServiceException {
         try {
-            dao.changeStatus(trip, statusName);
+            dao.updateStatus(trip, statusName);
         } catch (DaoException e) {
             throw new ServiceException("", e);
         }
@@ -72,9 +72,9 @@ public class TripService {
         }
     }
 
-    public static List<String> getAllStatus() throws ServiceException {
+    public static List<String> getAllTripsStatuses() throws ServiceException {
         try {
-            return dao.getAllStatus();
+            return dao.getAllTripsStatuses();
         } catch (DaoException e) {
             throw new ServiceException("", e);
         }

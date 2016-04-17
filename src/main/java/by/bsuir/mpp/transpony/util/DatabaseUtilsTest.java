@@ -15,7 +15,6 @@ public class DatabaseUtilsTest extends DatabaseUtils {
         }
     }
 
-
     @Override
     public Connection getConnection() {
         try {

@@ -3,18 +3,17 @@ package by.bsuir.mpp.transpony.entity;
 import java.util.Date;
 
 public class UserStatus {
-
     protected Integer id;
     protected String name;
     protected Date dateBegin;
-    protected Date dataEnd;
+    protected Date dateEnd;
 
-    public Date getDataEnd() {
-        return dataEnd;
+    public Date getDateEnd() {
+        return dateEnd;
     }
 
-    public void setDateEnd(Date dataEnd) {
-        this.dataEnd = dataEnd;
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
     }
 
     public Integer getId() {

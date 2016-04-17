@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class Route {
-
     protected Integer id;
     protected BigDecimal totalLength;
     protected Integer count;
     protected User owner;
     protected List<CheckPoint> points;
+    protected String name;
 
     public String getName() {
         return name;
@@ -18,8 +18,6 @@ public class Route {
     public void setName(String name) {
         this.name = name;
     }
-
-    protected String name;
 
     public User getOwner() {
         return owner;
@@ -62,10 +60,6 @@ public class Route {
     }
 
     public boolean equals(Route route) {
-        if (this.getId() == route.getId()) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.getId() == route.getId();
     }
 }

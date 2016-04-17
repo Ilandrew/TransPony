@@ -17,16 +17,16 @@ public class UserService {
             throw new ServiceException("", e);
         }
     }
-    public static List<User> getFreeDriver() throws ServiceException {
+    public static List<User> getFreeDrivers() throws ServiceException {
         try {
-            return dao.getFreeDriver();
+            return dao.getFreeDrivers();
         } catch (DaoException e) {
             throw new ServiceException("", e);
         }
     }
-    public static User getForIndex(Integer index) throws ServiceException {
+    public static User getById(Integer id) throws ServiceException {
         try {
-            return dao.getForIndex(index);
+            return dao.getById(id);
         } catch (DaoException e) {
             throw new ServiceException("", e);
         }

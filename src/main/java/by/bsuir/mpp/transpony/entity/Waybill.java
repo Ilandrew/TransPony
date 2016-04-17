@@ -3,7 +3,6 @@ package by.bsuir.mpp.transpony.entity;
 import java.math.BigDecimal;
 
 public class Waybill {
-
     protected Integer id;
     protected Cargo cargo;
     protected BigDecimal profit;

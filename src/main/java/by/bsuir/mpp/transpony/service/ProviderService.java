@@ -11,11 +11,11 @@ public class ProviderService {
 
     private static final ProviderDao dao = DaoFactory.getDaoFactory().getProviderDao();
 
-    public static Provider getForIndex(Integer index) throws ServiceException {
+    public static Provider getById(Integer id) throws ServiceException {
             try {
-                return dao.getForIndex(index);
+                return dao.getById(id);
             } catch (DaoException e) {
-                throw new ServiceException("can't get for index provider.", e);
+                throw new ServiceException("can't get for id provider.", e);
             }
         }
     public static List<Provider> getAll() throws ServiceException {

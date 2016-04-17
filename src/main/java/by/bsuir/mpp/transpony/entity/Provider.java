@@ -1,7 +1,6 @@
 package by.bsuir.mpp.transpony.entity;
 
 public class Provider {
-
     protected Integer id;
     protected String name;
     protected String phone;
@@ -49,12 +48,9 @@ public class Provider {
     }
 
     public boolean equals(Provider provider) {
-        if (provider.getAddress().equals(getAddress())
+        return provider.getAddress().equals(getAddress())
                 && provider.getEmail().equals(getEmail())
                 && provider.getName().equals(getName())
-                && provider.getPhone().equals(getPhone())) {
-            return true;
-        }
-        return false;
+                && provider.getPhone().equals(getPhone());
     }
 }

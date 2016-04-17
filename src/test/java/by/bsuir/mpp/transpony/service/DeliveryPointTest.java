@@ -21,7 +21,7 @@ public class DeliveryPointTest {
     @Test
     public void getForIndexTest() {
         try {
-            DeliveryPoint deliveryPoint = DeliveryPointService.getForIndex(1);
+            DeliveryPoint deliveryPoint = DeliveryPointService.getById(1);
             assertEquals(new Integer(1), deliveryPoint.getId());
         } catch (ServiceException e) {
             e.printStackTrace();
@@ -130,7 +130,7 @@ public class DeliveryPointTest {
     @Test
     public void getAllForReceiver() {
         try {
-            List<DeliveryPoint> points = DeliveryPointService.getAllForReceiver(1);
+            List<DeliveryPoint> points = DeliveryPointService.getByReceiverId(1);
             assertTrue(points.size() == 0);
         } catch (ServiceException e) {
             e.printStackTrace();

@@ -9,7 +9,6 @@ public class User {
     protected UserPosition userPosition;
     protected UserStatus userStatus;
 
-
     public UserPosition getUserPosition() {
         return userPosition;
     }
