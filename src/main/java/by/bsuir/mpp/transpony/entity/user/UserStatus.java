@@ -1,12 +1,20 @@
-package by.bsuir.mpp.transpony.entity;
+package by.bsuir.mpp.transpony.entity.user;
 
 import java.util.Date;
 
-public class UserPosition {
+public class UserStatus {
     protected Integer id;
     protected String name;
     protected Date dateBegin;
     protected Date dateEnd;
+
+    public Date getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
+    }
 
     public Integer getId() {
         return id;
@@ -32,11 +40,6 @@ public class UserPosition {
         this.dateBegin = dateBegin;
     }
 
-    public Date getDateEnd() {
-        return dateEnd;
-    }
 
-    public void setDateEnd(Date dateEnd) {
-        this.dateEnd = dateEnd;
-    }
+
 }

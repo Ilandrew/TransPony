@@ -3,7 +3,7 @@ package by.bsuir.mpp.transpony.service;
 import by.bsuir.mpp.transpony.dao.CredentialDao;
 import by.bsuir.mpp.transpony.dao.DaoException;
 import by.bsuir.mpp.transpony.dao.factory.DaoFactory;
-import by.bsuir.mpp.transpony.entity.User;
+import by.bsuir.mpp.transpony.entity.user.User;
 
 public class CredentialService  {
     private static final CredentialDao dao = DaoFactory.getDaoFactory().getCredentialDao();

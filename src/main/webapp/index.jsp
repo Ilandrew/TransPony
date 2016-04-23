@@ -1,7 +1,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
-  User: Andrew
+  user: Andrew
   Date: 02.02.16
   Time: 20:10
   To change this template use File | Settings | File Templates.

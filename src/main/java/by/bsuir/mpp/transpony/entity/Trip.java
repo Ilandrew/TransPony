@@ -1,5 +1,7 @@
 package by.bsuir.mpp.transpony.entity;
 
+import by.bsuir.mpp.transpony.entity.user.User;
+
 import java.math.BigDecimal;
 import java.util.Date;
 

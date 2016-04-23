@@ -2,9 +2,9 @@ package by.bsuir.mpp.transpony.dao.impl.mysql;
 
 import by.bsuir.mpp.transpony.dao.DaoException;
 import by.bsuir.mpp.transpony.dao.UserDao;
-import by.bsuir.mpp.transpony.entity.User;
-import by.bsuir.mpp.transpony.entity.UserPosition;
-import by.bsuir.mpp.transpony.entity.UserStatus;
+import by.bsuir.mpp.transpony.entity.user.User;
+import by.bsuir.mpp.transpony.entity.user.UserPosition;
+import by.bsuir.mpp.transpony.entity.user.UserStatus;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 
 import javax.naming.NamingException;

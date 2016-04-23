@@ -3,7 +3,7 @@ package by.bsuir.mpp.transpony.service;
 import by.bsuir.mpp.transpony.dao.DaoException;
 import by.bsuir.mpp.transpony.dao.UserDao;
 import by.bsuir.mpp.transpony.dao.factory.DaoFactory;
-import by.bsuir.mpp.transpony.entity.User;
+import by.bsuir.mpp.transpony.entity.user.User;
 
 import java.util.List;
 

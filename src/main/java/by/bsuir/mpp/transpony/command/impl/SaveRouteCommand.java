@@ -2,7 +2,7 @@ package by.bsuir.mpp.transpony.command.impl;
 
 import by.bsuir.mpp.transpony.command.Command;
 import by.bsuir.mpp.transpony.entity.Route;
-import by.bsuir.mpp.transpony.entity.User;
+import by.bsuir.mpp.transpony.entity.user.User;
 import by.bsuir.mpp.transpony.service.RouteService;
 import by.bsuir.mpp.transpony.service.ServiceException;
 import by.bsuir.mpp.transpony.service.UserService;

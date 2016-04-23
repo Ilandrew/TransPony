@@ -2,9 +2,7 @@ package by.bsuir.mpp.transpony.command.impl;
 
 import by.bsuir.mpp.transpony.command.Command;
 import by.bsuir.mpp.transpony.command.RoleHelper;
-import by.bsuir.mpp.transpony.service.CredentialService;
-import by.bsuir.mpp.transpony.service.ServiceException;
-import by.bsuir.mpp.transpony.service.UserService;
+import by.bsuir.mpp.transpony.service.*;
 import by.bsuir.mpp.transpony.util.PagePath;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +16,7 @@ public class LoginCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        int userId = 0;
+		int userId = 0;
         String login = request.getParameter(LOGIN_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);
         try {

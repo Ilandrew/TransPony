@@ -1,4 +1,4 @@
-package by.bsuir.mpp.transpony.entity;
+package by.bsuir.mpp.transpony.entity.user;
 
 public class UserCredentials {
 
