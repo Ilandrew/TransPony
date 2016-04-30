@@ -36,6 +36,7 @@ public class DocumentService {
     private static CellStyle headerStyle;
     private static CellStyle bottomStyle;
     private static CellStyle whiteStyle;
+    private static CellStyle dateStyle;
 
     private static void createCellStyle(Workbook book) {
         defaultStyle = book.createCellStyle();
@@ -88,6 +89,17 @@ public class DocumentService {
         whiteStyle.setBorderTop(CellStyle.BORDER_THIN);
         whiteStyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
         whiteStyle.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+
+        dateStyle = book.createCellStyle();
+        DataFormat format = book.createDataFormat();
+        dateStyle.setDataFormat(format.getFormat("dd.MM.yyyy"));
+        dateStyle.setBorderBottom(CellStyle.BORDER_THIN);
+        dateStyle.setBorderLeft(CellStyle.BORDER_THIN);
+        dateStyle.setBorderTop(CellStyle.BORDER_THIN);
+        dateStyle.setBorderRight(CellStyle.BORDER_THIN);
+        dateStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        dateStyle.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+
     }
 
     private static String saveGeneratedDocument(DocumentType type, DocumentFormat format) {
@@ -101,7 +113,6 @@ public class DocumentService {
         }
         return null;
     }
-
 
     public static String getDocumentFuelConsumption(DocumentFormat format) {
         createDocumentFuelConsumption();
@@ -189,6 +200,8 @@ public class DocumentService {
             footer.add(totalExpectedFuelConsumption);
             footer.add(totalRealFuelConsumption);
             footer.add(totalExpectedFuelConsumption - totalRealFuelConsumption);
+            footer.add("");
+            footer.add("");
 
             for (int i = 0; i < footer.size(); i++) {
                 cell = row.createCell(i);
@@ -289,6 +302,8 @@ public class DocumentService {
             footer.add(totalExpenses);
             footer.add(totalCargoPrice);
             footer.add(totalCargoPrice - totalDriverProfit - totalExpenses);
+            footer.add("");
+            footer.add("");
             row = sheet.createRow(rowNumber);
             for (int i = 0; i < footer.size(); i++) {
                 cell = row.createCell(i);
@@ -441,27 +456,34 @@ public class DocumentService {
         try {
             List<Trip> trips = TripService.getAll();
             book = new XSSFWorkbook();
+            createCellStyle(book);
             Sheet sheet = book.createSheet("Статус грузоперевозок");
             Row row;
             Cell cell;
-            DataFormat format = book.createDataFormat();
-            CellStyle dateStyle = book.createCellStyle();
-            dateStyle.setDataFormat(format.getFormat("dd.MM.yyyy"));
 
             String[] names = {"id", "Статус", "Дата выезда", "Время приезда", "Реальное время приезда", "Водитель"};
 
             row = sheet.createRow(rowNumber++);
             for (int i = 0; i < names.length; i++) {
                 cell = row.createCell(i);
+                cell.setCellStyle(headerStyle);
                 cell.setCellValue(names[i]);
             }
             for (Trip trip: trips) {
                 row = sheet.createRow(rowNumber++);
                 for (int cellNumber = 0; cellNumber < names.length; cellNumber++) {
                     cell = row.createCell(cellNumber);
+                    cell.setCellStyle(bottomStyle);
                     if (cellNumber == 0) {
                         cell.setCellValue(trip.getId());
                     } else if (cellNumber == 1) {
+                        if ("Завершён".equals(trip.getTripStatus())) {
+                            cell.setCellStyle(greenStyle);
+                        } else if ("Задержан".equals(trip.getTripStatus())){
+                            cell.setCellStyle(redStyle);
+                        } else {
+                            cell.setCellStyle(headerStyle);
+                        }
                         cell.setCellValue(trip.getTripStatus());
                     } else if (cellNumber == 2) {
                         cell.setCellStyle(dateStyle);

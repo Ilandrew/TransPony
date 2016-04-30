@@ -2,6 +2,7 @@ package by.bsuir.mpp.transpony.command.impl;
 
 import by.bsuir.mpp.transpony.command.Command;
 import by.bsuir.mpp.transpony.command.RoleHelper;
+import by.bsuir.mpp.transpony.entity.document.DocumentFormat;
 import by.bsuir.mpp.transpony.service.*;
 import by.bsuir.mpp.transpony.util.PagePath;
 
@@ -16,6 +17,21 @@ public class LoginCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
+		DocumentService.getDocumentProfit(DocumentFormat.PDF);
+		DocumentService.getDocumentProfit(DocumentFormat.XLSX);
+		DocumentService.getDocumentProfit(DocumentFormat.CSV);
+		DocumentService.getDocumentFuelConsumption(DocumentFormat.PDF);
+		DocumentService.getDocumentFuelConsumption(DocumentFormat.XLSX);
+		DocumentService.getDocumentFuelConsumption(DocumentFormat.CSV);
+		DocumentService.getDocumentRoute(3, DocumentFormat.PDF);
+		DocumentService.getDocumentRoute(3, DocumentFormat.XLSX);
+		DocumentService.getDocumentRoute(3, DocumentFormat.CSV);
+		DocumentService.getDocumentWaybill(1, DocumentFormat.PDF);
+		DocumentService.getDocumentWaybill(1, DocumentFormat.XLSX);
+		DocumentService.getDocumentWaybill(1, DocumentFormat.CSV);
+		DocumentService.getDocumentStatusTrip(DocumentFormat.PDF);
+		DocumentService.getDocumentStatusTrip(DocumentFormat.XLSX);
+		DocumentService.getDocumentStatusTrip(DocumentFormat.CSV);
 		int userId = 0;
         String login = request.getParameter(LOGIN_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);

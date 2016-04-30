@@ -28,6 +28,7 @@ public class MySqlRouteDao implements RouteDao {
 	private static final String SQL_DELETE = "DELETE FROM ROUTE WHERE id_route = ?";
 	private static final String SQL_GET_BY_ID = "SELECT id_route, id_employee, total_length FROM ROUTE WHERE  id_route = ?";
 	private static final String SQL_GET_MAX_ID = "SELECT max(id_route) as value FROM ROUTE";
+    private static final String SQL_DELETE_POINTS = "DELETE FROM M2M_CHECK_POINT_ROUTE WHERE id_route = ?";
 
     @Override
     public List<Route> getAll() throws DaoException {
@@ -106,6 +107,9 @@ public class MySqlRouteDao implements RouteDao {
         PreparedStatement statement = null;
         try {
             connection = DatabaseUtils.getInstance().getConnection();
+            statement = connection.prepareStatement(SQL_DELETE_POINTS);
+            statement.setInt(1, route.getId());
+            statement.executeUpdate();
             statement = connection.prepareStatement(SQL_DELETE);
             statement.setInt(1, route.getId());
             statement.executeUpdate();
