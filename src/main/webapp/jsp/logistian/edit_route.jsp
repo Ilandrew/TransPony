@@ -26,7 +26,6 @@ ${message}<br>
         <button type="submit">Add checkpoint to route</button>
     </form>
     <br><br>
-
     <form action="edit_route.do?func=change_total_length" method="post">
         <label for="length">Total route length</label>
         <input id="length" type="text" name="length_value" value="${route.getTotalLength()}"/>
@@ -50,7 +49,9 @@ ${message}<br>
             </c:forEach>
         </table>
     </form>
-    <a href="save_route_changes.do"><button type="button">Save changes to route</button></a>
+    <form method="post" action="save_route_changes.do">
+        <button type="button">Save changes to route</button>
+    </form>
 </c:if>
 </body>
 </html>

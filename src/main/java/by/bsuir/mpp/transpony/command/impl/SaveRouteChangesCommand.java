@@ -28,6 +28,7 @@ public class SaveRouteChangesCommand implements Command{
             }
 
             try {
+                RouteService.generateName(route);
                 RouteService.update(route);
             } catch (ServiceException e) {
                 e.printStackTrace();

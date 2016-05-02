@@ -47,7 +47,9 @@ ${message}<br>
             </c:forEach>
         </table>
     </form>
-    <a href="save_route.do"><button type="button">Save route</button></a>
+    <form method="post" action="save_route.do">
+        <button type="submit">Save route</button>
+    </form>
 </c:if>
 </body>
 </html>

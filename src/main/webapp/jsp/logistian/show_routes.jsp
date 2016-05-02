@@ -15,6 +15,7 @@
 <table border="1">
     <tr>
         <td>Route Id</td>
+        <td>Points in route</td>
         <td>Starting point</td>
         <td>Finishing point</td>
         <td>Total length</td>
@@ -25,20 +26,21 @@
         <c:forEach var="route" items="${routes}">
             <tr>
                 <td>${route.getId()}</td>
+                <td>${route.getName()}</td>
                 <td>${route.getPoints().get(0).getName()}</td>
                 <td>${route.getPoints().get(route.getPoints().size() - 1).getName()}</td>
                 <td>${route.getTotalLength()}</td>
                 <td>${is_used}</td>
-                <td>${creator}</td>
+                <td>${route.getOwner().getInitials()}</td>
                 <td>
-                    <a href="edit_route.do?route_id=${route.getId()}">
-                        <button type="button" name="change">Change</button>
-                    </a>
+                    <form method="post" action="edit_route.do?route_id=${route.getId()}">
+                        <button type="submit" name="change">Change</button>
+                    </form>
                 </td>
                 <td>
-                    <a href="show_routes.do?delete=${route.getId()}">
-                        <button type="button" name="delete">Delete</button>
-                    </a>
+                    <form method="post" action="show_routes.do?delete=${route.getId()}">
+                        <button type="submit" name="delete">Delete</button>
+                    </form>
                 </td>
             </tr>
         </c:forEach>

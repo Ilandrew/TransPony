@@ -13,9 +13,10 @@
     <title>Logistian Main</title>
 </head>
 <body>
-    <a href="create_route.do"><button type="button">Create new route</button></a>
-    <a href="show_routes.do"><button type="button">Show all routes</button></a><br>
-    <a href="create_checkpoint.do"><button type="button">Create new checkpoint</button></a>
-    <a href="show_checkpoints.do"><button type="button">Show all checkpoints</button></a>
+<a href="create_route.do"><button type="button">Create new route</button></a>
+<a href="show_routes.do"><button type="button">Show all routes</button></a>
+<br><br>
+<a href="create_checkpoint.do"><button type="button">Create new checkpoint</button></a>
+<a href="show_checkpoints.do"><button type="button">Show all checkpoints</button></a>
 </body>
 </html>

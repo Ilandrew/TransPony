@@ -8,11 +8,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>TransPony Main</title>
-  </head>
-  <body>
-  <jsp:forward page="/jsp/login.jsp"/>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>TransPony Main</title>
+</head>
+<body>
+<jsp:forward page="/jsp/login.jsp"/>
+</body>
 </html>

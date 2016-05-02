@@ -31,8 +31,8 @@ public class SaveRouteCommand implements Command {
             } catch (ServiceException e) {
                 e.printStackTrace();
             }
-
             try {
+                RouteService.generateName(route);
                 RouteService.add(route);
             } catch (ServiceException e) {
                 e.printStackTrace();
