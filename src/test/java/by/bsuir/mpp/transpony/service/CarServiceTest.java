@@ -25,7 +25,7 @@ public class CarServiceTest {
     public void getFreeCarTest() {
         try {
             List<Car> cars = CarService.getFreeCar();
-            assertTrue(cars.size() > 5);
+            assertTrue(cars.size() > 0);
         } catch (ServiceException e) {
             e.printStackTrace();
         }

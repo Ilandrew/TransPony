@@ -47,7 +47,7 @@ public class RouteServiceTest  {
     public void getAllTest() {
         try {
             List<Route> routes = RouteService.getAll();
-            assertEquals(routes.size(), 0);
+            assertNotNull(routes);
         } catch (ServiceException e) {
             e.printStackTrace();
         }
@@ -67,5 +67,4 @@ public class RouteServiceTest  {
             e.printStackTrace();
         }
     }
-
 }
