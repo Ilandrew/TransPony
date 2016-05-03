@@ -46,4 +46,12 @@ public class CheckPoint {
     public void setPointType(String pointType) {
         this.pointType = pointType;
     }
+
+    public boolean equals(CheckPoint checkPoint) {
+        if (getName().equals(checkPoint.getName()) &&
+                getPointType().equals(checkPoint.getPointType())) {
+            return true;
+        }
+        return false;
+    }
 }

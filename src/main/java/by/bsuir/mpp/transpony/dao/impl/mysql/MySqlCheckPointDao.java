@@ -48,7 +48,7 @@ public class MySqlCheckPointDao implements CheckPointDao {
 			"        x = ?,\n" +
 			"        y = ?,\n" +
 			"        name = ?,\n" +
-			"        id_check_point = ?\n" +
+			"        id_check_point_type = ?\n" +
 			"WHERE id_check_point = ?";
 	private static final String SQL_GET_BY_ID = "SELECT cp.id_check_point as id_check_point,\n" +
 			"        cp.x as x,\n" +

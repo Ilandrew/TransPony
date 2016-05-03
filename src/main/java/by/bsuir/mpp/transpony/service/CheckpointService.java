@@ -66,7 +66,7 @@ public class CheckpointService {
 
     }
 
-    public List<String> getAllTypes() throws ServiceException {
+    public static List<String> getAllTypes() throws ServiceException {
         try {
             return dao.getAllTypes();
         } catch (DaoException e) {
