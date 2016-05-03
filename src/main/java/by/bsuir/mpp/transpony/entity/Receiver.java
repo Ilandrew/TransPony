@@ -57,4 +57,11 @@ public class Receiver {
     public void setDeliveryPoints(List<DeliveryPoint> deliveryPoints) {
         this.deliveryPoints = deliveryPoints;
     }
+
+    public boolean equals(Receiver receiver) {
+        if (getName().equals(receiver.getName())) {
+            return true;
+        }
+        return false;
+    }
 }

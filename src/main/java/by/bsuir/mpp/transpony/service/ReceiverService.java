@@ -20,9 +20,10 @@ public class ReceiverService {
         }
     }
 
-    public static Integer add(Receiver receiver) throws ServiceException {
+    public static void add(Receiver receiver) throws ServiceException {
         try {
-            return dao.add(receiver);
+            Integer i = dao.add(receiver);
+            receiver.setId(i);
         } catch (DaoException e) {
             throw new ServiceException("", e);
         }

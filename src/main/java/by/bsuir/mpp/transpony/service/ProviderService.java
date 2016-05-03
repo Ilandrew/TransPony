@@ -26,9 +26,10 @@ public class ProviderService {
             }
         }
 
-    public static Integer add(Provider provider) throws ServiceException {
+    public static void add(Provider provider) throws ServiceException {
             try {
-                return dao.add(provider);
+                Integer i = dao.add(provider);
+                provider.setId(i);
             } catch (DaoException e) {
                 throw new ServiceException("", e);
             }
