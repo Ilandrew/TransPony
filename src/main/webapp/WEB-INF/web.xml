@@ -1,0 +1,40 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+<display-name>Delivery Service</display-name>
+<filter>
+    <filter-name>struts2</filter-name>
+    <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+</filter>
+
+<filter-mapping>
+    <filter-name>struts2</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+
+<resource-ref>
+    <description>DB Connection</description>
+    <res-ref-name>jdbc/delivery</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+</resource-ref>
+
+    <!-- Restricts access to pure JSP files - access available only via Struts action -->
+    <!--<security-constraint>-->
+    <!--<display-name>No direct JSP access</display-name>-->
+    <!--<web-resource-collection>-->
+    <!--<web-resource-name>No-JSP</web-resource-name>-->
+    <!--<url-pattern>/content/*</url-pattern>-->
+    <!--</web-resource-collection>-->
+    <!--<auth-constraint>-->
+    <!--<role-name>no-users</role-name>-->
+    <!--</auth-constraint>-->
+    <!--</security-constraint>-->
+    <!--<security-role>-->
+    <!--<description>Don't assign users to this role</description>-->
+    <!--<role-name>no-users</role-name>-->
+    <!--</security-role>-->
+
+</web-app>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+    <constant name="struts.devMode" value="true"/>
+
+    <constant name="struts.convention.default.parent.package" value="angularstruts"/>
+    <package name="angularstruts" extends="json-default"/>
+    <package name="data" extends="angularstruts" namespace="/data"/>
+    <constant name="struts.action.extension" value=","/>
+    <constant name="struts.convention.result.path" value="/"/>
+
+    <package name="transpony" namespace="/" extends="struts-default">
+
+        <action name="login" class="by.bsuir.mpp.transpony.actions.LoginAction">
+            <result name="logistian" type="redirectAction">/jsp/logistian/index_logistian.jsp</result>
+            <result name="badlogin">jsp/login.jsp</result>
+        </action>
+
+        <action name="create" class="by.bsuir.mpp.transpony.actions.RedirectAction" method="createRoute">
+            <result name="create" type="redirectAction">/jsp/logistian/create_route.jsp</result>
+        </action>
+
+        <action name="show" class="by.bsuir.mpp.transpony.actions.RedirectAction" method="showRoute">
+            <result name="show" type="redirectAction">/jsp/logistian/show_routes.jsp</result>
+        </action>
+
+        <action name="createcp" class="by.bsuir.mpp.transpony.actions.RedirectAction" method="createCP">
+            <result name="createcp" type="redirectAction">/jsp/logistian/create_checkpoint.jsp</result>
+        </action>
+
+        <action name="showcp" class="by.bsuir.mpp.transpony.actions.ShowCheckPointAction">
+            <result name="success" type="redirectAction">/jsp/logistian/show_checkpoints.jsp</result>
+
+        </action>
+    </package>
+</struts>

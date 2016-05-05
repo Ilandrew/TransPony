@@ -17,14 +17,14 @@
 </head>
 <body>
 <div class="container">
-  <form action="login.do" method="post" class="form-login">
-    <h2 class="form-login-error">${errorMessage}</h2>
+  <form action="login" method="post" class="form-login">
+    <%--<h2 class="form-login-error">${errorMessage}</h2>--%>
     <label for="login" class="sr-only">Login</label>
     <input id="login" type="text" name="login" class="form-control" placeholder="Login"
-    required autofocus>
+           required autofocus>
     <label for="password" class="sr-only">Password</label>
     <input type="password" id="password" name="password" class="form-control" placeholder="Password"
-    required>
+           required>
     <button class="btn btn-lg btn-primary btn-block" type="submit" name="button" value="login">
       Login
     </button>
