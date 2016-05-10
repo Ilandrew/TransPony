@@ -1,14 +1,24 @@
-body {
+.body {
+  position: relative;
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #eee;
+  display: block;
+  background: no-repeat center center fixed;
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("../img/bg.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  z-index: -1;
 }
 .form-login {
+  position: relative;
   max-width: 330px;
   padding: 15px;
   margin: 12em auto;
-  color: lightskyblue;
+  background-color: white;
   border-radius: 15px;
+  z-index: 0;
 }
 .form-login .form-login-error {
   color: red;
