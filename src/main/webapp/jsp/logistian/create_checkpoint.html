@@ -1,24 +1,10 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  user: Максим
-  Date: 12.04.2016
-  Time: 7:34
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Checkpoint creation</title>
-</head>
-<body>
-${message}<br>
+
 <form action="save_checkpoint.do" method="post">
     <label for="types_list">Checkpoint types</label>
     <select id="types_list" name="types_list">
-        <c:forEach var="type" items="${types}">
+        <forEach var="type" items="${types}">
             <option value="${type}">${type}</option>
-        </c:forEach>
+        </forEach>
     </select><br>
     <label for="name_text">Checkpoint name: </label>
     <input type="text" id="name_text" name="name_text"><br>
@@ -29,5 +15,3 @@ ${message}<br>
     <br>
     <button type="submit">Save checkpoint</button>
 </form>
-</body>
-</html>

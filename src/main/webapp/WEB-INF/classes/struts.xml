@@ -4,7 +4,6 @@
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-
     <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
     <constant name="struts.devMode" value="true"/>
 
@@ -14,28 +13,30 @@
     <constant name="struts.action.extension" value=","/>
     <constant name="struts.convention.result.path" value="/"/>
 
-    <package name="transpony" namespace="/" extends="struts-default">
+    <package name="transpony" extends="json-default">
+        <interceptors>
+            <interceptor name="json" class="org.apache.struts2.json.JSONInterceptor"/>
+        </interceptors>
 
         <action name="login" class="by.bsuir.mpp.transpony.actions.LoginAction">
-            <result name="logistian" type="redirectAction">/jsp/logistian/index_logistian.jsp</result>
-            <result name="badlogin">jsp/login.jsp</result>
+            <interceptor-ref name="json"/>
+            <result name="badlogin" type="json">
+                <param name="statusCode">500</param>
+            </result>
+            <result type="json" name="success">
+                <param name="noCache">true</param>
+                <param name="excludeNullProperties">true</param>
+                <param name="root">userCredentials</param>
+            </result>
         </action>
 
-        <action name="create" class="by.bsuir.mpp.transpony.actions.RedirectAction" method="createRoute">
-            <result name="create" type="redirectAction">/jsp/logistian/create_route.jsp</result>
+        <action name="viewCheckpoints" class="by.bsuir.mpp.transpony.actions.ShowCheckPointAction">
+            <interceptor-ref name="json"/>
+            <result type="json" name="success">
+                <param name="noCache">true</param>
+                <param name="root">pointLists</param>
+            </result>
         </action>
 
-        <action name="show" class="by.bsuir.mpp.transpony.actions.RedirectAction" method="showRoute">
-            <result name="show" type="redirectAction">/jsp/logistian/show_routes.jsp</result>
-        </action>
-
-        <action name="createcp" class="by.bsuir.mpp.transpony.actions.RedirectAction" method="createCP">
-            <result name="createcp" type="redirectAction">/jsp/logistian/create_checkpoint.jsp</result>
-        </action>
-
-        <action name="showcp" class="by.bsuir.mpp.transpony.actions.ShowCheckPointAction">
-            <result name="success" type="redirectAction">/jsp/logistian/show_checkpoints.jsp</result>
-
-        </action>
     </package>
 </struts>

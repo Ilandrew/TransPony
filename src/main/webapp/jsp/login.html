@@ -1,0 +1,20 @@
+<div class="container" >
+
+    <form  class="form-login" ng-controller="loginCtrl">
+
+        <h2 class="form-login-heading">User authorisation</h2>
+        <label for="login" class="sr-only">Login</label>
+        <input id="login" type="text" name="login" class="form-control" placeholder="Login" ng-model="userCredentials.login"
+               required autofocus>
+
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" ng-model="userCredentials.password"
+               required>
+
+        <button class="btn btn-lg btn-primary btn-block" data-ng-click="login()" type="submit" name="button">
+            Login
+        </button>
+
+    </form>
+
+</div>

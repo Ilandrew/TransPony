@@ -6,26 +6,25 @@ import by.bsuir.mpp.transpony.service.ServiceException;
 import com.opensymphony.xwork2.*;
 import com.opensymphony.xwork2.Action;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShowCheckPointAction extends ActionSupport{
-    List<CheckPoint> collection = new ArrayList<>();
+    private List<CheckPoint> pointLists;
     public String execute() {
 
         try {
-            collection = CheckpointService.getAll();
+            pointLists = CheckpointService.getAll();
         } catch (ServiceException e) {
             e.printStackTrace();
         }
         return Action.SUCCESS;
     }
 
-    public List<CheckPoint> getCollection() {
-        return collection;
+    public List<CheckPoint> getPointLists() {
+        return pointLists;
     }
 
-    public void setCollection(List<CheckPoint> collection) {
-        this.collection = collection;
+    public void setPointLists(List<CheckPoint> pointLists) {
+        this.pointLists = pointLists;
     }
 }

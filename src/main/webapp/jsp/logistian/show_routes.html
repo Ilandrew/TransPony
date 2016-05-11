@@ -1,17 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  user: Максим
-  Date: 12.04.2016
-  Time: 4:42
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Routes page</title>
-</head>
-<body>
+
 <table border="1">
     <tr>
         <td>Route Id</td>
@@ -22,8 +9,8 @@
         <td>Is used</td>
         <td>Creator</td>
     </tr>
-    <c:if test="${routes != null}">
-        <c:forEach var="route" items="${routes}">
+    <if test="${routes != null}">
+        <forEach var="route" items="${routes}">
             <tr>
                 <td>${route.getId()}</td>
                 <td>${route.getName()}</td>
@@ -43,8 +30,6 @@
                     </form>
                 </td>
             </tr>
-        </c:forEach>
-    </c:if>
+        </forEach>
+    </if>
 </table>
-</body>
-</html>

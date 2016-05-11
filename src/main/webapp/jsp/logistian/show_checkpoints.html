@@ -1,0 +1,30 @@
+
+        <table  ng-controller="checkPointCtrl">
+            <thead>
+            <tr>
+                <th>Checkpoint Id</th>
+                <th>Name</th>
+                <th>X coordinate</th>
+                <th>Y coordinate</th>
+                <th>Checkpoint Type</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="pointList in pointLists">
+                <td>{{pointList.id}}</td>
+                <td>{{pointList.name}}</td>
+                <td>{{pointList.x}}</td>
+                <td>{{pointList.y}}</td>
+                <td>{{pointList.pointType}}</td>
+                <td class="actions">
+                    <button class="btn btn-custom " name="submit" type="submit" data-ng-click="pointListDelete(pointList.id)">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-custom " name="submit" type="submit" data-ng-click="pointListUpdate(pointList.id)">
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                    </button>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>

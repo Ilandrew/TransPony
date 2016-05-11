@@ -1,20 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  user: Максим
-  Date: 15.04.2016
-  Time: 1:13
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Route edit</title>
-</head>
-<body>
-${message}<br>
-<%-- Если этот путь используется, то есть count != 0, то редактировать его нельзя;
-это собственно в сообщение и выводится--%>
+<div>
 <c:if test="${route.getCount() != 0}">
     <form method="post" action="edit_route.do?func=add_point_to_route">
         <label for="checkpoint_list">Checkpoints</label>
@@ -38,7 +22,7 @@ ${message}<br>
                 <td>Checkpoint Name</td>
                 <td>Checkpoint Type</td>
             </tr>
-            <c:forEach var="point" items="${route.getPoints()}">
+            <forEach var="point" items="${route.getPoints()}">
                 <tr>
                     <td>${point.getName()}</td>
                     <td>${point.getPointType()}</td>
@@ -46,12 +30,11 @@ ${message}<br>
                         <button type="submit" name="delete_button" value="${point.getName()}">Remove checkpoint</button>
                     </td>
                 </tr>
-            </c:forEach>
+            </forEach>
         </table>
     </form>
     <form method="post" action="save_route_changes.do">
         <button type="button">Save changes to route</button>
     </form>
 </c:if>
-</body>
-</html>
+</div>
