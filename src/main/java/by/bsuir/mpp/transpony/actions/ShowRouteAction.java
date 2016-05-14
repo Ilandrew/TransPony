@@ -13,24 +13,24 @@ import java.util.List;
  * Created by vadim on 05.05.16.
  */
 public class ShowRouteAction {
-    List<Route> routes = new ArrayList<>();
+    List<Route> routeList = new ArrayList<>();
 
     public String execute() {
 
 
         try {
-            routes = RouteService.getAll();
+            routeList = RouteService.getAll();
         } catch (ServiceException e) {
             e.printStackTrace();
         }
         return Action.SUCCESS;
     }
 
-    public List<Route> getRoutes() {
-        return routes;
+    public List<Route> getRouteList() {
+        return routeList;
     }
 
-    public void setRoutes(List<Route> routes) {
-        this.routes = routes;
+    public void setRouteList(List<Route> routeList) {
+        this.routeList = routeList;
     }
 }

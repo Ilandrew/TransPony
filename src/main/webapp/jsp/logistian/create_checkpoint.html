@@ -1,10 +1,8 @@
 
-<form action="save_checkpoint.do" method="post">
+<form method="post" ng-controller="createCheckPointCtrl">
     <label for="types_list">Checkpoint types</label>
-    <select id="types_list" name="types_list">
-        <forEach var="type" items="${types}">
-            <option value="${type}">${type}</option>
-        </forEach>
+    <select id="types_list" name="types_list" >
+            <option value="{{type}}">{{type}}</option>
     </select><br>
     <label for="name_text">Checkpoint name: </label>
     <input type="text" id="name_text" name="name_text"><br>

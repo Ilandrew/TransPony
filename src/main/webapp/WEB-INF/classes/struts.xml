@@ -23,7 +23,7 @@
             <result name="badlogin" type="json">
                 <param name="statusCode">500</param>
             </result>
-            <result type="json" name="success">
+            <result type="json" name="logistian">
                 <param name="noCache">true</param>
                 <param name="excludeNullProperties">true</param>
                 <param name="root">userCredentials</param>
@@ -37,6 +37,21 @@
                 <param name="root">pointLists</param>
             </result>
         </action>
+        <action name="viewRoute" class="by.bsuir.mpp.transpony.actions.ShowRouteAction">
+            <interceptor-ref name="json"/>
+            <result type="json" name="success">
+                <param name="noCache">true</param>
+                <param name="root">routeList</param>
+            </result>
+        </action>
+        <action name="createCheckPoint" class="by.bsuir.mpp.transpony.actions.CreateCheckPointAction">
+            <interceptor-ref name="json"/>
+            <result type="json" name="success">
+                <param name="noCache">true</param>
+                <param name="root">types</param>
+            </result>
+        </action>
+
 
     </package>
 </struts>
