@@ -1,39 +1,212 @@
 <div>
-<form method="post" action="create_route.do?func=add_point_to_route">
-    <label for="checkpoint_list">Checkpoints</label>
-    <select id="checkpoint_list" name="checkpoint_list">
-        <forEach var="checkpoint" items="${checkpoints}">
-            <option value="${checkpoint.getName()}">${checkpoint.getName()}</option>
-        </forEach>
-    </select>
-    <button type="submit">Add checkpoint to route</button>
-</form>
-<br><br>
-<if test="${new_route != null && new_route.getPoints().size() != 0}">
-    <form action="create_route.do?func=add_total_length" method="post">
-        <label for="length">Total route length</label>
-        <input id="length" type="text" name="length_value" value="${new_route.getTotalLength()}"/>
-        <button type="submit">Set total length</button>
-    </form>
-    <form method="post" action="create_route.do?func=delete_point_from_route">
-        <table border="1">
-            <tr>
-                <td>Checkpoint Name</td>
-                <td>Checkpoint Type</td>
-            </tr>
-            <forEach var="point" items="${new_route.getPoints()}">
-                <tr>
-                    <td>${point.getName()}</td>
-                    <td>${point.getPointType()}</td>
-                    <td>
-                        <button type="submit" name="delete_button" value="${point.getName()}">Remove checkpoint</button>
-                    </td>
-                </tr>
-            </forEach>
-        </table>
-    </form>
-    <form method="post" action="save_route.do">
-        <button type="submit">Save route</button>
-    </form>
-</if>
+    <!--Header-->
+    <div id="decorative2">
+        <div class="container">
+
+            <div class="divPanel topArea notop nobottom">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div id="divLogo" class="pull-left">
+                            <a href="#" id="divSiteTitle">TransPony</a><br />
+                            <a href="#" id="divTagLine">FRIENDSHIP IS MAGIC</a>
+                        </div>
+
+                        <div id="divMenuRight" class="pull-right">
+                            <div class="navbar-nav">
+                                <button type="button" class="btn btn-navbar-highlight btn-lg btn-primary"
+                                        data-toggle="collapse" data-target=".navbar-collapse">
+                                    NAVIGATION <span class="icon-chevron-down icon-white"></span>
+                                </button>
+                                <div class="navbar-collapse collapse">
+                                    <div ng-controller="indexLogistCtrl">
+                                        <ul class="navbar-nav nav-pills ddmenu">
+                                            <li class="dropdown"><a href="#">Home</a></li>
+                                            <li class="dropdown"><a data-ng-click="showRoutes()">Show routes</a></li>
+                                            <li class="dropdown active"><a data-ng-click="createRoute()">Create new route</a></li>
+                                            <li class="dropdown"><a data-ng-click="viewCheckpoints()">Show checkpoints</a></li>
+                                            <li class="dropdown"><a data-ng-click="createCheckPoint()">Create checkpoint</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="decorative1" style="position:relative">
+        <div class="container">
+
+            <div class="divPanel headerArea">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div id="headerSeparator"></div>
+
+                        <div id="divHeaderText" class="page-content">
+                            <div id="divHeaderLine1">Transpony</div><br />
+                            <div id="divHeaderLine2">Small prices for our little pony-friends :)</div><br />
+                            <div id="divHeaderLine3"><a class="btn btn-lg btn-primary" href="#">More Info</a></div>
+                        </div>
+
+                        <div id="headerSeparator2"></div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="contentOuterSeparator"></div>
+
+    <!-- Content -->
+    <div class="container">
+
+        <div class="divPanel page-content">
+
+            <div class="row">
+
+                <div class="col-md-12" id="divMain">
+
+                    <hr style="margin:45px 0 35px" />
+
+                    <form class="form" method="post" ng-controller="createRouteCtrl">
+
+                        <h2>Route creation form</h2>
+
+                        <label for="checkpoints_list">Checkpoints</label>
+                        <select id="checkpoints_list" name="checkpoints_list" ng-model="checkpoints" class="form-control">
+                        </select>
+                        <button class="btn btn-primary" name="submit" type="submit" data-ng-click="addCheckpointToRoute()">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        </button><br>
+
+                        <label for="length">Total route length</label>
+                        <input id="length" type="text" name="length_value" class="form-control" ng-model="route.totalLength"
+                            placeholder="Total route length"/><br><br>
+
+                        <div class="table-responsive">
+                            <table border="1" ng-controller="routeCtrl" class="table table-bordered table-hover">
+                                <tr>
+                                    <td>Checkpoint Name</td>
+                                    <td>Checkpoint Type</td>
+                                </tr>
+                                <tr ng-repeat="point in route.points">
+                                    <td>{{point.getName()}}</td>
+                                    <td>{{point.getPointType()}}</td>
+                                    <td>
+                                        <button class="btn btn-primary" name="submit" type="submit" data-ng-click="deleteCheckpointFromRoute()">
+                                            <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" data-ng-click="saveRout()">Save route</button>
+
+                    </form>
+
+                    <hr style="margin:45px 0 35px" />
+
+                </div>
+
+            </div>
+
+            <div id="footerInnerSeparator"></div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div id="footerOuterSeparator"></div>
+
+    <div id="divFooter" class="footerArea">
+
+        <div class="container">
+
+            <div class="divPanel">
+
+                <div class="row">
+                    <div class="col-md-4" id="footerArea1">
+
+                        <h3>About Company</h3>
+
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
+
+                        <p>
+                            <a href="#" title="Terms of Use">Terms of Use</a><br />
+                            <a href="#" title="Privacy Policy">Privacy Policy</a><br />
+                            <a href="#" title="FAQ">FAQ</a><br />
+                            <a href="#" title="Sitemap">Sitemap</a>
+                        </p>
+
+                    </div>
+                    <div class="col-md-4" id="footerArea2">
+
+                        <h3>Sample Content</h3>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.
+                        </p>
+
+                    </div>
+                    <div class="col-md-4" id="footerArea3">
+
+                        <h3>Get in Touch</h3>
+
+                        <ul id="contact-info">
+                            <li>
+                                <i class="general foundicon-phone icon"></i>
+                                <span class="field">Phone:</span>
+                                <br />
+                                (123) 456 7890 / 456 7891
+                            </li>
+                            <li>
+                                <i class="general foundicon-mail icon"></i>
+                                <span class="field">Email:</span>
+                                <br />
+                                <a href="mailto:info@yourdomain.com" title="Email">info@yourdomain.com</a>
+                            </li>
+                            <li>
+                                <i class="general foundicon-home icon" style="margin-bottom:50px"></i>
+                                <span class="field">Address:</span>
+                                <br />
+                                123 Street<br />
+                                12345 City, State<br />
+                                Country
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <br /><br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="copyright">
+                            Copyright © 2013 Your Company. All Rights Reserved.
+                        </p>
+
+                        <p class="social_bookmarks">
+                            <a href="#"><i class="social foundicon-facebook"></i> Facebook</a>
+                            <a href=""><i class="social foundicon-twitter"></i> Twitter</a>
+                            <a href="#"><i class="social foundicon-pinterest"></i> Pinterest</a>
+                            <a href="#"><i class="social foundicon-rss"></i> Rss</a>
+                        </p>
+                    </div>
+                </div>
+                <br />
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
