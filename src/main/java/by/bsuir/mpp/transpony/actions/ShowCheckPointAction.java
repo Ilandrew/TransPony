@@ -16,6 +16,7 @@ public class ShowCheckPointAction extends ActionSupport{
             pointLists = CheckpointService.getAll();
         } catch (ServiceException e) {
             e.printStackTrace();
+            return "st";
         }
         return Action.SUCCESS;
     }
