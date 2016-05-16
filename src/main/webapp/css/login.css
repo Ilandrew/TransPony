@@ -1,32 +1,36 @@
-.body {
+.pony-img-body {
   position: relative;
   padding-top: 40px;
   padding-bottom: 40px;
   display: block;
   background: no-repeat center center fixed;
-  background-image: linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("../img/bg.jpg");
+  background-image: linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("../images/bg.jpg");
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  z-index: -1;
+  width: 100%;
+  height: 100%;
 }
 .form-login {
   position: relative;
   max-width: 330px;
   padding: 15px;
   margin: 12em auto;
-  background-color: white;
+  background-color: rgba(72, 61, 139, 0.7);
   border-radius: 15px;
-  z-index: 0;
 }
 .form-login .form-login-error {
   color: red;
+}
+.form-login .form-login-heading {
+  color: azure;
 }
 .form-login .form-login-heading,
 .form-login .form-login-error,
 .form-login .checkbox {
   margin-bottom: 10px;
+  text-align: center;
 }
 .form-login .checkbox {
   font-weight: normal;
@@ -42,6 +46,16 @@
 }
 .form-login .form-control:focus {
   z-index: 2;
+}
+.form-login .btn {
+  background-color: #6220a6;
+  border: none;
+}
+.form-login .btn:hover {
+  background-color: #8027c6;
+}
+.form-login .btn:active {
+    background-color: #7626b8;
 }
 .form-login input[type="email"] {
   margin-bottom: -1px;

@@ -44,14 +44,5 @@
                 <param name="root">routeList</param>
             </result>
         </action>
-        <action name="createCheckPoint" class="by.bsuir.mpp.transpony.actions.CreateCheckPointAction">
-            <interceptor-ref name="json"/>
-            <result type="json" name="success">
-                <param name="noCache">true</param>
-                <param name="root">types</param>
-            </result>
-        </action>
-
-
     </package>
 </struts>
