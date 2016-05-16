@@ -4,6 +4,7 @@ import by.bsuir.mpp.transpony.dao.DaoException;
 import by.bsuir.mpp.transpony.dao.RouteDao;
 import by.bsuir.mpp.transpony.entity.CheckPoint;
 import by.bsuir.mpp.transpony.entity.Route;
+import by.bsuir.mpp.transpony.service.RouteService;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 
 import javax.naming.NamingException;
@@ -48,6 +49,7 @@ public class MySqlRouteDao implements RouteDao {
                 route.setOwner(MySqlUserDao.getInstance().getById(result.getInt("id_employee")));
                 route.setTotalLength(result.getBigDecimal("total_length"));
                 route.setPoints(MySqlCheckPointDao.getInstance().getByRouteId(route.getId()));
+                RouteService.generateName(route);
                 collection.add(route);
             }
         } catch (SQLException | NamingException e) {

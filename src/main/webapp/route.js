@@ -27,6 +27,10 @@ app.config(['$routeProvider', function($routeProvide){
             templateUrl: 'jsp/logistian/create_checkpoint.html',
             controller:  'createCheckPointCtrl'
         })
+        .when('/home',{
+            templateUrl: 'jsp/logistian/index_logistian.html',
+            controller: 'indexLogistCtrl'
+        })
         .otherwise({
             redirectTo :'/'
         })
@@ -46,6 +50,9 @@ app.controller('indexLogistCtrl', ['$scope', '$location',
         }
         $scope.createCheckPoint = function() {
             $location.path('/create_checkpoint')
+        }
+        $scope.home = function (){
+            $location.path('/home')
         }
     }]);
 

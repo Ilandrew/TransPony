@@ -22,7 +22,7 @@
 								<div class="navbar-collapse collapse">
 									<div ng-controller="indexLogistCtrl">
 										<ul class="navbar-nav nav-pills ddmenu">
-											<li class="dropdown"><a href="#">Home</a></li>
+											<li class="dropdown"><a data-ng-click="home()">Home</a></li>
 											<li class="dropdown"><a data-ng-click="showRoutes()">Show routes</a></li>
 											<li class="dropdown"><a data-ng-click="createRoute()">Create new route</a></li>
 											<li class="dropdown active"><a data-ng-click="viewCheckpoints()">Show checkpoints</a></li>
@@ -99,7 +99,7 @@
 										<button class="btn btn-custom " name="submit" type="submit" data-ng-click="pointListUpdate(pointList.id)">
 											<i class="fa fa-pencil" aria-hidden="true"></i>
 										</button>
-										<button class="btn btn-custom " name="submit" type="submit" data-ng-click="pointListDelete(pointList.id)">
+										<button class="btn btn-custom " name="submit" type="submit" data-ng-click="pointListDelete(pointList)">
 											<i class="fa fa-trash" aria-hidden="true"></i>
 										</button>
 									</td>
