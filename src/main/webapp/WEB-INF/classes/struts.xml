@@ -29,7 +29,12 @@
                 <param name="root">userCredentials</param>
             </result>
         </action>
-
+        <action name="createCheckPoint" class="by.bsuir.mpp.transpony.actions.CreateCheckpointAction">
+            <interceptor-ref name="json"/>
+            <result name="success" type="json">
+                <param name="noCache">true</param>
+            </result>
+        </action>
         <action name="viewCheckpoints" class="by.bsuir.mpp.transpony.actions.ShowCheckPointAction">
             <interceptor-ref name="json"/>
             <result type="json" name="success">
