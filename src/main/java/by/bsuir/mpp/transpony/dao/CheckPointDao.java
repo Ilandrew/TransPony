@@ -2,6 +2,7 @@ package by.bsuir.mpp.transpony.dao;
 
 
 import by.bsuir.mpp.transpony.entity.CheckPoint;
+import by.bsuir.mpp.transpony.entity.Type;
 
 import java.util.List;
 
@@ -13,5 +14,5 @@ public interface CheckPointDao {
     void delete(CheckPoint checkPoint) throws DaoException;
     void update(CheckPoint checkPoint) throws DaoException;
     CheckPoint getById(Integer index) throws DaoException;
-    List<String> getAllTypes() throws DaoException;
+    List<Type> getAllTypes() throws DaoException;
 }

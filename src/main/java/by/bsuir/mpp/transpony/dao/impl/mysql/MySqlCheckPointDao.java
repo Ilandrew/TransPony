@@ -3,6 +3,7 @@ package by.bsuir.mpp.transpony.dao.impl.mysql;
 import by.bsuir.mpp.transpony.dao.DaoException;
 import by.bsuir.mpp.transpony.dao.CheckPointDao;
 import by.bsuir.mpp.transpony.entity.CheckPoint;
+import by.bsuir.mpp.transpony.entity.Type;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 
 import javax.naming.NamingException;
@@ -259,11 +260,11 @@ public class MySqlCheckPointDao implements CheckPointDao {
     }
 
     @Override
-    public List<String> getAllTypes() throws DaoException {
+    public List<Type> getAllTypes() throws DaoException {
         Connection connection = null;
         Statement statement = null;
-        String name;
-        List<String> collection = new ArrayList<>();
+        List<Type> collection = new ArrayList<>();
+        Type type;
         try {
             connection = DatabaseUtils.getInstance().getConnection();
             statement = connection.createStatement();
@@ -271,8 +272,9 @@ public class MySqlCheckPointDao implements CheckPointDao {
             ResultSet result = statement.executeQuery(SQL_GET_ALL_TYPES);
 
             while (result.next()) {
-                name = result.getString("name");
-                collection.add(name);
+                type = new Type();
+                type.setName(result.getString("name"));
+                collection.add(type);
             }
         } catch (SQLException | NamingException e) {
             throw new DaoException("Can't get all checkpoint type.", e);

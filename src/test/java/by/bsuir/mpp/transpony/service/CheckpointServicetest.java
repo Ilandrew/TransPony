@@ -1,6 +1,7 @@
 package by.bsuir.mpp.transpony.service;
 
 import by.bsuir.mpp.transpony.entity.CheckPoint;
+import by.bsuir.mpp.transpony.entity.Type;
 import by.bsuir.mpp.transpony.util.DatabaseUtils;
 import by.bsuir.mpp.transpony.util.DatabaseUtilsTest;
 import org.junit.After;
@@ -157,7 +158,7 @@ public class CheckpointServicetest {
     @Test
     public void getAllTypes() {
         try {
-            List<String> collection = CheckpointService.getAllTypes();
+            List<Type> collection = CheckpointService.getAllTypes();
             assertNotNull(collection);
         } catch (ServiceException e) {
             System.out.println("CheckPointTest.getAll fail");

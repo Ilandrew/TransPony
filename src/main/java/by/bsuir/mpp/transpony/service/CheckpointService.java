@@ -4,6 +4,7 @@ import by.bsuir.mpp.transpony.dao.DaoException;
 import by.bsuir.mpp.transpony.dao.CheckPointDao;
 import by.bsuir.mpp.transpony.dao.factory.DaoFactory;
 import by.bsuir.mpp.transpony.entity.CheckPoint;
+import by.bsuir.mpp.transpony.entity.Type;
 
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class CheckpointService {
 
     }
 
-    public static List<String> getAllTypes() throws ServiceException {
+    public static List<Type> getAllTypes() throws ServiceException {
         try {
             return dao.getAllTypes();
         } catch (DaoException e) {

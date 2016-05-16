@@ -77,8 +77,7 @@ app.controller('checkPointCtrl', ['$scope', '$http', function($scope, $http) {
         $scope.pointLists = response.data;
     });
 
-    $scope.collections = [];
-       /* $http.post('delete', data).then(function (response) {
+       /*\\ $http.post('delete', data).then(function (response) {
             if (response.status == 200) {
                 $scope.collections = response.data;
                 //delete collection from collections
@@ -105,9 +104,32 @@ app.controller('routeCtrl', ['$scope', '$http', function($scope, $http) {
 
 }]);
 
-app.controller('createCheckPointCtrl', ['$scope', '$http', function($scope, $http){
+app.controller('createCheckPointCtrl', ['$scope', '$http', function($scope, $http) {
+    $scope.point = {
+        x: null,
+        y: null,
+        name: null,
+        pointType: null
+    };
+    $scope.type = null;
     $scope.types = [];
-    $http.get('createCheckPoint').then(function(response){
+     $http.get('createCheckPoint').then(function(response) {
         $scope.types = response.data;
-    })
-}])
+     });
+
+    $scope.saveCheckpoint = function(){
+        $http.post('saveCheckpoint', $scope.point).then(function(response){
+            if (response.status = 200) {
+                console.log('success');
+            }
+        })
+    };
+    /*\\ $http.post('delete', data).then(function (response) {
+     if (response.status == 200) {
+     $scope.collections = response.data;
+     //delete collection from collections
+     }
+     })*/
+
+
+}]);
