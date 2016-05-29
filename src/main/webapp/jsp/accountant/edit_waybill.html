@@ -27,8 +27,8 @@
 										<ul class="navbar-nav nav-pills ddmenu">
 
 											<li class="dropdown"><a role="button" data-ng-click="home()">Home</a></li>
-											<li class="dropdown active"><a role="button" data-ng-click="createWaybill()">Create waybill</a></li>
-											<li class="dropdown"><a role="button" data-ng-click="showWaybills()">Show waybills</a></li>
+											<li class="dropdown"><a role="button" data-ng-click="createWaybill()">Create waybill</a></li>
+											<li class="dropdown active"><a role="button" data-ng-click="showWaybills()">Show waybills</a></li>
 											<li class="dropdown"><a role="button" data-ng-click="setFuelUsage()">Set fuel usage</a></li>
 
 										</ul>
@@ -55,7 +55,7 @@
 
 					<hr style="margin:45px 0 35px" />
 
-					<form class="form" method="post" ng-controller="createWaybillCtrl">
+					<form class="form" method="post" ng-controller="editWaybillCtrl">
 
 						<h2>Waybill creation form</h2>
 
@@ -72,7 +72,7 @@
 							<option ng-repeat="receiver in receivers" ng-click="setSelected(receiver.name)" value="{{receiver.name}}">{{receiver.name}}</option>
 						</select>
 
-						<button type="submit" class="btn btn-primary" data-ng-click="saveWaybill()">Save waybill</button>
+						<button type="submit" class="btn btn-primary" data-ng-click="saveWaybillChanges()">Save waybill</button>
 
 					</form>
 
@@ -170,10 +170,5 @@
 		</div>
 
 	</div>
-
-	<script type="text/javascript">
-		$('#list_photos').carouFredSel({ responsive: true, width: '100%', scroll: 2, items: {
-			width: 320,visible: {min: 2, max: 6}} });
-	</script>
 
 </div>
