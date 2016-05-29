@@ -28,8 +28,8 @@
 
 											<li class="dropdown"><a role="button" data-ng-click="home()">Home</a></li>
 											<li class="dropdown"><a role="button" data-ng-click="createWaybill()">Create waybill</a></li>
-											<li class="dropdown active"><a role="button" data-ng-click="showWaybills()">Show waybills</a></li>
-											<li class="dropdown"><a role="button" data-ng-click="setFuelUsage()">Set fuel usage</a></li>
+											<li class="dropdown"><a role="button" data-ng-click="showWaybills()">Show waybills</a></li>
+											<li class="dropdown active"><a role="button" data-ng-click="setFuelUsage()">Set fuel usage</a></li>
 
 										</ul>
 									</div>
@@ -55,36 +55,18 @@
 
 					<hr style="margin:45px 0 35px" />
 
-					<div class="table-responsive">
-						<table  ng-controller="showWaybillsCtrl" border="1" class="table table-bordered">
-							<thead>
-							<tr>
-								<th>Waybill Id</th>
-								<th>Cargo Name</th>
-								<th>Receiver Name</th>
-								<th>Trip Profit</th>
-							</tr>
-							</thead>
-							<tbody>
-							<tr ng-repeat="waybill in waybills">
-								<td>{{waybill.id}}</td>
-								<td>{{waybill.cargo.name}}</td>
-								<td>{{waybill.receiver.name}}</td>
-								<td>{{waybill.profit}}</td>
-								<td class="actions">
-									<button class="btn btn-custom " name="submit" type="submit" data-ng-click="waybillUpdate(waybill.id)">
-										<i class="fa fa-pencil" aria-hidden="true"></i>
-									</button>
-									<button class="btn btn-custom " name="submit" type="submit" data-ng-click="waybillDelete(waybill)">
-										<i class="fa fa-trash" aria-hidden="true"></i>
-									</button>
-								</td>
-							</tr>
-							</tbody>
-						</table>
-					</div>
+					<form class="form" method="post" ng-controller="fuelUsageCtrl">
 
-					<hr style="margin:45px 0 35px" />
+						<h2>Fuel usage form</h2>
+
+						<label for="fuel_value">Real fuel usage</label>
+						<input type="text" id="fuel_value" name="fuel_value" class="form-control" placeholder="Real fuel usage" ng-model="trip.realFuelConsumption" required><br>
+
+						<button type="submit" class="btn btn-primary" data-ng-click="saveFuelUsage()">Save fuel usage</button>
+
+					</form>
+
+					<hr style="margin:75px 0 135px" />
 
 				</div>
 
@@ -178,5 +160,10 @@
 		</div>
 
 	</div>
+
+	<script type="text/javascript">
+		$('#list_photos').carouFredSel({ responsive: true, width: '100%', scroll: 2, items: {
+			width: 320,visible: {min: 2, max: 6}} });
+	</script>
 
 </div>

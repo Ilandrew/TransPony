@@ -28,8 +28,8 @@
 
 											<li class="dropdown"><a role="button" data-ng-click="home()">Home</a></li>
 											<li class="dropdown"><a role="button" data-ng-click="createWaybill()">Create waybill</a></li>
-											<li class="dropdown active"><a role="button" data-ng-click="showWaybills()">Show waybills</a></li>
-											<li class="dropdown"><a role="button" data-ng-click="setFuelUsage()">Set fuel usage</a></li>
+											<li class="dropdown"><a role="button" data-ng-click="showWaybills()">Show waybills</a></li>
+											<li class="dropdown active"><a role="button" data-ng-click="setFuelUsage()">Set fuel usage</a></li>
 
 										</ul>
 									</div>
@@ -56,27 +56,24 @@
 					<hr style="margin:45px 0 35px" />
 
 					<div class="table-responsive">
-						<table  ng-controller="showWaybillsCtrl" border="1" class="table table-bordered">
+						<table  ng-controller="fuelUsageCtrl" border="1" class="table table-bordered">
 							<thead>
 							<tr>
-								<th>Waybill Id</th>
-								<th>Cargo Name</th>
-								<th>Receiver Name</th>
-								<th>Trip Profit</th>
+								<th>Trip Id</th>
+								<th>Starting date</th>
+								<th>Driver Name</th>
+								<th>Expected fuel usage</th>
 							</tr>
 							</thead>
 							<tbody>
-							<tr ng-repeat="waybill in waybills">
-								<td>{{waybill.id}}</td>
-								<td>{{waybill.cargo.name}}</td>
-								<td>{{waybill.receiver.name}}</td>
-								<td>{{waybill.profit}}</td>
+							<tr ng-repeat="trip in trips">
+								<td>{{trip.id}}</td>
+								<td>{{trip.startDate}}</td>
+								<td>{{trip.driver.initials}}</td>
+								<td>{{trip.expectedFuelConsumption}}</td>
 								<td class="actions">
-									<button class="btn btn-custom " name="submit" type="submit" data-ng-click="waybillUpdate(waybill.id)">
-										<i class="fa fa-pencil" aria-hidden="true"></i>
-									</button>
-									<button class="btn btn-custom " name="submit" type="submit" data-ng-click="waybillDelete(waybill)">
-										<i class="fa fa-trash" aria-hidden="true"></i>
+									<button class="btn btn-custom " name="submit" type="submit" data-ng-click="setFuelUsagePage(trip.id)">
+										<i class="fa fa-plus" aria-hidden="true"></i>
 									</button>
 								</td>
 							</tr>
@@ -178,5 +175,10 @@
 		</div>
 
 	</div>
+
+	<script type="text/javascript">
+		$('#list_photos').carouFredSel({ responsive: true, width: '100%', scroll: 2, items: {
+			width: 320,visible: {min: 2, max: 6}} });
+	</script>
 
 </div>
