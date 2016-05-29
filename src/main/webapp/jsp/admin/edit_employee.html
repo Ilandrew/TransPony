@@ -1,0 +1,189 @@
+<div>
+
+	<!--Header-->
+	<div id="decorative2">
+		<div class="container">
+
+			<div class="divPanel topArea notop nobottom">
+				<div class="row">
+					<div class="col-md-12">
+
+						<div id="divLogo" class="pull-left">
+							<a role="button" data-ng-click="home()" id="divSiteTitle">TransPony</a><br />
+							<a role="button" data-ng-click="home()" id="divTagLine">FRIENDSHIP IS MAGIC</a>
+						</div>
+
+						<div id="divMenuRight" class="pull-right">
+							<div class="navbar-nav">
+
+								<button type="button" class="btn btn-navbar-highlight btn-lg btn-primary"
+												data-toggle="collapse" data-target=".navbar-nav">
+									NAVIGATION <span class="icon-chevron-down icon-white"></span>
+								</button>
+
+								<div class="navbar-collapse collapse">
+									<div ng-controller="indexAdminCtrl">
+
+										<ul class="navbar-nav nav-pills ddmenu">
+
+											<li class="dropdown"><a role="button" data-ng-click="home()">Home</a></li>
+											<li class="dropdown"><a role="button" data-ng-click="addEmployee()">Add new employee</a></li>
+											<li class="dropdown active"><a role="button" data-ng-click="showEmployees()">Show employees</a></li>
+
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="contentOuterSeparator"></div>
+
+	<!-- Content -->
+	<div class="container">
+
+		<div class="divPanel page-content">
+
+			<div class="row">
+
+				<div class="col-md-12" id="divMain">
+
+					<hr style="margin:45px 0 35px" />
+
+					<form class="form" method="post" ng-controller="editEmployeeCtrl">
+
+						<h2>Employee editing form</h2>
+
+						<label for="login_text">Login</label>
+						<input id="login_text" type="text" name="login_text" class="form-control" ng-model="userCredentials.login"
+									 placeholder="Login" required/><br>
+
+						<label for="password_text">Password</label>
+						<input id="password_text" type="text" name="password_text" class="form-control" ng-model="userCredentials.password"
+									 placeholder="Password" required/><br>
+
+						<label for="first_name_text">First name</label>
+						<input id="first_name_text" type="text" name="first_name_text" class="form-control" ng-model="user.firstName"
+									 placeholder="First name" required/><br>
+
+						<label for="second_name_text">Second name</label>
+						<input id="second_name_text" type="text" name="second_name_text" class="form-control" ng-model="user.secondName"
+									 placeholder="Second name" required/><br>
+
+						<label for="middle_name_text">Middle name</label>
+						<input id="middle_name_text" type="text" name="middle_name_text" class="form-control" ng-model="user.middleName"
+									 placeholder="Middle name"/><br>
+
+						<label for="initials_text">User initials</label>
+						<input id="initials_text" type="text" name="initials_text" class="form-control" ng-model="user.initials"
+									 placeholder="User initials" required/><br>
+
+						<label for="positions_list">User position</label>
+						<select id="positions_list" name="positions_list" class="form-control">
+							<option ng-repeat="position in positions" ng-click="setSelected(position.name)" value="{{position.name}}">{{position.name}}</option>
+						</select><br><br>
+
+						<button type="submit" class="btn btn-primary" data-ng-click="saveEmployee()">Save changes</button>
+
+					</form>
+
+					<hr style="margin:45px 0 35px" />
+
+				</div>
+
+			</div>
+
+			<div id="footerInnerSeparator"></div>
+		</div>
+
+	</div>
+
+	<!-- Footer -->
+	<div id="footerOuterSeparator"></div>
+
+	<div id="divFooter" class="footerArea">
+
+		<div class="container">
+
+			<div class="divPanel">
+
+				<div class="row">
+					<div class="col-md-4" id="footerArea1">
+
+						<h3>About Company</h3>
+
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
+
+						<p>
+							<a role="link" title="Terms of Use">Terms of Misuse</a><br />
+							<a role="link" title="Privacy Policy">Privacy Policy</a><br />
+							<a role="link" title="FAQ">FAQ</a><br />
+							<a role="link" title="Sitemap">Sitemap</a>
+						</p>
+
+					</div>
+					<div class="col-md-4" id="footerArea2">
+
+						<h3>Sample Content</h3>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.
+							Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.
+						</p>
+
+					</div>
+					<div class="col-md-4" id="footerArea3">
+
+						<h3>Get in Touch</h3>
+
+						<ul id="contact-info">
+							<li>
+								<i class="general foundicon-phone icon"></i>
+								<span class="field">Phone:</span>
+								<br />
+								(044) 514 42 69
+							</li>
+							<li>
+								<i class="general foundicon-mail icon"></i>
+								<span class="field">Email:</span>
+								<br />
+								<a href="mailto:a.b.s960@gmail.com" title="Email">abs960@transpony.com</a>
+							</li>
+							<li>
+								<i class="general foundicon-home icon" style="margin-bottom:50px"></i>
+								<span class="field">Address:</span>
+								<br />
+								123 WideStreet<br />
+								12345 BigCity, RichState<br />
+								CoolCountry
+							</li>
+						</ul>
+
+					</div>
+				</div>
+
+				<br /><br />
+				<div class="row">
+					<div class="col-md-12">
+						<p class="copyright">
+							Copyright © 2016 TransPony. No Rights Reserved.
+						</p>
+
+						<p class="social_bookmarks">
+							<a role="link"><i class="social foundicon-facebook"></i></a>
+							<a role="link"><i class="social foundicon-twitter"></i></a>
+							<a role="link"><i class="social foundicon-rss"></i></a>
+						</p>
+					</div>
+				</div>
+				<br />
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>

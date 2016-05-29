@@ -1,0 +1,198 @@
+<div>
+
+	<!--Header-->
+	<div id="decorative2">
+		<div class="container">
+
+			<div class="divPanel topArea notop nobottom">
+				<div class="row">
+					<div class="col-md-12">
+
+						<div id="divLogo" class="pull-left">
+							<a role="button" data-ng-click="home()" id="divSiteTitle">TransPony</a><br />
+							<a role="button" data-ng-click="home()" id="divTagLine">FRIENDSHIP IS MAGIC</a>
+						</div>
+
+						<div id="divMenuRight" class="pull-right">
+							<div class="navbar-nav">
+
+								<button type="button" class="btn btn-navbar-highlight btn-lg btn-primary"
+												data-toggle="collapse" data-target=".navbar-nav">
+									NAVIGATION <span class="icon-chevron-down icon-white"></span>
+								</button>
+
+								<div class="navbar-collapse collapse">
+									<div ng-controller="indexAdminCtrl">
+
+										<ul class="navbar-nav nav-pills ddmenu">
+
+											<li class="dropdown active"><a role="button" data-ng-click="home()">Home</a></li>
+											<li class="dropdown"><a role="button" data-ng-click="addEmployee()">Add new employee</a></li>
+											<li class="dropdown"><a role="button" data-ng-click="showEmployees()">Show employees</a></li>
+
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="decorative1" style="position:relative">
+		<div class="container">
+
+			<div class="divPanel headerArea">
+				<div class="row">
+					<div class="col-md-12">
+
+						<div id="headerSeparator"></div>
+
+						<div id="divHeaderText" class="page-content">
+							<div id="divHeaderLine1">You logged in as an <strong>Administrator</strong>.</div><br />
+							<div id="divHeaderLine2">Admin manages the employees.</div><br />
+						</div>
+
+						<div id="headerSeparator2"></div>
+
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<div id="contentOuterSeparator"></div>
+
+	<!-- Content -->
+	<div class="container">
+
+		<div class="divPanel page-content">
+
+			<div class="row">
+
+				<div class="col-md-12" id="divMain">
+
+					<hr style="margin:45px 0 35px" />
+
+					<div class="lead">
+						<h2>Main page.</h2>
+						<h3>Here we show off with the timed carousel and pony pictures.</h3>
+					</div>
+					<br />
+
+					<div class="list_carousel responsive">
+						<ul id="list_photos">
+							<li><img src="images/accountant.png" class="img-thumbnail">  </li>
+							<li><img src="images/driver.png" class="img-thumbnail">  </li>
+							<li><img src="images/leader.png" class="img-thumbnail">  </li>
+							<li><img src="images/logistian.png" class="img-thumbnail">  </li>
+							<li><img src="images/trucks/left.jpg" class="img-thumbnail">  </li>
+							<li><img src="images/trucks/full.jpg" class="img-thumbnail">  </li>
+						</ul>
+					</div>
+
+					<hr style="margin:45px 0 35px" />
+
+				</div>
+
+			</div>
+
+			<div id="footerInnerSeparator"></div>
+		</div>
+
+	</div>
+
+	<!-- Footer -->
+	<div id="footerOuterSeparator"></div>
+
+	<div id="divFooter" class="footerArea">
+
+		<div class="container">
+
+			<div class="divPanel">
+
+				<div class="row">
+					<div class="col-md-4" id="footerArea1">
+
+						<h3>About Company</h3>
+
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</p>
+
+						<p>
+							<a role="link" title="Terms of Use">Terms of Misuse</a><br />
+							<a role="link" title="Privacy Policy">Privacy Policy</a><br />
+							<a role="link" title="FAQ">FAQ</a><br />
+							<a role="link" title="Sitemap">Sitemap</a>
+						</p>
+
+					</div>
+					<div class="col-md-4" id="footerArea2">
+
+						<h3>Sample Content</h3>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.
+							Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.
+						</p>
+
+					</div>
+					<div class="col-md-4" id="footerArea3">
+
+						<h3>Get in Touch</h3>
+
+						<ul id="contact-info">
+							<li>
+								<i class="general foundicon-phone icon"></i>
+								<span class="field">Phone:</span>
+								<br />
+								(044) 514 42 69
+							</li>
+							<li>
+								<i class="general foundicon-mail icon"></i>
+								<span class="field">Email:</span>
+								<br />
+								<a href="mailto:a.b.s960@gmail.com" title="Email">abs960@transpony.com</a>
+							</li>
+							<li>
+								<i class="general foundicon-home icon" style="margin-bottom:50px"></i>
+								<span class="field">Address:</span>
+								<br />
+								123 WideStreet<br />
+								12345 BigCity, RichState<br />
+								CoolCountry
+							</li>
+						</ul>
+
+					</div>
+				</div>
+
+				<br /><br />
+				<div class="row">
+					<div class="col-md-12">
+						<p class="copyright">
+							Copyright © 2016 TransPony. No Rights Reserved.
+						</p>
+
+						<p class="social_bookmarks">
+							<a role="link"><i class="social foundicon-facebook"></i></a>
+							<a role="link"><i class="social foundicon-twitter"></i></a>
+							<a role="link"><i class="social foundicon-rss"></i></a>
+						</p>
+					</div>
+				</div>
+				<br />
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<script type="text/javascript">
+		$('#list_photos').carouFredSel({ responsive: true, width: '100%', scroll: 1, items: {
+			width: 320,visible: {min: 2, max: 6}} });
+	</script>
+
+</div>

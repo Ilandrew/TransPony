@@ -61,7 +61,8 @@
                         <h2>Route creation form</h2>
 
                         <label for="checkpoints_list">Checkpoints</label>
-                        <select id="checkpoints_list" name="checkpoints_list" ng-model="checkpoints" class="form-control">
+                        <select id="checkpoints_list" name="checkpoints_list" class="form-control">
+                            <option ng-repeat="checkpoint in checkpoints" ng-click="setSelected(checkpoint.name)" value="{{checkpoint.name}}">{{checkpoint.name}}</option>
                         </select>
                         <button class="btn btn-primary" name="submit" type="submit" data-ng-click="addCheckpointToRoute()">
                             <i class="fa fa-plus-circle" aria-hidden="true"></i>
@@ -72,7 +73,7 @@
                             placeholder="Total route length"/><br><br>
 
                         <div class="table-responsive">
-                            <table border="1" ng-controller="routeCtrl" class="table table-bordered table-hover">
+                            <table border="1" ng-controller="routeCtrl" class="table table-bordered">
                                 <tr>
                                     <td>Checkpoint Name</td>
                                     <td>Checkpoint Type</td>
