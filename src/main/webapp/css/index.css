@@ -366,7 +366,7 @@ h6,.page-content h6 a {font-weight: normal; font-style: normal; font-family: 'So
 
 .navbar-nav .nav-pills > .active > a, .navbar-nav .nav-pills > .active > a:hover, .navbar-nav .nav-pills li.dropdown.open > .dropdown-toggle, .navbar-nav .nav-pills li.dropdown.active > .dropdown-toggle {color: rgb(255, 255, 255); background-color: rgb(127, 74, 180); border-bottom-style: none;}
 
-.navbar-nav .ddmenu {margin-top:-2px;margin-bottom:0px}
+.navbar-nav .ddmenu {margin-top:30px;margin-bottom:0px}
 
 .navbar-nav .nav-pills li.dropdown > .dropdown-toggle .caret, .navbar-nav .nav-pills li.dropdown.open > .dropdown-toggle .caret, .navbar-nav .nav-pills li.dropdown.active > .dropdown-toggle .caret, .navbar-nav .nav-pills li.dropdown.open.active > .dropdown-toggle .caret {border-top-color:rgb(255, 255, 255);border-bottom-color:rgb(255, 255, 255);}
 
