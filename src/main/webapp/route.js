@@ -4,7 +4,7 @@ var app = angular.module('myApp', ['ngRoute']);
 app.config(['$routeProvider', function($routeProvide){
     $routeProvide
         //-------------LOGIN
-        .when('/login', {
+        .when('/', {
             templateUrl: 'jsp/login.html',
             controller:  'loginCtrl'
         })
@@ -136,9 +136,20 @@ app.controller('loginCtrl', ['$scope', '$http', '$location', function($scope, $h
         $http.post('login', $scope.userCredentials).then(function(response) {
             if (response.status == 200) {
                 console.log('success');
-                $location.path('/index_logistian');
+                if (response.name == 'logistian') {
+                    $location.path('/index_logistian')
+                } else if (response.name == 'accountant') {
+                    $location.path('/index_accountant')
+                } else if (response.name == 'admin') {
+                    $location.path('/index_admin')
+                } else if (response.name == 'driver') {
+                    $location.path('/index_driver')
+                } else if (response.name == 'leader') {
+                    $location.path('/index_leader')
+                } else {
+                    $location.path('/index_logistian')
+                }
             }
-
         });
     }
 }]);
@@ -149,13 +160,13 @@ app.controller('indexLogistCtrl', ['$scope', '$location', function ($scope, $loc
     };
     $scope.showRoutes = function () {
         $location.path('/show_routes');
-    }
+    };
     $scope.createRoute = function (){
         $location.path('/create_route');
-    }
+    };
     $scope.createCheckPoint = function() {
         $location.path('/create_checkpoint')
-    }
+    };
     $scope.home = function (){
         $location.path('/index_logistian')
     }
@@ -173,8 +184,6 @@ app.controller('checkPointCtrl', ['$scope', '$http', function($scope, $http) {
                 //delete collection from collections
             }
         })*/
-
-
 }]);
 
 app.controller('routeCtrl', ['$scope', '$http', function($scope, $http) {
@@ -190,8 +199,6 @@ app.controller('routeCtrl', ['$scope', '$http', function($scope, $http) {
      //delete collection from collections
      }
      })*/
-
-
 }]);
 
 app.controller('createCheckPointCtrl', ['$scope', '$http', function($scope, $http) {
@@ -220,6 +227,64 @@ app.controller('createCheckPointCtrl', ['$scope', '$http', function($scope, $htt
      //delete collection from collections
      }
      })*/
+}]);
 
+app.controller('indexAccountantCtrl', ['$scope', '$location', function ($scope, $location) {
+    $scope.createWaybill = function () {
+        $location.path('/create_waybill');
+    };
+    $scope.showWaybills = function () {
+        $location.path('/show_waybills');
+    };
+    $scope.setFuelUsage = function (){
+        $location.path('/choose_trip');
+    };
+    $scope.home = function (){
+        $location.path('/index_accountant')
+    }
+}]);
 
+app.controller('indexAdminCtrl', ['$scope', '$location', function ($scope, $location) {
+    $scope.addEmployee = function () {
+        $location.path('/add_employee');
+    };
+    $scope.showEmployees = function () {
+        $location.path('/show_employees');
+    };
+    $scope.home = function (){
+        $location.path('/index_admin')
+    }
+}]);
+
+app.controller('indexDriverCtrl', ['$scope', '$location', function ($scope, $location) {
+    $scope.changeTripStatus = function () {
+        $location.path('/change_trip_status');
+    };
+    $scope.getWaybill = function () {
+        $location.path('/get_waybill');
+    };
+    $scope.getRouteInfo = function (){
+        $location.path('/route_info');
+    };
+    $scope.home = function (){
+        $location.path('/index_driver')
+    }
+}]);
+
+app.controller('indexLeaderCtrl', ['$scope', '$location', function ($scope, $location) {
+    $scope.createTrip = function () {
+        $location.path('/create_trip');
+    };
+    $scope.showTrips = function () {
+        $location.path('/show_trips');
+    };
+    $scope.getProfitReport = function (){
+        $location.path('/profit_report');
+    };
+    $scope.getFuelUsageReport = function() {
+        $location.path('/fuel_usage_report')
+    };
+    $scope.home = function (){
+        $location.path('/index_leader')
+    }
 }]);

@@ -28,6 +28,26 @@
                 <param name="excludeNullProperties">true</param>
                 <param name="root">userCredentials</param>
             </result>
+            <result type="json" name="accountant">
+                <param name="noCache">true</param>
+                <param name="excludeNullProperties">true</param>
+                <param name="root">userCredentials</param>
+            </result>
+            <result type="json" name="admin">
+                <param name="noCache">true</param>
+                <param name="excludeNullProperties">true</param>
+                <param name="root">userCredentials</param>
+            </result>
+            <result type="json" name="driver">
+                <param name="noCache">true</param>
+                <param name="excludeNullProperties">true</param>
+                <param name="root">userCredentials</param>
+            </result>
+            <result type="json" name="leader">
+                <param name="noCache">true</param>
+                <param name="excludeNullProperties">true</param>
+                <param name="root">userCredentials</param>
+            </result>
         </action>
         <action name="viewCheckpoints" class="by.bsuir.mpp.transpony.actions.ShowCheckPointAction">
             <interceptor-ref name="json"/>
