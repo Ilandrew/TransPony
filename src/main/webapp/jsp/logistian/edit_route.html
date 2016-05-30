@@ -56,44 +56,43 @@
 
                     <hr style="margin:45px 0 35px" />
 
-                    <c:if test="${route.getCount() != 0}">
-                        <form method="post" action="edit_route.do?func=add_point_to_route">
-                            <label for="checkpoint_list">Checkpoints</label>
-                            <select id="checkpoint_list" name="checkpoint_list">
-                                <c:forEach var="checkpoint" items="${checkpoints}">
-                                    <option value="${checkpoint.getName()}">${checkpoint.getName()}</option>
-                                </c:forEach>
-                            </select>
-                            <button type="submit">Add checkpoint to route</button>
-                        </form>
-                        <br><br>
-                        <form action="edit_route.do?func=change_total_length" method="post">
-                            <label for="length">Total route length</label>
-                            <input id="length" type="text" name="length_value" value="${route.getTotalLength()}"/>
-                            <button type="submit">Set total length</button>
-                        </form>
-                        <br><br>
-                        <form method="post" action="edit_route.do?func=delete_point_from_route">
-                            <table border="1">
+                    <form class="form" method="post" ng-controller="editRouteCtrl">
+
+                        <h2>Route creation form</h2>
+
+                        <label for="checkpoints_list">Checkpoints</label>
+                        <select id="checkpoints_list" name="checkpoints_list" class="form-control">
+                            <option ng-repeat="checkpoint in checkpoints" ng-click="setSelected(checkpoint.name)" value="{{checkpoint.name}}">{{checkpoint.name}}</option>
+                        </select>
+                        <button class="btn btn-primary" name="submit" type="submit" data-ng-click="addCheckpointToRoute()">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        </button><br>
+
+                        <label for="length">Total route length</label>
+                        <input id="length" type="text" name="length_value" class="form-control" ng-model="route.totalLength"
+                               placeholder="Total route length"/><br><br>
+
+                        <div class="table-responsive">
+                            <table border="1" ng-controller="routeCtrl" class="table table-bordered">
                                 <tr>
                                     <td>Checkpoint Name</td>
                                     <td>Checkpoint Type</td>
                                 </tr>
-                                <forEach var="point" items="${route.getPoints()}">
-                                    <tr>
-                                        <td>${point.getName()}</td>
-                                        <td>${point.getPointType()}</td>
-                                        <td>
-                                            <button type="submit" name="delete_button" value="${point.getName()}">Remove checkpoint</button>
-                                        </td>
-                                    </tr>
-                                </forEach>
+                                <tr ng-repeat="point in route.points">
+                                    <td>{{point.getName()}}</td>
+                                    <td>{{point.getPointType()}}</td>
+                                    <td>
+                                        <button class="btn btn-primary" name="submit" type="submit" data-ng-click="deleteCheckpointFromRoute()">
+                                            <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
                             </table>
-                        </form>
-                        <form method="post" action="save_route_changes.do">
-                            <button type="button">Save changes to route</button>
-                        </form>
-                    </c:if>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" data-ng-click="saveRout()">Save route</button>
+
+                    </form>
 
                     <hr style="margin:45px 0 35px" />
 

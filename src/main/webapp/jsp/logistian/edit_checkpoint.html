@@ -56,26 +56,26 @@
 
                     <hr style="margin:45px 0 35px" />
 
-                    <form action="edit_checkpoint.do" method="post">
+                    <form class="form" method="post" ng-controller="editCheckPointCtrl">
+
+                        <h2>Checkpoint creation form</h2>
+
                         <label for="types_list">Checkpoint type</label>
-                        <select id="types_list" name="types_list">
-                            <c:forEach var="type" items="${type}">
-                                <c:when test="${checkpoint.getPointType() == type}">
-                                    <option value="${type}" selected="selected">${type}</option>
-                                </c:when>
-                                <c:otherwise>
-                                    <option value="${type}">${type}</option>
-                                </c:otherwise>
-                            </c:forEach>
+                        <select id="types_list" class="form-control">
+                            <option ng-repeat="type in types" ng-click="setSelected(type.name)" value="{{type.name}}">{{type.name}}</option>
                         </select><br>
-                        <label for="name_text">Checkpoint name: </label>
-                        <input type="text" id="name_text" name="name_text">${checkpoint.getName()}<br>
-                        <label for="x_text">X coordinate:    </label>
-                        <input type="text" id="x_text" name="x_text">${checkpoint.getX()}<br>
-                        <label for="y_text">Y coordinate:    </label>
-                        <input type="text" id="y_text" name="y_text">${checkpoint.getY()}<br>
-                        <br>
-                        <button type="submit">Save checkpoint</button>
+
+                        <label for="name_text" class="sr-only">Checkpoint name</label>
+                        <input type="text" id="name_text" name="name_text" class="form-control" placeholder="Checkpoint name" ng-model="point.name" required><br>
+
+                        <label for="x_text" class="sr-only">X coordinate</label>
+                        <input type="text" id="x_text" name="x_text" class="form-control" placeholder="X coordinate" ng-model="point.x" required><br>
+
+                        <label for="y_text" class="sr-only">Y coordinate</label>
+                        <input type="text" id="y_text" name="y_text" class="form-control" placeholder="Y coordinate" ng-model="point.y" required><br><br>
+
+                        <button type="submit" class="btn btn-primary" data-ng-click="saveCheckpoint()">Save checkpoint</button>
+
                     </form>
 
                     <hr style="margin:45px 0 35px" />
